@@ -227,6 +227,7 @@ gScriptCmdTable:: @ 81DB67C
 	.4byte ScrCmd_warpE0
 	.4byte ScrCmd_buffercontesttype
 	.4byte ScrCmd_bufferitemnameplural
+    .4byte ScrCmd_checkspeedchoice
 
 gScriptCmdTableEnd:: @ 81DBA08
 	.4byte ScrCmd_nop

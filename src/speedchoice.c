@@ -360,22 +360,22 @@ const struct OptionChoiceConfig Arrows[MAX_CHOICES] =
 
 const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // plus one for page
 {
-    { 4,         ARROW_SELECTABLE, (u8 *)&gSpeedchoiceOptionPreset, (struct OptionChoiceConfig *)Arrows, (u8 *)&gSpeedchoiceTooltipPreset, TRUE },
-    { 3,         NORMAL, (u8 *)&gSpeedchoiceOptionEXP, (struct OptionChoiceConfig *)OptionChoiceConfigKeepNone, (u8 *)&gSpeedchoiceTooltipEXP, TRUE },
-    { 3,         NORMAL, (u8 *)&gSpeedchoiceOptionPlotless, (struct OptionChoiceConfig *)OptionChoiceConfigSemiFull, (u8 *)&gSpeedchoiceTooltipPlotless, FALSE },
-    { 2,         NORMAL, (u8 *)&gSpeedchoiceOptionInstantText, (struct OptionChoiceConfig *)OptionChoiceConfigOnOff, (u8 *)&gSpeedchoiceTooltipInstantText, FALSE },
-    { 3,         NORMAL, (u8 *)&gSpeedchoiceOptionSpinners, (struct OptionChoiceConfig *)OptionChoiceConfigNerfKeep, (u8 *)&gSpeedchoiceTooltipSpinners, FALSE },
-    { 3,         NORMAL, (u8 *)&gSpeedchoiceOptionMaxVision, (struct OptionChoiceConfig *)OptionChoiceConfigSaneHell, (u8 *)&gSpeedchoiceTooltipMaxVision, FALSE },
-    { 2,         NORMAL, (u8 *)&gSpeedchoiceOptionNerfRoxanne, (struct OptionChoiceConfig *)OptionChoiceConfigYesNo, (u8 *)&gSpeedchoiceTooltipNerfRoxanne, FALSE },
-    { 2,         NORMAL, (u8 *)&gSpeedchoiceOptionSuperBike, (struct OptionChoiceConfig *)OptionChoiceConfigOnOff, (u8 *)&gSpeedchoiceTooltipSuperBike, FALSE },
-    { 2,         NORMAL, (u8 *)&gSpeedchoiceOptionNewWildEnc, (struct OptionChoiceConfig *)OptionChoiceConfigOnOff, (u8 *)&gSpeedchoiceTooltipNewWildEnc, FALSE },
-    { 2,         NORMAL, (u8 *)&gSpeedchoiceOptionEarlyFly, (struct OptionChoiceConfig *)OptionChoiceConfigYesNo, (u8 *)&gSpeedchoiceTooltipEarlyFly, FALSE },
-    { 2,         NORMAL, (u8 *)&gSpeedchoiceOptionRunEverywhere, (struct OptionChoiceConfig *)OptionChoiceConfigOnOff, (u8 *)&gSpeedchoiceTooltipRunEverywhere, FALSE },
-    { 2,         NORMAL, (u8 *)&gSpeedchoiceOptionMemeIsland, (struct OptionChoiceConfig *)OptionChoiceConfigYesNo, (u8 *)&gSpeedchoiceTooltipMemeIsland, FALSE },
-    { 2,         NORMAL, (u8 *)&gSpeedchoiceOptionBetterMarts, (struct OptionChoiceConfig *)OptionChoiceConfigOnOff, (u8 *)&gSpeedchoiceTooltipBetterMarts, FALSE },
-    { 3,         NORMAL, (u8 *)&gSpeedchoiceOptionGoodEarlyWilds, (struct OptionChoiceConfig *)OptionChoiceConfigOffRand, (u8 *)&gSpeedchoiceTooltipGoodEarlyWilds, FALSE },
-    { 2,         NORMAL, (u8 *)&gSpeedchoiceOptionEarlySurf, (struct OptionChoiceConfig *)OptionChoiceConfigOnOff, (u8 *)&gSpeedchoiceTooltipEarlySurf, FALSE },
-    { MAX_PAGES, NORMAL, (u8 *)&gSpeedchoiceOptionPage, (struct OptionChoiceConfig *)OptionChoiceConfigPage, NULL, TRUE } // see above comment.
+    { 4,         ARROW,  gSpeedchoiceOptionPreset,         Arrows,                     gSpeedchoiceTooltipPreset,         TRUE  },
+    { 3,         NORMAL, gSpeedchoiceOptionEXP,            OptionChoiceConfigKeepNone, gSpeedchoiceTooltipEXP,            TRUE  },
+    { 3,         NORMAL, gSpeedchoiceOptionPlotless,       OptionChoiceConfigSemiFull, gSpeedchoiceTooltipPlotless,       FALSE },
+    { 2,         NORMAL, gSpeedchoiceOptionInstantText,    OptionChoiceConfigOnOff,    gSpeedchoiceTooltipInstantText,    FALSE },
+    { 3,         NORMAL, gSpeedchoiceOptionSpinners,       OptionChoiceConfigNerfKeep, gSpeedchoiceTooltipSpinners,       FALSE },
+    { 3,         NORMAL, gSpeedchoiceOptionMaxVision,      OptionChoiceConfigSaneHell, gSpeedchoiceTooltipMaxVision,      FALSE },
+    { 2,         NORMAL, gSpeedchoiceOptionNerfRoxanne,    OptionChoiceConfigYesNo,    gSpeedchoiceTooltipNerfRoxanne,    FALSE },
+    { 2,         NORMAL, gSpeedchoiceOptionSuperBike,      OptionChoiceConfigOnOff,    gSpeedchoiceTooltipSuperBike,      FALSE },
+    { 2,         NORMAL, gSpeedchoiceOptionNewWildEnc,     OptionChoiceConfigOnOff,    gSpeedchoiceTooltipNewWildEnc,     FALSE },
+    { 2,         NORMAL, gSpeedchoiceOptionEarlyFly,       OptionChoiceConfigYesNo,    gSpeedchoiceTooltipEarlyFly,       FALSE },
+    { 2,         NORMAL, gSpeedchoiceOptionRunEverywhere,  OptionChoiceConfigOnOff,    gSpeedchoiceTooltipRunEverywhere,  FALSE },
+    { 2,         NORMAL, gSpeedchoiceOptionMemeIsland,     OptionChoiceConfigYesNo,    gSpeedchoiceTooltipMemeIsland,     FALSE },
+    { 2,         NORMAL, gSpeedchoiceOptionBetterMarts,    OptionChoiceConfigOnOff,    gSpeedchoiceTooltipBetterMarts,    FALSE },
+    { 3,         NORMAL, gSpeedchoiceOptionGoodEarlyWilds, OptionChoiceConfigOffRand,  gSpeedchoiceTooltipGoodEarlyWilds, FALSE },
+    { 2,         NORMAL, gSpeedchoiceOptionEarlySurf,      OptionChoiceConfigOnOff,    gSpeedchoiceTooltipEarlySurf,      FALSE },
+    { MAX_PAGES, NORMAL, gSpeedchoiceOptionPage,           OptionChoiceConfigPage,     NULL,                              TRUE }
 };
 
 // we need to extern the randomizer check value. If the ROM could see the value assigned (which is 0 by default), then it would be optimized out, but we need this location to be externally written to by the randomizer.
@@ -730,7 +730,7 @@ static void DrawGeneralChoices(struct SpeedchoiceOption *option, u8 selection, u
         styles[selection] = 1;
     }
 
-    if(option->optionType == ARROW_SELECTABLE)
+    if(option->optionType == ARROW)
     {
         u8 text[8];
         s16 x_left = Arrows[0].x;
@@ -1096,7 +1096,7 @@ void DrawPageOptions(u8 page)
     for(i = 0; i < drawCount; i++)
     {
         struct SpeedchoiceOption *option = (struct SpeedchoiceOption *)&SpeedchoiceOptions[i + (OPTIONS_PER_PAGE * (page - 1))];
-        u8 *string = option->string;
+        const u8 *string = option->string;
             
         AddTextPrinterParameterized(WIN_OPTIONS, 1, string, 4, NEWMENUOPTIONCOORDS(i), TEXT_SPEED_FF, NULL);
         // TODO: Draw on WIN_OPTIONS, if it's broken

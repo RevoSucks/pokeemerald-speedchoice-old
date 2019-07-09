@@ -164,7 +164,7 @@ enum
 enum
 {
     NORMAL, // selectable
-    ARROW_SELECTABLE
+    ARROW
 };
 
 struct OptionChoiceConfig
@@ -178,9 +178,9 @@ struct SpeedchoiceOption
 {
     u8 optionCount; // needed for process general input, im sure there's a way to avoid using this
     u8 optionType;
-    u8 *string;
-    struct OptionChoiceConfig *options; // use a NULL for non existent ones, optional things in structs were introduced in C++ and this is limited.
-    u8 *tooltip;
+    const u8 *string;
+    const struct OptionChoiceConfig *options; // use a NULL for non existent ones, optional things in structs were introduced in C++ and this is limited.
+    const u8 *tooltip;
     bool8 enabled;
 }; 
 
