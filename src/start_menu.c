@@ -261,11 +261,9 @@ bool8 CanUseFly(void)
 
 void CloseMenuWithoutScriptContext(void)
 {
-    /* UPDATE ME
-	sub_819746C(GetStartMenuWindowId(), 1);
-	remove_start_menu_window_maybe();
-	sub_80984F4();
-    */
+    ClearStdWindowAndFrame(GetStartMenuWindowId(), 1);
+    RemoveStartMenuWindow();
+    ScriptUnfreezeEventObjects();
 }
 
 static void ItemUseInEscape_EscapeRope(u8 taskId)
