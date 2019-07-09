@@ -361,7 +361,7 @@ const struct OptionChoiceConfig Arrows[MAX_CHOICES] =
 const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // plus one for page
 {
     { 4,         ARROW_SELECTABLE, (u8 *)&gSpeedchoiceOptionPreset, (struct OptionChoiceConfig *)Arrows, (u8 *)&gSpeedchoiceTooltipPreset, TRUE },
-    { 3,         NORMAL, (u8 *)&gSpeedchoiceOptionEXP, (struct OptionChoiceConfig *)OptionChoiceConfigKeepNone, (u8 *)&gSpeedchoiceTooltipEXP, FALSE },
+    { 3,         NORMAL, (u8 *)&gSpeedchoiceOptionEXP, (struct OptionChoiceConfig *)OptionChoiceConfigKeepNone, (u8 *)&gSpeedchoiceTooltipEXP, TRUE },
     { 3,         NORMAL, (u8 *)&gSpeedchoiceOptionPlotless, (struct OptionChoiceConfig *)OptionChoiceConfigSemiFull, (u8 *)&gSpeedchoiceTooltipPlotless, FALSE },
     { 2,         NORMAL, (u8 *)&gSpeedchoiceOptionInstantText, (struct OptionChoiceConfig *)OptionChoiceConfigOnOff, (u8 *)&gSpeedchoiceTooltipInstantText, FALSE },
     { 3,         NORMAL, (u8 *)&gSpeedchoiceOptionSpinners, (struct OptionChoiceConfig *)OptionChoiceConfigNerfKeep, (u8 *)&gSpeedchoiceTooltipSpinners, FALSE },
@@ -713,23 +713,6 @@ static void DrawPageChoice(u8 selection)
     text[4] = EOS;
 
     AddTextPrinterParameterized(SPD_WIN_OPTIONS, 1, text, 40, NEWMENUOPTIONCOORDS(5), TEXT_SPEED_FF, NULL);
-}
-
-// TODO: Make this nicer. Automatically center the strings based on arrows x positions
-s16 GetXPreset(void)
-{
-    switch(gLocalSpeedchoiceConfig.optionConfig[0])
-    {
-        case PRESET_VANILLA:
-        default:
-            return 140;
-        case PRESET_BINGO:
-            return 140;
-        case PRESET_CEA:
-            return 145;
-        case PRESET_RACE:
-            return 142;
-    }
 }
 
 // used for all but page.

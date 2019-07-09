@@ -52,6 +52,7 @@
 #include "menu_specialized.h"
 #include "constants/rgb.h"
 #include "data.h"
+#include "speedchoice.h"
 
 extern struct MusicPlayerInfo gMPlayInfo_BGM;
 
@@ -3330,7 +3331,7 @@ static void atk23_getexp(void)
                 gBattleScripting.atk23_state = 5;
                 gBattleMoveDamage = 0; // used for exp
             }
-            else if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) == MAX_LEVEL)
+            else if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) == MAX_LEVEL || CheckSpeedchoiceOption(EXPMATH, EXP_NONE) == TRUE)
             {
                 *(&gBattleStruct->sentInPokes) >>= 1;
                 gBattleScripting.atk23_state = 5;
@@ -3353,30 +3354,30 @@ static void atk23_getexp(void)
                     else
                         gBattleMoveDamage = 0;
 
-                    if (holdEffect == HOLD_EFFECT_EXP_SHARE)
-                        gBattleMoveDamage += gExpShareExp;
-                    if (holdEffect == HOLD_EFFECT_LUCKY_EGG)
-                        gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
-                    if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-                        gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
-
-                    if (IsTradedMon(&gPlayerParty[gBattleStruct->expGetterMonId]))
-                    {
-                        // check if the pokemon doesn't belong to the player
-                        if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gBattleStruct->expGetterMonId >= 3)
-                        {
-                            i = STRINGID_EMPTYSTRING4;
-                        }
-                        else
-                        {
-                            gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
-                            i = STRINGID_ABOOSTED;
-                        }
-                    }
-                    else
-                    {
-                        i = STRINGID_EMPTYSTRING4;
-                    }
+                    // moved to below if/else because of gen 5 experience calculation.
+                    //if (holdEffect == HOLD_EFFECT_EXP_SHARE)
+                    //    gBattleMoveDamage += gExpShareExp;
+                    //if (holdEffect == HOLD_EFFECT_LUCKY_EGG)
+                    //    gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
+                    //if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+                    //    gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
+                    //if (IsTradedMon(&gPlayerParty[gBattleStruct->expGetterMonId]))
+                    //{
+                    //    // check if the pokemon doesn't belong to the player
+                    //    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gBattleStruct->expGetterMonId >= 3)
+                    //    {
+                    //        i = STRINGID_EMPTYSTRING4;
+                    //    }
+                    //    else
+                    //    {
+                    //        gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
+                    //        i = STRINGID_ABOOSTED;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    i = STRINGID_EMPTYSTRING4;
+                    //}
 
                     // get exp getter battlerId
                     if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
@@ -3396,6 +3397,69 @@ static void atk23_getexp(void)
                         gBattleStruct->expGetterBattlerId = 0;
                     }
 
+                    if(CheckSpeedchoiceOption(EXPMATH, EXP_BW) == TRUE)
+                    {
+                        u32 upperRatio;
+                        u32 lowerRatio;
+                        
+                        if (holdEffect == HOLD_EFFECT_EXP_SHARE)
+                            gBattleMoveDamage += gExpShareExp; // add exp share FIRST, other wise it wont transform
+
+                        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+                            gBattleMoveDamage = (gBattleMoveDamage * 150) / 100; // x 1.5
+
+                        // step 2, calculate ratio
+                        upperRatio = ((gBattleMons[gBattlerFainted].level * 2) + 10);
+                        upperRatio *= upperRatio * Sqrt(upperRatio);
+                        lowerRatio = (gBattleMons[gBattlerFainted].level + gPlayerParty[gBattleStruct->expGetterMonId].level + 10);
+                        lowerRatio *= lowerRatio * Sqrt(lowerRatio);
+
+                        // step 3, calculate ratio product and multiply rest.
+                        gBattleMoveDamage = max(gBattleMoveDamage, gBattleMoveDamage * upperRatio / lowerRatio) + 1;
+                        if (IsTradedMon(&gPlayerParty[gBattleStruct->expGetterMonId]))
+                        {
+                            // check if the pokemon doesn't belong to the player
+                            if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gBattleStruct->expGetterMonId >= 3)
+                            {
+                                i = STRINGID_EMPTYSTRING4;
+                            }
+                            else
+                            {
+                                gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
+                                i = STRINGID_ABOOSTED;
+                            }
+                        }
+                        else
+                            i = 0x149;
+                        if (holdEffect == HOLD_EFFECT_LUCKY_EGG)
+                            gBattleMoveDamage = (gBattleMoveDamage * 150) / 100; // x 1.5
+                    }
+                    else if(CheckSpeedchoiceOption(EXP_KEEP, TRUE) == TRUE) // normal handling
+                    {
+                        if (holdEffect == HOLD_EFFECT_EXP_SHARE)
+                            gBattleMoveDamage += gExpShareExp;
+                        if (holdEffect == HOLD_EFFECT_LUCKY_EGG)
+                            gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
+                        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+                            gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
+
+                        if (IsTradedMon(&gPlayerParty[gBattleStruct->expGetterMonId]))
+                        {
+                            // check if the pokemon doesn't belong to the player
+                            if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER && gBattleStruct->expGetterMonId >= 3)
+                            {
+                                i = STRINGID_EMPTYSTRING4;
+                            }
+                            else
+                            {
+                                gBattleMoveDamage = (gBattleMoveDamage * 150) / 100;
+                                i = STRINGID_ABOOSTED;
+                            }
+                        }
+                        else
+                            i = 0x149;
+                    }
+
                     PREPARE_MON_NICK_WITH_PREFIX_BUFFER(gBattleTextBuff1, gBattleStruct->expGetterBattlerId, gBattleStruct->expGetterMonId);
                     // buffer 'gained' or 'gained a boosted'
                     PREPARE_STRING_BUFFER(gBattleTextBuff2, i);
@@ -3413,7 +3477,7 @@ static void atk23_getexp(void)
         if (gBattleControllerExecFlags == 0)
         {
             gBattleBufferB[gBattleStruct->expGetterBattlerId][0] = 0;
-            if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_HP) && GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) != MAX_LEVEL)
+            if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_HP) && GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) != MAX_LEVEL && CheckSpeedchoiceOption(EXPMATH, EXP_NONE) == FALSE)
             {
                 gBattleResources->beforeLvlUp->stats[STAT_HP]    = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_MAX_HP);
                 gBattleResources->beforeLvlUp->stats[STAT_ATK]   = GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_ATK);
