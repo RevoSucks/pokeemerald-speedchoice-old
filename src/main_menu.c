@@ -185,7 +185,7 @@ static void Task_MainMenuCheckSaveFile(u8);
 static void Task_MainMenuCheckBattery(u8);
 static void Task_WaitForSaveFileErrorWindow(u8);
 static void CreateMainMenuErrorWindow(const u8*);
-static void ClearMainMenuWindowTilemap(const struct WindowTemplate*);
+void ClearMainMenuWindowTilemap(const struct WindowTemplate*);
 static void Task_DisplayMainMenu(u8);
 static void Task_WaitForBatteryDryErrorWindow(u8);
 static void MainMenu_FormatSavegameText(void);
@@ -193,7 +193,7 @@ static void HighlightSelectedMainMenuItem(u8, u8, s16);
 static void Task_HandleMainMenuInput(u8);
 static void Task_HandleMainMenuAPressed(u8);
 static void Task_HandleMainMenuBPressed(u8);
-static void Task_NewGameBirchSpeech_Init(u8);
+void Task_NewGameBirchSpeech_Init(u8);
 static void Task_DisplayMainMenuInvalidActionError(u8);
 static void AddBirchSpeechObjects(u8);
 static void Task_NewGameBirchSpeech_WaitToShowBirch(u8);
@@ -215,7 +215,7 @@ static void Task_NewGameBirchSpeech_StartPlayerFadeIn(u8);
 static void Task_NewGameBirchSpeech_WaitForPlayerFadeIn(u8);
 static void Task_NewGameBirchSpeech_BoyOrGirl(u8);
 static void LoadMainMenuWindowFrameTiles(u8, u16);
-static void DrawMainMenuWindowBorder(const struct WindowTemplate*, u16);
+void DrawMainMenuWindowBorder(const struct WindowTemplate*, u16);
 static void Task_HighlightSelectedMainMenuItem(u8);
 static void Task_NewGameBirchSpeech_WaitToShowGenderMenu(u8);
 static void Task_NewGameBirchSpeech_ChooseGender(u8);
@@ -410,12 +410,12 @@ static const struct WindowTemplate gNewGameBirchSpeechTextWindows[] =
 };
 
 static const u16 sMainMenuBgPal[] = INCBIN_U16("graphics/misc/main_menu_bg.gbapal");
-static const u16 sMainMenuTextPal[] = INCBIN_U16("graphics/misc/main_menu_text.gbapal");
+const u16 sMainMenuTextPal[] = INCBIN_U16("graphics/misc/main_menu_text.gbapal");
 
 static const u8 sTextColor_Headers[] = {10, 11, 12};
 static const u8 sTextColor_PlayerGenderColor[] = {10, 1, 12};
 
-static const struct BgTemplate sMainMenuBgTemplates[] = {
+const struct BgTemplate sMainMenuBgTemplates[] = {
     {
         .bg = 0,
         .charBaseIndex = 2,
@@ -936,6 +936,8 @@ static void Task_HandleMainMenuInput(u8 taskId)
         gTasks[taskId].func = Task_HighlightSelectedMainMenuItem;
 }
 
+extern void Task_InitSpeedchoiceMenu(u8);
+
 static void Task_HandleMainMenuAPressed(u8 taskId)
 {
     bool8 wirelessAdapterConnected;
@@ -1062,7 +1064,7 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
             default:
                 gPlttBufferUnfaded[0] = RGB_BLACK;
                 gPlttBufferFaded[0] = RGB_BLACK;
-                gTasks[taskId].func = Task_NewGameBirchSpeech_Init;
+                gTasks[taskId].func = Task_InitSpeedchoiceMenu;
                 break;
             case ACTION_CONTINUE:
                 gPlttBufferUnfaded[0] = RGB_BLACK;
@@ -1265,7 +1267,7 @@ static void HighlightSelectedMainMenuItem(u8 menuType, u8 selectedMenuItem, s16 
 #define tBrendanSpriteId data[10]
 #define tMaySpriteId data[11]
 
-static void Task_NewGameBirchSpeech_Init(u8 taskId)
+void Task_NewGameBirchSpeech_Init(u8 taskId)
 {
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
@@ -2205,7 +2207,7 @@ static void LoadMainMenuWindowFrameTiles(u8 bgId, u16 tileOffset)
     LoadPalette(GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->pal, 32, 32);
 }
 
-static void DrawMainMenuWindowBorder(const struct WindowTemplate *template, u16 baseTileNum)
+void DrawMainMenuWindowBorder(const struct WindowTemplate *template, u16 baseTileNum)
 {
     u16 r9 = 1 + baseTileNum;
     u16 r10 = 2 + baseTileNum;
@@ -2226,7 +2228,7 @@ static void DrawMainMenuWindowBorder(const struct WindowTemplate *template, u16 
     CopyBgTilemapBufferToVram(template->bg);
 }
 
-static void ClearMainMenuWindowTilemap(const struct WindowTemplate *template)
+void ClearMainMenuWindowTilemap(const struct WindowTemplate *template)
 {
     FillBgTilemapBufferRect(template->bg, 0, template->tilemapLeft - 1, template->tilemapTop - 1, template->tilemapLeft + template->width + 1, template->tilemapTop + template->height + 1, 2);
     CopyBgTilemapBufferToVram(template->bg);

@@ -430,6 +430,25 @@ struct RankingHall2P
     u8 language;
 };
 
+struct SpeedchoiceSaveOptions
+{
+    u8 expsystem:2;
+    u8 plotless:2;
+    u8 instantText:1;
+    u8 spinners:2;
+    u8 maxVision:2;
+    u8 nerfRoxanne:1;
+    u8 superbike:1;
+    u8 newwildencounters:1;
+    u8 earlyfly:1;
+    u8 runEverywhere:1;
+    u8 memeIsland:1;
+    u8 easyfrontier:1;
+    u8 betterMarts:1;
+    u8 goodEarlyWilds:2;
+    u8 earlysurf:1;
+};
+
 struct SaveBlock2
 {
     /*0x00*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
@@ -462,7 +481,8 @@ struct SaveBlock2
     /*0x57C*/ struct RankingHall2P hallRecords2P[2][3]; // From record mixing.
     /*0x624*/ u16 contestLinkResults[5][4]; // 4 positions for 5 categories.
     /*0x64C*/ struct BattleFrontier frontier;
-}; // sizeof=0xF2C
+    struct SpeedchoiceSaveOptions speedchoiceConfig;
+};
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;
 

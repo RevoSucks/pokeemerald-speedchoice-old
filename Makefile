@@ -1,5 +1,5 @@
 #include $(DEVKITARM)/base_tools
-export CPP := cpp-8
+export CPP := cpp
 export LD := tools/binutils/bin/arm-none-eabi-ld
 export AS := tools/binutils/bin/arm-none-eabi-as
 export OBJCOPY := tools/binutils/bin/arm-none-eabi-objcopy

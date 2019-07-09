@@ -74,7 +74,7 @@ static void sub_80BB154(void);
 EWRAM_DATA static bool8 sArrowPressed = FALSE;
 
 // const rom data
-static const u16 sUnknown_0855C604[] = INCBIN_U16("graphics/misc/option_menu_text.gbapal");
+const u16 sUnknown_0855C604[] = INCBIN_U16("graphics/misc/option_menu_text.gbapal");
 // note: this is only used in the Japanese release
 static const u8 sEqualSignGfx[] = INCBIN_U8("graphics/misc/option_menu_equals_sign.4bpp");
 
@@ -134,7 +134,7 @@ static const struct BgTemplate sOptionMenuBgTemplates[] =
    }
 };
 
-static const u16 sUnknown_0855C6A0[] = {0x7E51};
+const u16 sUnknown_0855C6A0[] = {0x7E51};
 
 // code
 static void MainCB2(void)
