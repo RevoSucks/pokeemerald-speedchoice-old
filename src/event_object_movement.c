@@ -26,6 +26,7 @@
 #include "constants/event_objects.h"
 #include "constants/field_effects.h"
 #include "constants/items.h"
+#include "speedchoice.h"
 
 // this file was known as evobjmv.c in Game Freak's original source
 
@@ -8738,13 +8739,49 @@ u8 sub_80978E4(struct Sprite *sprite)
     return v2;
 }
 
+void TryRestoringSpinnerTimerBackup(struct Sprite *sprite)
+{
+    u8 i;
+
+	// if the first entry is backed up, the whole array is. sort of a hack so I dont need to decompile submenu calls.
+    if(gMapObjectTimerBackup[0].backedUp == TRUE && CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE) // only fix bag manip if HELL is enabled.
+    {
+        for(i = 0; i < MAX_SPRITES; i++)
+        {
+            // dont adjust the player's timer for safety.
+            if(gPlayerAvatar.eventObjectId != gSprites[i].data[0])
+                gSprites[i].data[3] = gMapObjectTimerBackup[i].timer;
+
+			gMapObjectTimerBackup[i].timer = 0;
+			gMapObjectTimerBackup[i].backedUp = FALSE; // since the player's info is also backed up, dont forget to unassumingly clear the backup status.
+        }
+    }
+}
+
 static void SetMovementDelay(struct Sprite *sprite, s16 timer)
 {
-    sprite->data[3] = timer;
+    TryRestoringSpinnerTimerBackup(sprite);
+    if(CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE && (gEventObjects[sprite->data[0]].trainerType == 1 || gEventObjects[sprite->data[0]].trainerType == 3))
+    {
+        sprite->data[3] = (Random() % 4) * 2 + 2;
+    }
+    else if(CheckSpeedchoiceOption(SPINNERS, SPIN_NERF) == TRUE && (gEventObjects[sprite->data[0]].trainerType == 1 || gEventObjects[sprite->data[0]].trainerType == 3)) // a bit redundant perhaps?
+    {
+        sprite->data[3] = PURGE_SPINNER_TIMER;
+    }
+    else
+    {
+        sprite->data[3] = timer;
+    }
 }
 
 static bool8 WaitForMovementDelay(struct Sprite *sprite)
 {
+    TryRestoringSpinnerTimerBackup(sprite);
+
+    if (sprite->data[3] == 0) // don't underflow.
+        return TRUE;
+
     sprite->data[3]--;
 
     if (sprite->data[3] == 0)

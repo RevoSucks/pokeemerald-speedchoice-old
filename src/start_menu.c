@@ -46,6 +46,7 @@
 #include "rom_8011DC0.h"
 #include "union_room.h"
 #include "constants/rgb.h"
+#include "speedchoice.h"
 
 // Menu actions
 enum
@@ -62,7 +63,8 @@ enum
     MENU_ACTION_PLAYER_LINK,
     MENU_ACTION_REST_FRONTIER,
     MENU_ACTION_RETIRE_FRONTIER,
-    MENU_ACTION_PYRAMID_BAG
+    MENU_ACTION_PYRAMID_BAG,
+    MENU_ACTION_ESCAPE
 };
 
 // Save status
@@ -83,6 +85,7 @@ EWRAM_DATA static u8 sBattlePyramidFloorWindowId = 0;
 EWRAM_DATA static u8 sStartMenuCursorPos = 0;
 EWRAM_DATA static u8 sNumStartMenuActions = 0;
 EWRAM_DATA static u8 sCurrentStartMenuActions[9] = {0};
+EWRAM_DATA bool32 sUsedEscapeOption = FALSE;
 EWRAM_DATA static u8 sUnknown_02037619[2] = {0};
 
 EWRAM_DATA static u8 (*sSaveDialogCallback)(void) = NULL;
@@ -156,6 +159,14 @@ static const u8* const sPyramindFloorNames[] =
 static const struct WindowTemplate sPyramidFloorWindowTemplate_2 = {0, 1, 1, 0xA, 4, 0xF, 8};
 static const struct WindowTemplate sPyramidFloorWindowTemplate_1 = {0, 1, 1, 0xC, 4, 0xF, 8};
 
+extern const u8 gText_MenuEscape[];
+extern void(*gUnknown_0203A0F4)(u8 taskId);
+
+bool8 StartMenu_EscapeCallback(void);
+extern struct MapObjectTimerBackup gMapObjectTimerBackup[MAX_SPRITES];
+extern void re_escape_rope(u8 taskId);
+extern void SetUpItemUseOnFieldCallback(u8 taskId);
+
 static const struct MenuAction sStartMenuItems[] =
 {
     {gText_MenuPokedex, {.u8_void = StartMenuPokedexCallback}},
@@ -170,7 +181,8 @@ static const struct MenuAction sStartMenuItems[] =
     {gText_MenuPlayer, {.u8_void = StartMenuLinkModePlayerNameCallback}},
     {gText_MenuRest, {.u8_void = StartMenuSaveCallback}},
     {gText_MenuRetire, {.u8_void = StartMenuBattlePyramidRetireCallback}},
-    {gText_MenuBag, {.u8_void = StartMenuBattlePyramidBagCallback}}
+    {gText_MenuBag, {.u8_void = StartMenuBattlePyramidBagCallback}},
+    {gText_MenuEscape, {.u8_void = StartMenu_EscapeCallback}}
 };
 
 static const struct BgTemplate sUnknown_085105A8[] =
@@ -193,6 +205,7 @@ static const struct WindowTemplate sUnknown_085105AC[] =
 };
 
 static const struct WindowTemplate sSaveInfoWindowTemplate = {0, 1, 1, 0xE, 0xA, 0xF, 8};
+
 
 // Local functions
 static void BuildStartMenuActions(void);
@@ -226,6 +239,60 @@ static void sub_80A0540(void);
 static void ShowSaveInfoWindow(void);
 static void RemoveSaveInfoWindow(void);
 static void HideStartMenuWindow(void);
+
+void DoMapObjectTimerBackup(void)
+{
+    u8 i;
+
+    for(i = 0; i < MAX_SPRITES; i++)
+    {
+        gMapObjectTimerBackup[i].backedUp = TRUE;
+        gMapObjectTimerBackup[i].timer = gSprites[i].data[3];
+    }
+}
+
+bool8 CanUseFly(void)
+{
+    if(Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) == TRUE)
+        return TRUE;
+    else
+        return FALSE;
+}
+
+void CloseMenuWithoutScriptContext(void)
+{
+    /* UPDATE ME
+	sub_819746C(GetStartMenuWindowId(), 1);
+	remove_start_menu_window_maybe();
+	sub_80984F4();
+    */
+}
+
+static void ItemUseInEscape_EscapeRope(u8 taskId)
+{
+    sUsedEscapeOption = TRUE;
+    gUnknown_0203A0F4 = re_escape_rope; // do escape rope attempt.
+    gTasks[taskId].data[3] = 1; // dont fade to black! Not in a submenu.
+    SetUpItemUseOnFieldCallback(taskId);
+}
+
+bool8 StartMenu_EscapeCallback(void)
+{
+	CloseMenuWithoutScriptContext();
+    CreateTask(ItemUseInEscape_EscapeRope, 0xFF);
+    return TRUE;
+}
+
+bool8 IsMapEscapeOption(void)
+{
+    u8 i;
+
+    for(i = 0; i < 16; i++)
+        if((gEventObjects[i].trainerType == 1 || gEventObjects[i].trainerType == 3) && CanUseFly() == FALSE)
+            return TRUE;
+
+    return FALSE;
+}
 
 void SetDexPokemonPokenavFlags(void) // unused
 {
@@ -294,7 +361,10 @@ static void BuildNormalStartMenu(void)
     AddStartMenuAction(MENU_ACTION_PLAYER);
     AddStartMenuAction(MENU_ACTION_SAVE);
     AddStartMenuAction(MENU_ACTION_OPTION);
-    AddStartMenuAction(MENU_ACTION_EXIT);
+    if(IsMapEscapeOption() == TRUE)
+        AddStartMenuAction(MENU_ACTION_ESCAPE);
+    else
+        AddStartMenuAction(MENU_ACTION_EXIT);
 }
 
 static void BuildSafariZoneStartMenu(void)
@@ -497,6 +567,9 @@ static void CreateStartMenuTask(TaskFunc followupFunc)
 
     sUnknown_02037619[0] = 0;
     sUnknown_02037619[1] = 0;
+
+    DoMapObjectTimerBackup();
+
     taskId = CreateTask(StartMenuTask, 0x50);
     SetTaskFuncWithFollowupFunc(taskId, StartMenuTask, followupFunc);
 }

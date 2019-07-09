@@ -42,6 +42,7 @@
 #include "constants/songs.h"
 #include "constants/vars.h"
 #include "event_obj_lock.h"
+#include "speedchoice.h"
 
 extern u8 BerryTree_EventScript_274482[];
 extern u8 BerryTree_EventScript_2744C0[];
@@ -85,7 +86,7 @@ bool8 sub_80FDE2C(void);
 void ItemUseOutOfBattle_CannotUse(u8 taskId);
 
 // EWRAM variables
-EWRAM_DATA static void(*gUnknown_0203A0F4)(u8 taskId) = NULL;
+EWRAM_DATA void(*gUnknown_0203A0F4)(u8 taskId) = NULL;
 
 // .rodata
 
@@ -791,11 +792,22 @@ void sub_80FE03C(u8 taskId)
     SetUpItemUseCallback(taskId);
 }
 
+extern bool32 sUsedEscapeOption;
+
 void sub_80FE058(void)
 {
-    RemoveBagItem(gSpecialVar_ItemId, 1);
-    CopyItemName(gSpecialVar_ItemId, gStringVar2);
-    StringExpandPlaceholders(gStringVar4, gText_PlayerUsedVar2);
+    if(sUsedEscapeOption == TRUE)
+    {
+        CopyItemName(ITEM_ESCAPE_ROPE, gStringVar2);
+        StringExpandPlaceholders(gStringVar4, gText_PlayerUsedVar2);
+    }
+    else
+    {
+        RemoveBagItem(gSpecialVar_ItemId, 1);
+        CopyItemName(gSpecialVar_ItemId, gStringVar2);
+        StringExpandPlaceholders(gStringVar4, gText_PlayerUsedVar2);
+    }
+    sUsedEscapeOption = FALSE;
     if (!InBattlePyramid())
     {
         sub_81AB9A8(ItemId_GetPocket(gSpecialVar_ItemId));
