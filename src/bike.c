@@ -10,6 +10,7 @@
 #include "constants/flags.h"
 #include "constants/map_types.h"
 #include "constants/songs.h"
+#include "speedchoice.h"
 
 // this file's functions
 static void MovePlayerOnMachBike(u8, u16, u16);
@@ -127,6 +128,18 @@ static const struct BikeHistoryInputInfo sAcroBikeTricksList[] =
 // code
 void MovePlayerOnBike(u8 direction, u16 newKeys, u16 heldKeys)
 {
+    if(CheckSpeedchoiceOption(SUPERBIKE, BIKE_ON) == TRUE)
+    {
+        if(gMain.newKeys & R_BUTTON)
+        {
+            PlaySE(SE_JITENSYA);
+            if(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_ACRO_BIKE)
+                SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_MACH_BIKE);
+            else
+                SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE);
+        }
+    }
+
     if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_MACH_BIKE)
         MovePlayerOnMachBike(direction, newKeys, heldKeys);
     else

@@ -8743,7 +8743,7 @@ void TryRestoringSpinnerTimerBackup(struct Sprite *sprite)
 {
     u8 i;
 
-	// if the first entry is backed up, the whole array is. sort of a hack so I dont need to decompile submenu calls.
+    // if the first entry is backed up, the whole array is. sort of a hack so I dont need to decompile submenu calls.
     if(gMapObjectTimerBackup[0].backedUp == TRUE && CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE) // only fix bag manip if HELL is enabled.
     {
         for(i = 0; i < MAX_SPRITES; i++)
@@ -8752,8 +8752,8 @@ void TryRestoringSpinnerTimerBackup(struct Sprite *sprite)
             if(gPlayerAvatar.eventObjectId != gSprites[i].data[0])
                 gSprites[i].data[3] = gMapObjectTimerBackup[i].timer;
 
-			gMapObjectTimerBackup[i].timer = 0;
-			gMapObjectTimerBackup[i].backedUp = FALSE; // since the player's info is also backed up, dont forget to unassumingly clear the backup status.
+            gMapObjectTimerBackup[i].timer = 0;
+            gMapObjectTimerBackup[i].backedUp = FALSE; // since the player's info is also backed up, dont forget to unassumingly clear the backup status.
         }
     }
 }

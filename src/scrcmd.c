@@ -1322,6 +1322,10 @@ bool8 ScrCmd_closemessage(struct ScriptContext *ctx)
 
 static bool8 WaitForAorBPress(void)
 {
+    if (CheckSpeedchoiceOption(INSTANTTEXT, IT_ON) == TRUE)
+        if(gMain.heldKeys & (B_BUTTON))
+            return TRUE;
+
     if (gMain.newKeys & A_BUTTON)
         return TRUE;
     if (gMain.newKeys & B_BUTTON)

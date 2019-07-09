@@ -11,6 +11,7 @@
 #include "blit.h"
 #include "menu.h"
 #include "dynamic_placeholder_text_util.h"
+#include "speedchoice.h"
 
 EWRAM_DATA struct TextPrinter gTempTextPrinter = {0};
 EWRAM_DATA struct TextPrinter gTextPrinters[NUM_TEXT_PRINTERS] = {0};
@@ -1389,7 +1390,7 @@ bool16 TextPrinterWaitWithDownArrow(struct TextPrinter *textPrinter)
     else
     {
         TextPrinterDrawDownArrow(textPrinter);
-        if (gMain.newKeys & (A_BUTTON | B_BUTTON))
+        if ((gMain.heldKeys & (A_BUTTON | B_BUTTON) && CheckSpeedchoiceOption(INSTANTTEXT, IT_ON) == TRUE) || gMain.newKeys & (A_BUTTON | B_BUTTON))
         {
             result = TRUE;
             PlaySE(SE_SELECT);
@@ -1407,7 +1408,7 @@ bool16 TextPrinterWait(struct TextPrinter *textPrinter)
     }
     else
     {
-        if (gMain.newKeys & (A_BUTTON | B_BUTTON))
+        if ((gMain.heldKeys & (A_BUTTON | B_BUTTON) && CheckSpeedchoiceOption(INSTANTTEXT, IT_ON) == TRUE) || gMain.newKeys & (A_BUTTON | B_BUTTON))
         {
             result = TRUE;
             PlaySE(SE_SELECT);
