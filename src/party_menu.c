@@ -76,6 +76,7 @@
 #include "constants/songs.h"
 #include "constants/species.h"
 #include "constants/vars.h"
+#include "speedchoice.h"
 
 enum
 {
@@ -4756,7 +4757,11 @@ static void CursorCb_FieldMove(u8 taskId)
     else
     {
         // All field moves before WATERFALL are HMs.
-        if (fieldMove <= FIELD_MOVE_WATERFALL && FlagGet(FLAG_BADGE01_GET + fieldMove) != TRUE)
+        if (fieldMove <= FIELD_MOVE_WATERFALL && FlagGet(FLAG_BADGE01_GET + fieldMove) != TRUE
+         && !(fieldMove == FIELD_MOVE_SURF && CheckSpeedchoiceOption(EARLYSURF, SURF_ON) == TRUE && FlagGet(FLAG_BADGE03_GET))
+         && !(fieldMove == FIELD_MOVE_FLY && CheckSpeedchoiceOption(EARLYFLY, FLY_YES) == TRUE)
+         && !(fieldMove == FIELD_MOVE_DIVE && CheckSpeedchoiceOption(PLOTLESS, PLOT_KEEP) == FALSE)
+           )
         {
             sub_81B1B5C(gText_CantUseUntilNewBadge, 1);
             gTasks[taskId].func = sub_81B1C1C;

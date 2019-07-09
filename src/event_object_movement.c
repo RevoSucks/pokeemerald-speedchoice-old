@@ -8360,6 +8360,11 @@ static void DoGroundEffects_OnFinishStep(struct EventObject *eventObj, struct Sp
     }
 }
 
+extern struct MapObjectTimerBackup gMapObjectTimerBackup[MAX_SPRITES];
+extern bool8 gLastMenuWasSubmenu;
+
+// field_map_obj_helpers.c
+
 bool8 FreezeEventObject(struct EventObject *eventObject)
 {
     if (eventObject->heldMovementActive || eventObject->frozen)

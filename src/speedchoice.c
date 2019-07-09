@@ -378,9 +378,6 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
     { MAX_PAGES, NORMAL, gSpeedchoiceOptionPage,           OptionChoiceConfigPage,     NULL,                              TRUE }
 };
 
-// we need to extern the randomizer check value. If the ROM could see the value assigned (which is 0 by default), then it would be optimized out, but we need this location to be externally written to by the randomizer.
-extern u32 gRandomizerCheckValue;
-
 EWRAM_DATA u8 gStoredPageNum = 0; // default is 0, only renders options again if it's different than the task data's page number.
 EWRAM_DATA struct SpeedchoiceConfigStruct gLocalSpeedchoiceConfig = {0};
 EWRAM_DATA struct MapObjectTimerBackup gMapObjectTimerBackup[MAX_SPRITES] = {0};
@@ -1097,7 +1094,7 @@ void DrawPageOptions(u8 page)
     {
         struct SpeedchoiceOption *option = (struct SpeedchoiceOption *)&SpeedchoiceOptions[i + (OPTIONS_PER_PAGE * (page - 1))];
         const u8 *string = option->string;
-            
+
         AddTextPrinterParameterized(WIN_OPTIONS, 1, string, 4, NEWMENUOPTIONCOORDS(i), TEXT_SPEED_FF, NULL);
         // TODO: Draw on WIN_OPTIONS, if it's broken
         DrawGeneralChoices(option, gLocalSpeedchoiceConfig.optionConfig[i + ((page-1) * 5)], i, FALSE);

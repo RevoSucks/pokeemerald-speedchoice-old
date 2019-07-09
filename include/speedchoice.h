@@ -198,6 +198,9 @@ struct MapObjectTimerBackup
     s16 timer;
 };
 
+// we need to extern the randomizer check value. If the ROM could see the value assigned (which is 0 by default), then it would be optimized out, but we need this location to be externally written to by the randomizer.
+extern u32 gRandomizerCheckValue;
+
 void CB2_InitSpeedchoiceMenu(void);
 bool8 CheckSpeedchoiceOption(u8, u8);
 

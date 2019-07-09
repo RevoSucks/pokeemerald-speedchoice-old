@@ -22,6 +22,7 @@
 #include "constants/layouts.h"
 #include "constants/maps.h"
 #include "constants/species.h"
+#include "speedchoice.h"
 
 extern const u8 EventScript_RepelWoreOff[];
 
@@ -145,46 +146,105 @@ static u8 ChooseWildMonIndex_Land(void)
 {
     u8 rand = Random() % 100;
 
-    if (rand < 20)                  // 20% chance
-        return 0;
-    else if (rand >= 20 && rand < 40)    // 20% chance
-        return 1;
-    else if (rand >= 40 && rand < 50)    // 10% chance
-        return 2;
-    else if (rand >= 50 && rand < 60)    // 10% chance
-        return 3;
-    else if (rand >= 60 && rand < 70)    // 10% chance
-        return 4;
-    else if (rand >= 70 && rand < 80)    // 10% chance
-        return 5;
-    else if (rand >= 80 && rand < 85)    // 5% chance
-        return 6;
-    else if (rand >= 85 && rand < 90)    // 5% chance
-        return 7;
-    else if (rand >= 90 && rand < 94)    // 4% chance
-        return 8;
-    else if (rand >= 94 && rand < 98)    // 4% chance
-        return 9;
-    else if (rand == 98)                 // 1% chance
-        return 10;
-    else                            // 1% chance
+    // 20/20/20/15/15/20 for new wild encounter table
+
+    if(CheckSpeedchoiceOption(NEWWILDENC, NEW_ON) == TRUE)
+    {
+        // COMMONS
+        // slot 1 (20%)
+        if(rand < 10)
+            return 0;
+        if(rand >= 10 && rand < 20)
+            return 6;
+        // slot 2 (20%)
+        if(rand >= 20 && rand < 30)
+            return 1;
+        if(rand >= 30 && rand < 40)
+            return 7;
+        // slot 3 (20%)
+        if(rand >= 40 && rand < 50)
+            return 2;
+        if(rand >= 50 && rand < 60)
+            return 8;
+        
+        // UNCOMMONS
+        // slot 4 (15%)
+        if(rand >= 60 && rand < 67)
+            return 3;
+        if(rand >= 67 && rand < 75)
+            return 9;
+        
+        // slot 5 (15%)
+        if(rand >= 75 && rand < 82)
+            return 4;
+        if(rand >= 82 && rand < 90)
+            return 10;
+        
+        // RARE (10%)
+        // slot 6
+        if(rand >= 90 && rand < 95)
+            return 5;
         return 11;
+    }
+    else
+    {
+        if (rand < 20)                  // 20% chance
+            return 0;
+        else if (rand >= 20 && rand < 40)    // 20% chance
+            return 1;
+        else if (rand >= 40 && rand < 50)    // 10% chance
+            return 2;
+        else if (rand >= 50 && rand < 60)    // 10% chance
+            return 3;
+        else if (rand >= 60 && rand < 70)    // 10% chance
+            return 4;
+        else if (rand >= 70 && rand < 80)    // 10% chance
+            return 5;
+        else if (rand >= 80 && rand < 85)    // 5% chance
+            return 6;
+        else if (rand >= 85 && rand < 90)    // 5% chance
+            return 7;
+        else if (rand >= 90 && rand < 94)    // 4% chance
+            return 8;
+        else if (rand >= 94 && rand < 98)    // 4% chance
+            return 9;
+        else if (rand == 98)                 // 1% chance
+            return 10;
+        else                            // 1% chance
+            return 11;
+    }
 }
 
 static u8 ChooseWildMonIndex_WaterRock(void)
 {
     u8 rand = Random() % 100;
 
-    if (rand < 60)                  // 60% chance
-        return 0;
-    else if (rand >= 60 && rand < 90)    // 30% chance
-        return 1;
-    else if (rand >= 90 && rand < 95)    // 5% chance
-        return 2;
-    else if (rand >= 95 && rand < 99)    // 4% chance
-        return 3;
-    else                            // 1% chance
-        return 4;
+    if(CheckSpeedchoiceOption(NEWWILDENC, NEW_ON) == TRUE)
+    {
+        if(rand < 35) // 35%
+            return 0;
+        if(rand >= 35 && rand < 60) // 25%
+            return 1;
+        if(rand >= 60 && rand < 75) // 15%
+            return 2;
+        if(rand >= 75 && rand < 90) // 15%
+            return 3;
+    
+        return 4; // 10%
+    }
+    else
+    {
+        if (rand < 60)                  // 60% chance
+            return 0;
+        else if (rand >= 60 && rand < 90)    // 30% chance
+            return 1;
+        else if (rand >= 90 && rand < 95)    // 5% chance
+            return 2;
+        else if (rand >= 95 && rand < 99)    // 4% chance
+            return 3;
+        else                            // 1% chance
+            return 4;
+    }
 }
 
 enum
@@ -199,36 +259,65 @@ static u8 ChooseWildMonIndex_Fishing(u8 rod)
     u8 wildMonIndex = 0;
     u8 rand = Random() % 100;
 
-    switch (rod)
+    // no fishing memes allowed
+    if(CheckSpeedchoiceOption(NEWWILDENC, NEW_ON) == TRUE)
     {
-    case OLD_ROD:
-        if (rand < 70)  // 70% chance
-            wildMonIndex = 0;
-        else            // 30% chance
-            wildMonIndex = 1;
-        break;
-    case GOOD_ROD:
-        if (rand < 60)                  // 60% chance
-            wildMonIndex = 2;
-        if (rand >= 60 && rand < 80)    // 20% chance
-            wildMonIndex = 3;
-        if (rand >= 80 && rand < 100)   // 20% chance
-            wildMonIndex = 4;
-        break;
-    case SUPER_ROD:
-        if (rand < 40)                  // 40% chance
-            wildMonIndex = 5;
-        if (rand >= 40 && rand < 80)    // 40% chance
-            wildMonIndex = 6;
-        if (rand >= 80 && rand < 95)    // 15% chance
-            wildMonIndex = 7;
-        if (rand >= 95 && rand < 99)    // 4% chance
-            wildMonIndex = 8;
-        if (rand == 99)                 // 1% chance
-            wildMonIndex = 9;
-        break;
+        // slot 1, 60%
+        if(rand < 12)
+            return 0;
+        if(rand >= 12 && rand < 24)
+            return 2;
+        if(rand >= 24 && rand < 36)
+            return 4;
+        if(rand >= 36 && rand < 48)
+            return 6;
+        if(rand >= 48 && rand < 60)
+            return 8;
+        
+        // slot 2, 40%
+        if(rand >= 60 && rand < 70)
+            return 1;
+        if(rand >= 70 && rand < 80)
+            return 3;
+        if(rand >= 80 && rand < 90)
+            return 5;
+        if(rand >= 90 && rand < 95)
+            return 7;
+        return 9;
     }
-    return wildMonIndex;
+    else
+    {
+        switch (rod)
+        {
+        case OLD_ROD:
+            if (rand < 70)  // 70% chance
+                wildMonIndex = 0;
+            else            // 30% chance
+                wildMonIndex = 1;
+            break;
+        case GOOD_ROD:
+            if (rand < 60)                  // 60% chance
+                wildMonIndex = 2;
+            if (rand >= 60 && rand < 80)    // 20% chance
+                wildMonIndex = 3;
+            if (rand >= 80 && rand < 100)   // 20% chance
+                wildMonIndex = 4;
+            break;
+        case SUPER_ROD:
+            if (rand < 40)                  // 40% chance
+                wildMonIndex = 5;
+            if (rand >= 40 && rand < 80)    // 40% chance
+                wildMonIndex = 6;
+            if (rand >= 80 && rand < 95)    // 15% chance
+                wildMonIndex = 7;
+            if (rand >= 95 && rand < 99)    // 4% chance
+                wildMonIndex = 8;
+            if (rand == 99)                 // 1% chance
+                wildMonIndex = 9;
+            break;
+        }
+        return wildMonIndex;
+    }
 }
 
 static u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon)
@@ -394,6 +483,33 @@ enum
 #define WILD_CHECK_REPEL    0x1
 #define WILD_CHECK_KEEN_EYE 0x2
 
+u8 GetEvolutionBranchCount(u16 species)
+{
+    u8 i;
+
+    for(i = 0; (gEvolutionTable[species][i].targetSpecies != SPECIES_NONE && i < 5); i++)
+        ;
+
+    return i;
+}
+
+u16 GetRandomFinalEvolution(u16 species)
+{
+    // maybe this can be written as a for loop.
+    while(1)
+    {
+        u8 evoCount = GetEvolutionBranchCount(species);
+
+        if(evoCount == 0) // there are no further evolutions, so return the current one.
+            return species;
+            
+        if(CheckSpeedchoiceOption(GOOD_EARLY_WILDS, GOOD_STATIC) == TRUE)
+            SeedRng(gRandomizerCheckValue + species); // prevent samey pattern-ness
+
+        species = gEvolutionTable[species][Random() % evoCount].targetSpecies;
+    }
+}
+
 static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 area, u8 flags)
 {
     u8 wildMonIndex = 0;
@@ -425,9 +541,18 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo *wildMonInfo, u8 ar
         return FALSE;
     if (gMapHeader.mapLayoutId != LAYOUT_BATTLE_FRONTIER_BATTLE_PIKE_RANDOM_ROOM3 && flags & WILD_CHECK_KEEN_EYE && !IsAbilityAllowingEncounter(level))
         return FALSE;
+    else
+    {
+        u16 newSpecies;
 
-    CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level);
-    return TRUE;
+        if(CheckSpeedchoiceOption(GOOD_EARLY_WILDS, GOOD_OFF) == FALSE && level < 10)
+            newSpecies = GetRandomFinalEvolution(wildMonInfo->wildPokemon[wildMonIndex].species);
+        else
+            newSpecies = wildMonInfo->wildPokemon[wildMonIndex].species;
+
+        CreateWildMon(newSpecies, level);
+        return TRUE;
+    }
 }
 
 static u16 GenerateFishingWildMon(const struct WildPokemonInfo *wildMonInfo, u8 rod)
