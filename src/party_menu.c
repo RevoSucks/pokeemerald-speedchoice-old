@@ -1525,7 +1525,7 @@ static const u16 gTMHMMoves[] =
     MOVE_TOXIC,
     MOVE_HAIL,
     MOVE_BULK_UP,
-    MOVE_BULLET_SEED,
+    MOVE_SWEET_SCENT, // speedchoice change
     MOVE_HIDDEN_POWER,
     MOVE_SUNNY_DAY,
     MOVE_TAUNT,

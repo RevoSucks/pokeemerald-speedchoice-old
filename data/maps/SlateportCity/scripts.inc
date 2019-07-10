@@ -545,18 +545,42 @@ SlateportCity_EventScript_1DD1D8:: @ 81DD1D8
 	faceplayer
 	message gUnknown_08272A21
 	waitmessage
-	pokemart SlateportCity_Pokemart_1DD1F0
+	checkspeedchoice BETTER_MARTS, MARTS_OFF
+	goto_if TRUE, SlateportCityItems1
+	pokemart SlateportCity_Pokemart_Speedchoice
+    goto AfterSlateportCityItems1
+
+SlateportCityItems1::
+    pokemart SlateportCity_Pokemart_1DD1F0
+
+AfterSlateportCityItems1::
 	msgbox gUnknown_08272A3F, MSGBOX_DEFAULT
 	release
 	end
 
-	.align 2
+    .align 2
 SlateportCity_Pokemart_1DD1F0: @ 81DD1F0
-	.2byte ITEM_TM10
-	.2byte ITEM_TM43
-	.2byte ITEM_NONE
-	release
-	end
+    .2byte ITEM_TM10
+    .2byte ITEM_TM43
+    .2byte ITEM_NONE
+    release
+    end
+
+    .align 2
+SlateportCity_Pokemart_Speedchoice: @ 81DD1F0
+    .2byte ITEM_TM10
+    .2byte ITEM_TM43
+    .2byte ITEM_SUN_STONE
+    .2byte ITEM_MOON_STONE
+    .2byte ITEM_FIRE_STONE
+    .2byte ITEM_THUNDER_STONE
+    .2byte ITEM_WATER_STONE
+    .2byte ITEM_LEAF_STONE
+    .2byte ITEM_SEA_INCENSE
+    .2byte ITEM_LAX_INCENSE
+    .2byte ITEM_NONE
+    release
+    end
 
 SlateportCity_EventScript_1DD1F8:: @ 81DD1F8
 	lockall

@@ -31,7 +31,7 @@
 #define START_BANNER_X 128
 
 #define CLEAR_SAVE_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON | DPAD_UP)
-#define RESET_RTC_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON | DPAD_LEFT)
+//#define RESET_RTC_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON | DPAD_LEFT)
 #define BERRY_UPDATE_BUTTON_COMBO (B_BUTTON | SELECT_BUTTON)
 #define A_B_START_SELECT (A_BUTTON | B_BUTTON | START_BUTTON | SELECT_BUTTON)
 
@@ -719,6 +719,55 @@ static void Task_TitleScreenPhase2(u8 taskId)
     gTasks[taskId].data[6] = 6;
 }
 
+enum {
+    RTC_NO_BUTTONS,
+    RTC_DOWN_SELECT_B,
+    RTC_JUST_SELECT,
+    RTC_SELECT_LEFT_UP,
+    RTC_JUST_LEFT_UP // you did it!    
+};
+
+#define RTC_ACCESS_START RTC_NO_BUTTONS
+#define RTC_ACCESS_SUCCESS RTC_JUST_LEFT_UP
+
+EWRAM_DATA u8 rtcstate = RTC_ACCESS_START;
+
+// speedchoice addition
+static int GetRTCButtonState(void)
+{
+    switch (rtcstate)
+    {
+    default:
+        rtcstate = RTC_ACCESS_START;
+        //fallthrough
+    case RTC_ACCESS_START:
+        if (JOY_HELD(B_BUTTON) && JOY_HELD(SELECT_BUTTON) && JOY_HELD(DPAD_DOWN))
+            rtcstate++;
+        break;
+    case RTC_DOWN_SELECT_B:
+        if (!JOY_HELD(SELECT_BUTTON))
+            rtcstate = RTC_ACCESS_START;
+        else if (!JOY_HELD(B_BUTTON | DPAD_DOWN))
+            rtcstate++;
+        break;
+    case RTC_JUST_SELECT:
+        if (!JOY_HELD(SELECT_BUTTON))
+            rtcstate = RTC_ACCESS_START;
+        else if (JOY_HELD(DPAD_LEFT | DPAD_UP))
+            rtcstate++;
+        break;
+    case RTC_SELECT_LEFT_UP:
+        if (JOY_HELD(DPAD_LEFT | DPAD_UP) && !JOY_HELD(SELECT_BUTTON))
+            rtcstate++;
+        else if (!JOY_HELD(DPAD_LEFT | DPAD_UP))
+            rtcstate = RTC_ACCESS_START;
+        break;
+    case RTC_ACCESS_SUCCESS:
+        break;
+    }
+    return rtcstate;
+}
+
 // Show Rayquaza silhouette and process main title screen input
 static void Task_TitleScreenPhase3(u8 taskId)
 {
@@ -732,14 +781,13 @@ static void Task_TitleScreenPhase3(u8 taskId)
     {
         SetMainCallback2(CB2_GoToClearSaveDataScreen);
     }
-    else if ((gMain.heldKeys & RESET_RTC_BUTTON_COMBO) == RESET_RTC_BUTTON_COMBO
-      && CanResetRTC() == TRUE)
+    else if (GetRTCButtonState() == RTC_ACCESS_SUCCESS)
     {
         FadeOutBGM(4);
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
         SetMainCallback2(CB2_GoToResetRtcScreen);
     }
-    else if ((gMain.heldKeys & BERRY_UPDATE_BUTTON_COMBO) == BERRY_UPDATE_BUTTON_COMBO)
+    else if (0) // disabled for speedchoice
     {
         FadeOutBGM(4);
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);

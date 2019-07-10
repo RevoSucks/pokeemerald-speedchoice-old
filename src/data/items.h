@@ -1256,7 +1256,7 @@ const struct Item gItems[] =
     {
         .name = _("MOON STONE"),
         .itemId = ITEM_MOON_STONE,
-        .price = 0,
+        .price = 2100, // speedchoice change
         .description = sMoonStoneDesc,
         .pocket = POCKET_ITEMS,
         .type = 1,
