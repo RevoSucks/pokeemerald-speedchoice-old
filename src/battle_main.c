@@ -2998,12 +2998,30 @@ void BeginBattleIntro(void)
     gBattleMainFunc = BattleIntroGetMonsData;
 }
 
+#define BATTLE_SPEED 3
+extern void OpponentHandleHealthBarUpdate(void); // opponent HP Bar (battle_7)
+extern void PlayerHandleHealthBarUpdate(void); // player HP bar
+extern void CompleteOnHealthbarDone(void);
+extern void CompleteOnHealthbarDone2(void);
+
 static void BattleMainCB1(void)
 {
+    u8 i;
     gBattleMainFunc();
 
     for (gActiveBattler = 0; gActiveBattler < gBattlersCount; gActiveBattler++)
-        gBattlerControllerFuncs[gActiveBattler]();
+	{
+		if(gBattlerControllerFuncs[gActiveBattler] == OpponentHandleHealthBarUpdate ||
+		gBattlerControllerFuncs[gActiveBattler] == PlayerHandleHealthBarUpdate || 
+		gBattlerControllerFuncs[gActiveBattler] == CompleteOnHealthbarDone || 
+		gBattlerControllerFuncs[gActiveBattler] == CompleteOnHealthbarDone2)
+		{
+			for(i = 0; i < BATTLE_SPEED; i++)
+				gBattlerControllerFuncs[gActiveBattler]();
+		}
+		else
+			gBattlerControllerFuncs[gActiveBattler]();
+	}
 }
 
 static void BattleStartClearSetData(void)
