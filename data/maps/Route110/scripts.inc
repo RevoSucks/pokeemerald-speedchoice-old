@@ -437,7 +437,10 @@ Route110_EventScript_1EF83A:: @ 81EF83A
 
 Route110_EventScript_1EF84A:: @ 81EF84A
 	msgbox Route110_Text_1EFCF1, MSGBOX_DEFAULT
-	call Route110_EventScript_1EF8DF
+	checkspeedchoice EARLYFLY, FLY_YES
+	call_if TRUE, Speedchoice_GiveFly
+	checkspeedchoice EARLYFLY, FLY_NO
+	call_if TRUE, Route110_EventScript_1EF8DF @ im sure there's a better way to do this than a double check. i cannot be sure that the callif instructions don't modify callif conditional.
 	msgbox Route110_Text_1EFD58, MSGBOX_DEFAULT
 	goto Route110_EventScript_1EF8EC
 	end
@@ -474,6 +477,10 @@ Route110_EventScript_1EF8C4:: @ 81EF8C4
 
 Route110_EventScript_1EF8DF:: @ 81EF8DF
 	giveitem_std ITEM_ITEMFINDER
+	return
+
+Speedchoice_GiveFly::
+	giveitem_std ITEM_HM02
 	return
 
 Route110_EventScript_1EF8EC:: @ 81EF8EC

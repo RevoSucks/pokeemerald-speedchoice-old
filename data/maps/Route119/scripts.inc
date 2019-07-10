@@ -102,7 +102,10 @@ Route119_EventScript_1F455A:: @ 81F455A
 
 Route119_EventScript_1F456A:: @ 81F456A
 	msgbox Route119_Text_1F4AF3, MSGBOX_DEFAULT
-	call Route119_EventScript_1F45FF
+	checkspeedchoice EARLYFLY, FLY_YES
+	call_if TRUE, Speedchoice_GiveItemfinder
+	checkspeedchoice EARLYFLY, FLY_NO
+	call_if TRUE, Route119_EventScript_1F45FF @ im sure there's a better way to do this than a double check. i cannot be sure that the callif instructions don't modify callif conditional.
 	msgbox Route119_Text_1F4B56, MSGBOX_DEFAULT
 	goto Route119_EventScript_1F460F
 	end
@@ -132,13 +135,21 @@ Route119_EventScript_1F45D4:: @ 81F45D4
 
 Route119_EventScript_1F45E4:: @ 81F45E4
 	msgbox Route119_Text_1F4D4B, MSGBOX_DEFAULT
-	call Route119_EventScript_1F45FF
+	checkspeedchoice EARLYFLY, FLY_YES
+	call_if TRUE, Speedchoice_GiveItemfinder
+	checkspeedchoice EARLYFLY, FLY_NO
+	call_if TRUE, Route119_EventScript_1F45FF @ im still not sure if there's a better way to do this than a double check. i cannot be sure that the callif instructions don't modify callif conditional.
 	msgbox Route119_Text_1F4DB5, MSGBOX_DEFAULT
 	goto Route119_EventScript_1F460F
 	end
 
 Route119_EventScript_1F45FF:: @ 81F45FF
 	giveitem_std ITEM_HM02
+	setflag FLAG_RECEIVED_HM02
+	return
+
+Speedchoice_GiveItemfinder::
+	giveitem_std ITEM_ITEMFINDER
 	setflag FLAG_RECEIVED_HM02
 	return
 

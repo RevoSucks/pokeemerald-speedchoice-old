@@ -7,11 +7,20 @@ OldaleTown_Mart_EventScript_1FC240:: @ 81FC240
 	message gUnknown_08272A21
 	waitmessage
 	goto_if_set FLAG_ADVENTURE_STARTED, OldaleTown_Mart_EventScript_1FC26C
+	checkspeedchoice BETTER_MARTS, MARTS_OFF
+	goto_if TRUE, OldaleItems1
+	pokemart OldaleTownSpeedchoice_Mart_Items1
+	goto AfterOldaleItems1
+
+OldaleItems1::
 	pokemart OldaleTown_Mart_Pokemart_1FC260
+
+AfterOldaleItems1::
 	msgbox gUnknown_08272A3F, MSGBOX_DEFAULT
 	release
 	end
 
+	.align 2
 OldaleTown_Mart_Pokemart_1FC260: @ 81FC260
 	.2byte ITEM_POTION
 	.2byte ITEM_ANTIDOTE
@@ -21,8 +30,28 @@ OldaleTown_Mart_Pokemart_1FC260: @ 81FC260
 	release
 	end
 
+	.align 2
+OldaleTownSpeedchoice_Mart_Items1:: @ 8152F9C
+	.2byte ITEM_POKE_BALL
+	.2byte ITEM_POTION
+	.2byte ITEM_ANTIDOTE
+	.2byte ITEM_PARALYZE_HEAL
+	.2byte ITEM_AWAKENING
+	.2byte ITEM_REPEL
+	.2byte ITEM_NONE
+	release
+	end
+
 OldaleTown_Mart_EventScript_1FC26C:: @ 81FC26C
+	checkspeedchoice BETTER_MARTS, MARTS_OFF
+	goto_if TRUE, OldaleItems2
+	pokemart OldaleTownSpeedchoice_Mart_Items2
+	goto AfterOldaleItems2	
+
+OldaleItems2::
 	pokemart OldaleTown_Mart_Pokemart_1FC27C
+
+AfterOldaleItems2::
 	msgbox gUnknown_08272A3F, MSGBOX_DEFAULT
 	release
 	end
@@ -34,6 +63,18 @@ OldaleTown_Mart_Pokemart_1FC27C: @ 81FC27C
 	.2byte ITEM_ANTIDOTE
 	.2byte ITEM_PARALYZE_HEAL
 	.2byte ITEM_AWAKENING
+	.2byte ITEM_NONE
+	release
+	end
+
+	.align 2
+OldaleTownSpeedchoice_Mart_Items2:: @ 8152FB8
+	.2byte ITEM_POKE_BALL
+	.2byte ITEM_POTION
+	.2byte ITEM_ANTIDOTE
+	.2byte ITEM_PARALYZE_HEAL
+	.2byte ITEM_AWAKENING
+	.2byte ITEM_REPEL
 	.2byte ITEM_NONE
 	release
 	end

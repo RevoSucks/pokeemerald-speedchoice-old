@@ -363,7 +363,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
     { 4,         ARROW,  gSpeedchoiceOptionPreset,         Arrows,                     gSpeedchoiceTooltipPreset,         TRUE  },
     { 3,         NORMAL, gSpeedchoiceOptionEXP,            OptionChoiceConfigKeepNone, gSpeedchoiceTooltipEXP,            TRUE  },
     { 3,         NORMAL, gSpeedchoiceOptionPlotless,       OptionChoiceConfigSemiFull, gSpeedchoiceTooltipPlotless,       FALSE },
-    { 2,         NORMAL, gSpeedchoiceOptionInstantText,    OptionChoiceConfigOnOff,    gSpeedchoiceTooltipInstantText,    FALSE },
+    { 2,         NORMAL, gSpeedchoiceOptionInstantText,    OptionChoiceConfigOnOff,    gSpeedchoiceTooltipInstantText,    TRUE },
     { 3,         NORMAL, gSpeedchoiceOptionSpinners,       OptionChoiceConfigNerfKeep, gSpeedchoiceTooltipSpinners,       FALSE },
     { 3,         NORMAL, gSpeedchoiceOptionMaxVision,      OptionChoiceConfigSaneHell, gSpeedchoiceTooltipMaxVision,      FALSE },
     { 2,         NORMAL, gSpeedchoiceOptionNerfRoxanne,    OptionChoiceConfigYesNo,    gSpeedchoiceTooltipNerfRoxanne,    FALSE },

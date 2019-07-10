@@ -19,8 +19,15 @@ PetalburgCity_WallysHouse_MapScript2_204247: @ 8204247
 PetalburgCity_WallysHouse_EventScript_204251:: @ 8204251
 	lockall
 	msgbox PetalburgCity_WallysHouse_Text_20446E, MSGBOX_DEFAULT
+	checkspeedchoice EARLYSURF, SURF_ON
+	goto_if TRUE, Speedchoice_EarlySurf
 	giveitem_std ITEM_HM03
 	setflag FLAG_RECEIVED_HM03
+	goto AfterEarlySurf
+Speedchoice_EarlySurf::
+	giveitem_std ITEM_HM04
+	setflag FLAG_RECEIVED_HM04
+AfterEarlySurf::
 	msgbox PetalburgCity_WallysHouse_Text_20461A, MSGBOX_DEFAULT
 	setvar VAR_PETALBURG_STATE, 5
 	releaseall

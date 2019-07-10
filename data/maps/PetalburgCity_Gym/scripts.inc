@@ -101,6 +101,14 @@ PetalburgCity_Gym_EventScript_2049A4:: @ 82049A4
 	waitmovement 0
 	msgbox PetalburgCity_Gym_Text_205C40, MSGBOX_DEFAULT
 	setvar VAR_PETALBURG_GYM_STATE, 2
+	checkspeedchoice PLOTLESS, PLOT_KEEP
+	goto_if TRUE, EndOfWallyTutorial
+	checkspeedchoice PLOTLESS, PLOT_SEMI
+	goto_if TRUE, EndOfWallyTutorial
+	setvar VAR_PETALBURG_WOODS_STATE, 1
+	setflag FLAG_HIDE_PETALBURG_WOODS_DEVON_EMPLOYEE
+	setflag FLAG_HIDE_PETALBURG_WOODS_AQUA_GRUNT
+EndOfWallyTutorial::
 	releaseall
 	end
 
@@ -411,6 +419,13 @@ PetalburgCity_Gym_EventScript_204E1D:: @ 8204E1D
 PetalburgCity_Gym_EventScript_204E3B:: @ 8204E3B
 	msgbox PetalburgCity_Gym_Text_205FE5, MSGBOX_DEFAULT
 	trainerbattle_no_intro TRAINER_NORMAN_1, PetalburgCity_Gym_Text_206107
+	checkspeedchoice PLOTLESS, PLOT_KEEP
+	goto_if TRUE, AfterNorman
+	setvar VAR_WEATHER_INSTITUTE_STATE, 2
+	setflag FLAG_HIDE_ROUTE_119_TEAM_AQUA
+	clearflag FLAG_HIDE_WEATHER_INSTITUTE_1F_WORKERS
+	setflag FLAG_HIDE_WEATHER_INSTITUTE_2F_WORKERS
+AfterNorman::
 	message PetalburgCity_Gym_Text_206162
 	waitmessage
 	call Common_EventScript_PlayGymBadgeFanfare

@@ -33,6 +33,8 @@ SkyPillar_Outside_MapScript2_2392FA: @ 82392FA
 	.2byte 0
 
 SkyPillar_Outside_EventScript_239304:: @ 8239304
+	checkspeedchoice PLOTLESS, PLOT_KEEP
+	goto_if FALSE, AfterSkyPillar1
 	lockall
 	applymovement 1, SkyPillar_Outside_Movement_2393D3
 	waitmovement 0
@@ -87,6 +89,7 @@ SkyPillar_Outside_EventScript_239304:: @ 8239304
 	clearflag FLAG_HIDE_SOOTOPOLIS_CITY_WALLACE
 	fadescreenswapbuffers 0
 	releaseall
+AfterSkyPillar1::
 	end
 
 SkyPillar_Outside_Movement_2393D3: @ 82393D3

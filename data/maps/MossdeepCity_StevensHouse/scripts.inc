@@ -39,7 +39,17 @@ MossdeepCity_StevensHouse_EventScript_2227CA:: @ 82227CA
 	waitmovement 0
 	msgbox MossdeepCity_StevensHouse_Text_222936, MSGBOX_DEFAULT
 	giveitem_std ITEM_HM08
-	setflag FLAG_RECEIVED_HM08
+    setflag FLAG_RECEIVED_HM08
+    @ speedchoice benefits regardless of settings
+    @ give the player the event items.
+	setflag FLAG_SYS_HAS_EON_TICKET
+	giveitem_std ITEM_EON_TICKET
+	setflag 2261 @ not defined again...
+	giveitem_std ITEM_AURORA_TICKET
+	setflag 2262
+	giveitem_std ITEM_OLD_SEA_MAP
+	setflag 2272
+	giveitem_std ITEM_MYSTIC_TICKET
 	setflag FLAG_OMIT_DIVE_FROM_STEVEN_LETTER
 	msgbox MossdeepCity_StevensHouse_Text_222A0E, MSGBOX_DEFAULT
 	closemessage
@@ -49,6 +59,65 @@ MossdeepCity_StevensHouse_EventScript_2227CA:: @ 82227CA
 	setflag FLAG_HIDE_MOSSDEEP_CITY_SCOTT
 	setflag FLAG_HIDE_SEAFLOOR_CAVERN_ENTRANCE_AQUA_GRUNT
 	setvar VAR_STEVENS_HOUSE_STATE, 2
+    
+	checkspeedchoice PLOTLESS, PLOT_KEEP
+	goto_if TRUE, AfterStevenDive
+	@ seafloor cavern
+	setvar VAR_ROUTE128_STATE, 1
+	setvar VAR_RAYQUAZA_STATE, 1
+	clearflag FLAG_HIDE_SOOTOPOLIS_CITY_STEVEN
+	clearflag FLAG_HIDE_SOOTOPOLIS_CITY_ARCHIE
+	clearflag FLAG_HIDE_SOOTOPOLIS_CITY_MAXIE
+	clearflag FLAG_HIDE_SOOTOPOLIS_CITY_RESIDENTS
+	clearflag FLAG_HIDE_SOOTOPOLIS_CITY_GROUDON
+	clearflag FLAG_HIDE_SOOTOPOLIS_CITY_KYOGRE
+	setflag FLAG_HIDE_SOOTOPOLIS_CITY_MAN_1
+	setflag FLAG_LEGENDARIES_IN_SOOTOPOLIS
+	clearflag FLAG_HIDE_ROUTE_128_ARCHIE
+	clearflag FLAG_HIDE_ROUTE_128_MAXIE
+	setflag FLAG_SYS_WEATHER_CTRL
+	setflag FLAG_KYOGRE_ESCAPED_SEAFLOOR_CAVERN
+	setflag FLAG_HIDE_MOSSDEEP_CITY_STEVENS_HOUSE_STEVEN
+	setvar VAR_STEVENS_HOUSE_STATE, 2
+	setvar VAR_SEAFLOOR_CAVERN_STATE, 1
+	setflag FLAG_HIDE_SEAFLOOR_CAVERN_ROOM_9_ARCHIE
+	setflag FLAG_HIDE_SEAFLOOR_CAVERN_ROOM_9_MAXIE
+	setflag FLAG_HIDE_SEAFLOOR_CAVERN_ROOM_9_MAGMA_GRUNTS
+	setflag FLAG_HIDE_SEAFLOOR_CAVERN_ROOM_9_KYOGRE_1
+	setflag FLAG_HIDE_SEAFLOOR_CAVERN_AQUA_GRUNTS
+	@ route 128
+	setvar VAR_ROUTE128_STATE, 2
+	@ cave of origin
+	setflag FLAG_WALLACE_GOES_TO_SKY_PILLAR @ sky pillar
+	setvar VAR_RAYQUAZA_STATE, 3
+	clearflag FLAG_HIDE_SKY_PILLAR_WALLACE
+	@ make rayquaza fly
+	setvar VAR_RAYQUAZA_STATE, 5
+	setvar VAR_SKY_PILLAR_STATE, 1
+	setvar VAR_SKY_PILLAR_RAQUAZA_CRY_DONE, 1
+	@ skip rayquaza scene
+	clearflag FLAG_SYS_WEATHER_CTRL
+	setvar VAR_SKY_PILLAR_STATE, 3
+	clearflag FLAG_LEGENDARIES_IN_SOOTOPOLIS
+	setflag FLAG_HIDE_SOOTOPOLIS_CITY_MAXIE
+	setflag FLAG_HIDE_SOOTOPOLIS_CITY_ARCHIE
+	clearflag FLAG_HIDE_MT_PYRE_SUMMIT_MAXIE
+	clearflag FLAG_HIDE_MT_PYRE_SUMMIT_ARCHIE
+	setvar VAR_MT_PYRE_STATE, 2
+	setflag FLAG_SOOTOPOLIS_ARCHIE_MAXIE_LEAVE @ post rayquaza scene state
+	setflag FLAG_STEVEN_GUIDES_TO_CAVE_OF_ORIGIN @ steven fix
+	clearflag FLAG_HIDE_SOOTOPOLIS_CITY_WALLACE @ make wallace visible so HM07 can be given
+	@ hide all the relevent objects
+	setflag FLAG_HIDE_SOOTOPOLIS_CITY_KYOGRE @ Kyogre
+	setflag FLAG_HIDE_SOOTOPOLIS_CITY_GROUDON @ Groudon
+	setflag FLAG_HIDE_ROUTE_128_ARCHIE @ Archie route 128
+	setflag FLAG_HIDE_ROUTE_128_MAXIE @ Maxie route 128
+	setflag FLAG_HIDE_SKY_PILLAR_WALLACE @ Wallace outside Sky Pillar
+	@ attempted fix for inability to catch Rayquaza
+	clearflag FLAG_RAYQUAZA_ON_SKY_TOWER_SUMMIT
+	setflag FLAG_HIDE_SKY_PILLAR_TOP_RAYQUAZA_2
+
+AfterStevenDive::
 	releaseall
 	end
 
