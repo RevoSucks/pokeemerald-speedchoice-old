@@ -1837,23 +1837,23 @@ static bool8 Fishing6(struct Task *task)
             u8 ability = GetMonAbility(&gPlayerParty[0]);
             if (ability == ABILITY_SUCTION_CUPS || ability  == ABILITY_STICKY_HOLD)
             {
-                if (Random() % 100 > 14)
-                {
+                //if (Random() % 100 > 14)
+                //{
                     bite = TRUE;
-                }
+                //}
             }
         }
 
         if (!bite)
         {
-            if (Random() & 1)
-            {
-                task->tStep = FISHING_NO_BITE;
-            }
-            else
-            {
+            //if (Random() & 1)
+            //{
+            //    task->tStep = FISHING_NO_BITE;
+            //}
+            //else
+            //{
                 bite = TRUE;
-            }
+            //}
         }
 
         if (bite == TRUE)
