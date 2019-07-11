@@ -333,6 +333,7 @@ static bool8 DrawAreaGlow(void)
 
 static void FindMapsWithMon(u16 species)
 {
+    // Credit to PikalaxALT for this roamer fix.
     u16 i;
     struct Roamer *roamer;
 
@@ -342,64 +343,115 @@ static void FindMapsWithMon(u16 species)
     //    sPokedexAreaScreen->unk6E4 = 0;
 
     roamer = &gSaveBlock1Ptr->roamer;
-    if (species != roamer->species)
+    sPokedexAreaScreen->numOverworldAreas = 0;
+    sPokedexAreaScreen->numSpecialAreas = 0;
+    for (i = 0; sFeebasData[i][0] != NUM_SPECIES; i++)
     {
-        sPokedexAreaScreen->numOverworldAreas = 0;
-        sPokedexAreaScreen->numSpecialAreas = 0;
-        //for (i = 0; i < ARRAY_COUNT(sSpeciesHiddenFromAreaScreen); i++)
-        //{
-        //    if (sSpeciesHiddenFromAreaScreen[i] == species)
-        //        return;
-        //}
-
-        for (i = 0; sFeebasData[i][0] != NUM_SPECIES; i++)
+        if (species == sFeebasData[i][0])
         {
-            if (species == sFeebasData[i][0])
+            switch (sFeebasData[i][1])
             {
-                switch (sFeebasData[i][1])
-                {
-                    case MAP_GROUP_OVERWORLD_MONS:
-                        SetAreaHasMon(sFeebasData[i][1], sFeebasData[i][2]);
-                        break;
-                    case MAP_GROUP_SPECIAL_MONS_1:
-                    case MAP_GROUP_SPECIAL_MONS_2:
-                        SetSpecialMapHasMon(sFeebasData[i][1], sFeebasData[i][2]);
-                        break;
-                }
-            }
-        }
-
-        for (i = 0; gWildMonHeaders[i].mapGroup != 0xFF; i++)
-        {
-            if (MapHasMon(&gWildMonHeaders[i], species))
-            {
-                switch (gWildMonHeaders[i].mapGroup)
-                {
-                    case MAP_GROUP_OVERWORLD_MONS:
-                        SetAreaHasMon(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum);
-                        break;
-                    case MAP_GROUP_SPECIAL_MONS_1:
-                    case MAP_GROUP_SPECIAL_MONS_2:
-                        SetSpecialMapHasMon(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum);
-                        break;
-                }
+                case MAP_GROUP_OVERWORLD_MONS:
+                    SetAreaHasMon(sFeebasData[i][1], sFeebasData[i][2]);
+                    break;
+                case MAP_GROUP_SPECIAL_MONS_1:
+                case MAP_GROUP_SPECIAL_MONS_2:
+                    SetSpecialMapHasMon(sFeebasData[i][1], sFeebasData[i][2]);
+                    break;
             }
         }
     }
-    else
+
+    for (i = 0; gWildMonHeaders[i].mapGroup != 0xFF; i++)
     {
-        sPokedexAreaScreen->numSpecialAreas = 0;
-        if (roamer->active)
+        if (MapHasMon(&gWildMonHeaders[i], species))
         {
-            GetRoamerLocation(&sPokedexAreaScreen->overworldAreasWithMons[0].mapGroup, &sPokedexAreaScreen->overworldAreasWithMons[0].mapNum);
-            sPokedexAreaScreen->overworldAreasWithMons[0].regionMapSectionId = Overworld_GetMapHeaderByGroupAndId(sPokedexAreaScreen->overworldAreasWithMons[0].mapGroup, sPokedexAreaScreen->overworldAreasWithMons[0].mapNum)->regionMapSectionId;
-            sPokedexAreaScreen->numOverworldAreas = 1;
-        }
-        else
-        {
-            sPokedexAreaScreen->numOverworldAreas = 0;
+            switch (gWildMonHeaders[i].mapGroup)
+            {
+                case MAP_GROUP_OVERWORLD_MONS:
+                    SetAreaHasMon(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum);
+                    break;
+                case MAP_GROUP_SPECIAL_MONS_1:
+                case MAP_GROUP_SPECIAL_MONS_2:
+                    SetSpecialMapHasMon(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum);
+                    break;
+            }
         }
     }
+    if (roamer->active && species == roamer->species)
+    {
+        GetRoamerLocation(&sPokedexAreaScreen->overworldAreasWithMons[sPokedexAreaScreen->numOverworldAreas].mapGroup, &sPokedexAreaScreen->overworldAreasWithMons[sPokedexAreaScreen->numOverworldAreas].mapNum);
+        sPokedexAreaScreen->overworldAreasWithMons[sPokedexAreaScreen->numOverworldAreas].regionMapSectionId = Overworld_GetMapHeaderByGroupAndId(sPokedexAreaScreen->overworldAreasWithMons[sPokedexAreaScreen->numOverworldAreas].mapGroup, sPokedexAreaScreen->overworldAreasWithMons[sPokedexAreaScreen->numOverworldAreas].mapNum)->regionMapSectionId;
+        sPokedexAreaScreen->numOverworldAreas++;
+    }
+    // Old code
+    //u16 i;
+    //struct Roamer *roamer;
+    //
+    //sPokedexAreaScreen->unk6E2 = 0;
+    //sPokedexAreaScreen->unk6E4 = VarGet(VAR_ALTERING_CAVE_WILD_SET);
+    //if (sPokedexAreaScreen->unk6E4 > 8)
+    //    sPokedexAreaScreen->unk6E4 = 0;
+    //
+    //roamer = &gSaveBlock1Ptr->roamer;
+    //if (species != roamer->species)
+    //{
+    //    sPokedexAreaScreen->numOverworldAreas = 0;
+    //    sPokedexAreaScreen->numSpecialAreas = 0;
+    //    //for (i = 0; i < ARRAY_COUNT(sSpeciesHiddenFromAreaScreen); i++)
+    //    //{
+    //    //    if (sSpeciesHiddenFromAreaScreen[i] == species)
+    //    //        return;
+    //    //}
+    //
+    //    for (i = 0; sFeebasData[i][0] != NUM_SPECIES; i++)
+    //    {
+    //        if (species == sFeebasData[i][0])
+    //        {
+    //            switch (sFeebasData[i][1])
+    //            {
+    //                case MAP_GROUP_OVERWORLD_MONS:
+    //                    SetAreaHasMon(sFeebasData[i][1], sFeebasData[i][2]);
+    //                    break;
+    //                case MAP_GROUP_SPECIAL_MONS_1:
+    //                case MAP_GROUP_SPECIAL_MONS_2:
+    //                    SetSpecialMapHasMon(sFeebasData[i][1], sFeebasData[i][2]);
+    //                    break;
+    //            }
+    //        }
+    //    }
+    //
+    //    for (i = 0; gWildMonHeaders[i].mapGroup != 0xFF; i++)
+    //    {
+    //        if (MapHasMon(&gWildMonHeaders[i], species))
+    //        {
+    //            switch (gWildMonHeaders[i].mapGroup)
+    //            {
+    //                case MAP_GROUP_OVERWORLD_MONS:
+    //                    SetAreaHasMon(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum);
+    //                    break;
+    //                case MAP_GROUP_SPECIAL_MONS_1:
+    //                case MAP_GROUP_SPECIAL_MONS_2:
+    //                    SetSpecialMapHasMon(gWildMonHeaders[i].mapGroup, gWildMonHeaders[i].mapNum);
+    //                    break;
+    //            }
+    //        }
+    //    }
+    //}
+    //else
+    //{
+    //    sPokedexAreaScreen->numSpecialAreas = 0;
+    //    if (roamer->active)
+    //    {
+    //        GetRoamerLocation(&sPokedexAreaScreen->overworldAreasWithMons[0].mapGroup, &sPokedexAreaScreen->overworldAreasWithMons[0].mapNum);
+    //        sPokedexAreaScreen->overworldAreasWithMons[0].regionMapSectionId = Overworld_GetMapHeaderByGroupAndId(sPokedexAreaScreen->overworldAreasWithMons[0].mapGroup, sPokedexAreaScreen->overworldAreasWithMons[0].mapNum)->regionMapSectionId;
+    //        sPokedexAreaScreen->numOverworldAreas = 1;
+    //    }
+    //    else
+    //    {
+    //        sPokedexAreaScreen->numOverworldAreas = 0;
+    //    }
+    //}
 }
 
 static void SetAreaHasMon(u16 mapGroup, u16 mapNum)
