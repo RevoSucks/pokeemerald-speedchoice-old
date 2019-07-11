@@ -253,7 +253,7 @@
             "dest_map": "MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_1F",
             "dest_warp_id": 1,
             "elevation": 0,
-            "x": 3,
+            "x": 5,
             "y": 8
         },
         {
@@ -262,13 +262,6 @@
             "elevation": 0,
             "x": 7,
             "y": 16
-        },
-        {
-            "dest_map": "MAP_ALTERING_CAVE",
-            "dest_warp_id": 0,
-            "elevation": 0,
-            "x": 5,
-            "y": 8
         }
     ],
     "weather": "WEATHER_SUNNY"
