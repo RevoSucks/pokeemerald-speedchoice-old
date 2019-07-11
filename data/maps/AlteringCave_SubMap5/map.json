@@ -11,7 +11,7 @@
     "id": "MAP_ALTERING_CAVE_SUB_MAP5",
     "layout": "LAYOUT_ALTERING_CAVE_SUB_MAP5",
     "map_type": "MAP_TYPE_UNDERGROUND",
-    "music": "MUS_DAN02",
+    "music": "MUS_RG_NANADUNGEON",
     "name": "AlteringCave_SubMap5",
     "object_events": [
     ],

@@ -336,21 +336,21 @@ static void FindMapsWithMon(u16 species)
     u16 i;
     struct Roamer *roamer;
 
-    sPokedexAreaScreen->unk6E2 = 0;
-    sPokedexAreaScreen->unk6E4 = VarGet(VAR_ALTERING_CAVE_WILD_SET);
-    if (sPokedexAreaScreen->unk6E4 > 8)
-        sPokedexAreaScreen->unk6E4 = 0;
+    //sPokedexAreaScreen->unk6E2 = 0;
+    //sPokedexAreaScreen->unk6E4 = VarGet(VAR_ALTERING_CAVE_WILD_SET);
+    //if (sPokedexAreaScreen->unk6E4 > 8)
+    //    sPokedexAreaScreen->unk6E4 = 0;
 
     roamer = &gSaveBlock1Ptr->roamer;
     if (species != roamer->species)
     {
         sPokedexAreaScreen->numOverworldAreas = 0;
         sPokedexAreaScreen->numSpecialAreas = 0;
-        for (i = 0; i < ARRAY_COUNT(sSpeciesHiddenFromAreaScreen); i++)
-        {
-            if (sSpeciesHiddenFromAreaScreen[i] == species)
-                return;
-        }
+        //for (i = 0; i < ARRAY_COUNT(sSpeciesHiddenFromAreaScreen); i++)
+        //{
+        //    if (sSpeciesHiddenFromAreaScreen[i] == species)
+        //        return;
+        //}
 
         for (i = 0; sFeebasData[i][0] != NUM_SPECIES; i++)
         {
@@ -456,12 +456,13 @@ static u16 GetRegionMapSectionId(u8 mapGroup, u8 mapNum)
 
 static bool8 MapHasMon(const struct WildPokemonHeader *info, u16 species)
 {
-    if (GetRegionMapSectionId(info->mapGroup, info->mapNum) == MAPSEC_ALTERING_CAVE_2)
-    {
-        sPokedexAreaScreen->unk6E2++;
-        if (sPokedexAreaScreen->unk6E2 != sPokedexAreaScreen->unk6E4 + 1)
-            return FALSE;
-    }
+    // SPEEDCHOICE CHANGE: Treat Altering Cave sets like normal maps.
+    //if (GetRegionMapSectionId(info->mapGroup, info->mapNum) == MAPSEC_ALTERING_CAVE_2)
+    //{
+    //    sPokedexAreaScreen->unk6E2++;
+    //    if (sPokedexAreaScreen->unk6E2 != sPokedexAreaScreen->unk6E4 + 1)
+    //        return FALSE;
+    //}
 
     if (MonListHasMon(info->landMonsInfo, species, 12))
         return TRUE;
