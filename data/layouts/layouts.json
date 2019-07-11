@@ -4193,12 +4193,12 @@
         {
             "blockdata_filepath": "data/layouts/AlteringCave/map.bin",
             "border_filepath": "data/layouts/AlteringCave/border.bin",
-            "height": 24,
+            "height": 26,
             "id": "LAYOUT_ALTERING_CAVE",
             "name": "AlteringCave_Layout",
             "primary_tileset": "gTileset_General",
             "secondary_tileset": "gTileset_Cave",
-            "width": 32
+            "width": 34
         },
         {
             "blockdata_filepath": "data/layouts/NavelRock_Exterior/map.bin",
