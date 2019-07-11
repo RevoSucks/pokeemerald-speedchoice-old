@@ -7115,3 +7115,21 @@ gText_082C877B:: @ 82C877B
 	.align 2
 	.include "data/text/save.inc"
 	.include "data/text/birch_speech.inc"
+
+	.include "data/maps/AlteringCave_SubMap1/scripts.inc"
+
+	.include "data/maps/AlteringCave_SubMap2/scripts.inc"
+
+	.include "data/maps/AlteringCave_SubMap3/scripts.inc"
+
+	.include "data/maps/AlteringCave_SubMap4/scripts.inc"
+
+	.include "data/maps/AlteringCave_SubMap5/scripts.inc"
+
+	.include "data/maps/AlteringCave_SubMap6/scripts.inc"
+
+	.include "data/maps/AlteringCave_SubMap7/scripts.inc"
+
+	.include "data/maps/AlteringCave_SubMap8/scripts.inc"
+
+	.include "data/maps/AlteringCave_SubMap9/scripts.inc"

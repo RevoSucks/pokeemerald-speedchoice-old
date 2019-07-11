@@ -10800,7 +10800,7 @@
           }
         },
         {
-          "map": "MAP_ALTERING_CAVE",
+          "map": "MAP_ALTERING_CAVE_SUB_MAP1",
           "base_label": "gAlteringCave2",
           "land_mons": {
             "encounter_rate": 7,
@@ -10869,7 +10869,7 @@
           }
         },
         {
-          "map": "MAP_ALTERING_CAVE",
+          "map": "MAP_ALTERING_CAVE_SUB_MAP2",
           "base_label": "gAlteringCave3",
           "land_mons": {
             "encounter_rate": 7,
@@ -10938,7 +10938,7 @@
           }
         },
         {
-          "map": "MAP_ALTERING_CAVE",
+          "map": "MAP_ALTERING_CAVE_SUB_MAP3",
           "base_label": "gAlteringCave4",
           "land_mons": {
             "encounter_rate": 7,
@@ -11007,7 +11007,7 @@
           }
         },
         {
-          "map": "MAP_ALTERING_CAVE",
+          "map": "MAP_ALTERING_CAVE_SUB_MAP4",
           "base_label": "gAlteringCave5",
           "land_mons": {
             "encounter_rate": 7,
@@ -11076,7 +11076,7 @@
           }
         },
         {
-          "map": "MAP_ALTERING_CAVE",
+          "map": "MAP_ALTERING_CAVE_SUB_MAP5",
           "base_label": "gAlteringCave6",
           "land_mons": {
             "encounter_rate": 7,
@@ -11145,7 +11145,7 @@
           }
         },
         {
-          "map": "MAP_ALTERING_CAVE",
+          "map": "MAP_ALTERING_CAVE_SUB_MAP6",
           "base_label": "gAlteringCave7",
           "land_mons": {
             "encounter_rate": 7,
@@ -11214,7 +11214,7 @@
           }
         },
         {
-          "map": "MAP_ALTERING_CAVE",
+          "map": "MAP_ALTERING_CAVE_SUB_MAP7",
           "base_label": "gAlteringCave8",
           "land_mons": {
             "encounter_rate": 7,
@@ -11283,7 +11283,7 @@
           }
         },
         {
-          "map": "MAP_ALTERING_CAVE",
+          "map": "MAP_ALTERING_CAVE_SUB_MAP8",
           "base_label": "gAlteringCave9",
           "land_mons": {
             "encounter_rate": 7,
