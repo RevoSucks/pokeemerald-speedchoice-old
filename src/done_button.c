@@ -44,7 +44,7 @@ const u8 *GetStringSample(void)
 
 const u8 gTODOString[] = _("TODO");
 
-const struct DoneButtonLineItem sLineItems[1][8] = {
+const struct DoneButtonLineItem sLineItems[8][8] = {
     { // PAGE 1 (TODO)
         {gTODOString, NULL},
         {gTODOString, NULL},
@@ -55,6 +55,76 @@ const struct DoneButtonLineItem sLineItems[1][8] = {
         {gTODOString, NULL},
         {gTODOString, NULL}
     },
+    { // PAGE 2 (TODO)
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL}
+    },
+    { // PAGE 3 (TODO)
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL}
+    },
+    { // PAGE 4 (TODO)
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL}
+    },
+    { // PAGE 5 (TODO)
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL}
+    },
+    { // PAGE 6 (TODO)
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL}
+    },
+    { // PAGE 7 (TODO)
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL}
+    },
+    { // PAGE 8 (TODO)
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL},
+        {gTODOString, NULL}
+    }
 };
 
 #define NPAGES (NELEMS(sLineItems))
