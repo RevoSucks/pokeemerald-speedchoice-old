@@ -12,6 +12,7 @@
 #include "scanline_effect.h"
 #include "text.h"
 #include "menu.h"
+#include "done_button.h"
 
 struct DoneButton
 {
