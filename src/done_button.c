@@ -36,6 +36,15 @@ struct DoneButtonLineItem
     const u8 * (*printfn)(void); // string formatter for each type.
 };
 
+u32 TryIncrementButtonStat(enum DoneButtonStat stat)
+{
+    return 0;
+}
+
+u32 GetDoneButtonStat(enum DoneButtonStat stat)
+{
+    return 0;
+}
 
 const u8 *GetStringSample(void)
 {
@@ -317,9 +326,12 @@ static void PrintGameStatsPage(void)
     {
         s32 width;
         const char * value_s;
-        AddTextPrinterParameterized(0, 1, items[i].name, 1, 24 * i + 1, -1, NULL);
-        value_s = items[i].printfn();
-        width = GetStringWidth(0, value_s, 0);
-        AddTextPrinterParameterized(0, 1, items[i].name, 220 - width, 24 * i + 9, -1, NULL);
+        if(items[i].printfn && items[i].name)
+        {
+            AddTextPrinterParameterized(0, 1, items[i].name, 1, 24 * i + 1, -1, NULL);
+            value_s = items[i].printfn();
+            width = GetStringWidth(0, value_s, 0);
+            AddTextPrinterParameterized(0, 1, items[i].name, 220 - width, 24 * i + 9, -1, NULL);
+        }
     }
 }
