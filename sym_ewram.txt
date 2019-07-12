@@ -152,5 +152,6 @@ gUnknown_02022D00: @ 2022D00
 	.include "src/faraway_island.o"
 	.include "src/trainer_hill.o"
 	.include "src/rayquaza_scene.o"
-    .include "src/speedchoice.o"
-    .include "src/title_screen.o"
+	.include "src/speedchoice.o"
+	.include "src/title_screen.o"
+	.include "src/done_button.o"
