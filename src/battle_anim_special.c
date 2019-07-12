@@ -1122,7 +1122,7 @@ static void sub_8171520(struct Sprite *sprite)
         }
         else
         {
-            if (gBattleSpritesDataPtr->animationData->ballThrowCaseId == BALL_3_SHAKES_SUCCESS && state == 3)
+            if (gBattleSpritesDataPtr->animationData->ballThrowCaseId == BALL_3_SHAKES_SUCCESS && state == 2) // SPEEDCHOICE CHANGE
             {
                 sprite->callback = sub_81717D8;
                 sprite->affineAnimPaused = 1;

@@ -10265,6 +10265,15 @@ static void atkEF_handleballthrow(void)
             if (gLastUsedItem == ITEM_MASTER_BALL)
                 shakes = BALL_3_SHAKES_SUCCESS; // why calculate the shakes before that check?
 
+            // SPEEDCHOICE CHANGE
+            switch(shakes)
+            {
+                case BALL_3_SHAKES_FAIL:
+                case BALL_2_SHAKES:
+                    shakes = BALL_1_SHAKE;
+                    break;
+            }
+
             BtlController_EmitBallThrowAnim(0, shakes);
             MarkBattlerForControllerExec(gActiveBattler);
 
