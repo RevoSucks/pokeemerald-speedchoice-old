@@ -108,6 +108,11 @@ PetalburgCity_Gym_EventScript_2049A4:: @ 82049A4
 	setvar VAR_PETALBURG_WOODS_STATE, 1
 	setflag FLAG_HIDE_PETALBURG_WOODS_DEVON_EMPLOYEE
 	setflag FLAG_HIDE_PETALBURG_WOODS_AQUA_GRUNT
+    @ magma chamber fix
+    setvar VAR_JAGGED_PASS_STATE, 2
+    setflag FLAG_HIDE_MAGMA_HIDEOUT_GRUNTS
+    setflag FLAG_HIDE_MAGMA_HIDEOUT_4F_GROUDON_1
+    setflag FLAG_HIDE_MAGMA_HIDEOUT_4F_GROUDON_2
 EndOfWallyTutorial::
 	releaseall
 	end
