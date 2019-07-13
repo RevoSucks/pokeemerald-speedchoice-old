@@ -30,6 +30,7 @@
 #include "constants/moves.h"
 #include "constants/songs.h"
 #include "constants/species.h"
+#include "done_button.h"
 
 static EWRAM_DATA u8 gUnknown_0203734C = 0;
 EWRAM_DATA struct EventObject gEventObjects[EVENT_OBJECTS_COUNT] = {};
@@ -1088,6 +1089,7 @@ void PlayerAcroTurnJump(u8 direction)
 
 void sub_808B980(u8 direction)
 {
+    TryIncrementButtonStat(DB_BONKS);
     PlaySE(SE_WALL_HIT);
     PlayerSetAnimId(GetAcroWheelieInPlaceDirectionMovementAction(direction), 2);
 }
@@ -1121,6 +1123,7 @@ static void PlayCollisionSoundIfNotFacingWarp(u8 a)
             if (MetatileBehavior_IsWarpDoor(MapGridGetMetatileBehaviorAt(x, y)))
                 return;
         }
+        TryIncrementButtonStat(DB_BONKS);
         PlaySE(SE_WALL_HIT);
     }
 }

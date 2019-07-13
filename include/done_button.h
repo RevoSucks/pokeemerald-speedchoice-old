@@ -16,20 +16,21 @@ struct FrameTimers
 enum DoneButtonStat
 {
     // DoneButtonStats1
-    DB_FRAME_COUNT_TOTAL,
-    DB_FRAME_COUNT_OW,
-    DB_FRAME_COUNT_BATTLE,
-    DB_FRAME_COUNT_MENU, // count start menu + PC
+    // These frame counters are accounted for by a seperate struct.
+    /*accounted*/ DB_FRAME_COUNT_TOTAL,
+    /*accounted*/ DB_FRAME_COUNT_OW,
+    /*accounted*/ DB_FRAME_COUNT_BATTLE,
+    /*accounted*/ DB_FRAME_COUNT_MENU, // count start menu + PC
     /*accounted*/ DB_FRAME_COUNT_INTROS,
-    DB_SAVE_COUNT,
-    DB_RELOAD_COUNT,
-    DB_CLOCK_RESET_COUNT,
-    DB_STEP_COUNT,
-    DB_STEP_COUNT_WALK,
-    DB_STEP_COUNT_SURF,
-    DB_STEP_COUNT_BIKE,
-    DB_STEP_COUNT_RUN, // Gen 3 exclusive
-    DB_BONKS,
+    /*accounted*/ DB_SAVE_COUNT,
+    /*accounted*/ DB_RELOAD_COUNT,
+    /*accounted*/ DB_CLOCK_RESET_COUNT,
+    /*accounted*/ DB_STEP_COUNT,
+    /*accounted*/ DB_STEP_COUNT_WALK,
+    /*accounted*/ DB_STEP_COUNT_SURF,
+    /*accounted*/ DB_STEP_COUNT_BIKE,
+    /*accounted*/ DB_STEP_COUNT_RUN, // Gen 3 exclusive
+    /*accounted*/ DB_BONKS,
     DB_TOTAL_DAMAGE_DEALT,
     DB_ACTUAL_DAMAGE_DEALT,
     DB_TOTAL_DAMAGE_TAKEN,

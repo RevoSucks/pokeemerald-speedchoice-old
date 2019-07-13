@@ -39,6 +39,7 @@
 #include "title_screen.h"
 #include "window.h"
 #include "mystery_gift.h"
+#include "done_button.h"
 
 /*
  * Main menu state machine
@@ -1070,6 +1071,7 @@ static void Task_HandleMainMenuAPressed(u8 taskId)
                 gPlttBufferUnfaded[0] = RGB_BLACK;
                 gPlttBufferFaded[0] = RGB_BLACK;
                 SetMainCallback2(CB2_ContinueSavedGame);
+                TryIncrementButtonStat(DB_RELOAD_COUNT);
                 DestroyTask(taskId);
                 break;
             case ACTION_OPTION:

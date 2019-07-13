@@ -1108,6 +1108,7 @@ static u8 SaveOverwriteInputCallback(void)
     switch (Menu_ProcessInputNoWrapClearOnChoose())
     {
     case 0: // Yes
+        TryIncrementButtonStat(DB_SAVE_COUNT);
         sSaveDialogCallback = SaveSavingMessageCallback;
         return SAVE_IN_PROGRESS;
     case -1: // B Button
