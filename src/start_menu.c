@@ -47,6 +47,7 @@
 #include "union_room.h"
 #include "constants/rgb.h"
 #include "speedchoice.h"
+#include "done_button.h"
 
 // Menu actions
 enum
@@ -623,6 +624,8 @@ void ShowStartMenu(void) // Called from overworld.c and field_control_avatar.s
     CreateStartMenuTask(sub_809FA34);
     ScriptContext2_Enable();
     sInSubMenu = TRUE;
+    sInField = FALSE;
+    sInBattle = FALSE;
 }
 
 static bool8 HandleStartMenuInput(void)
@@ -866,6 +869,8 @@ static bool8 SaveCallback(void)
         ScriptContext2_Disable();
         SoftResetInBattlePyramid();
         sInSubMenu = FALSE;
+        sInField = TRUE;
+        sInBattle = FALSE;
         return TRUE;
     }
 
@@ -1466,6 +1471,8 @@ void HideStartMenu(void) // Called from map_name_popup.s
     PlaySE(SE_SELECT);
     HideStartMenuWindow();
     sInSubMenu = FALSE;
+    sInField = TRUE;
+    sInBattle = FALSE;
 }
 
 void AppendToList(u8 *list, u8 *pos, u8 newEntry)

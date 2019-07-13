@@ -46,6 +46,7 @@
 #include "constants/battle_frontier.h"
 #include "field_screen_effect.h"
 #include "data.h"
+#include "done_button.h"
 
 enum
 {
@@ -579,7 +580,9 @@ static void CB2_EndWildBattle(void)
 {
     CpuFill16(0, (void*)(BG_PLTT), BG_PLTT_SIZE);
     ResetOamRange(0, 128);
+    sInSubMenu = FALSE;
     sInBattle = FALSE;
+    sInField = TRUE;
 
     if (IsPlayerDefeated(gBattleOutcome) == TRUE && !InBattlePyramid() && !InBattlePike())
     {
@@ -596,7 +599,9 @@ static void CB2_EndScriptedWildBattle(void)
 {
     CpuFill16(0, (void*)(BG_PLTT), BG_PLTT_SIZE);
     ResetOamRange(0, 128);
+    sInSubMenu = FALSE;
     sInBattle = FALSE;
+    sInField = TRUE;
 
     if (IsPlayerDefeated(gBattleOutcome) == TRUE)
     {
@@ -925,7 +930,9 @@ static void CB2_EndFirstBattle(void)
 {
     Overworld_ClearSavedMusic();
     SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+    sInSubMenu = FALSE;
     sInBattle = FALSE;
+    sInField = TRUE;
 }
 
 static void sub_80B1218(void)
@@ -1299,7 +1306,9 @@ void BattleSetup_StartTrainerBattle(void)
 
 static void CB2_EndTrainerBattle(void)
 {
+    sInSubMenu = FALSE;
     sInBattle = FALSE;
+    sInField = TRUE;
     if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
     {
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
@@ -1324,7 +1333,9 @@ static void CB2_EndTrainerBattle(void)
 
 static void CB2_EndRematchBattle(void)
 {
+    sInSubMenu = FALSE;
     sInBattle = FALSE;
+    sInField = TRUE;
     if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
     {
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);

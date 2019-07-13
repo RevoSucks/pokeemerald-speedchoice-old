@@ -65,6 +65,7 @@
 #include "constants/songs.h"
 #include "constants/species.h"
 #include "constants/weather.h"
+#include "done_button.h"
 
 #define PLAYER_TRADING_STATE_IDLE 0x80
 #define PLAYER_TRADING_STATE_BUSY 0x81
@@ -1628,6 +1629,9 @@ static void c2_80567AC(void)
 
 void CB2_ReturnToField(void)
 {
+    sInSubMenu = FALSE;
+    sInField = TRUE;
+    sInBattle = FALSE;
     if (IsUpdateLinkStateCBActive() == TRUE)
     {
         SetMainCallback2(CB2_ReturnToFieldLink);

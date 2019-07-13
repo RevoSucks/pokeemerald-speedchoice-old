@@ -59,6 +59,7 @@
 #include "constants/species.h"
 #include "constants/trainers.h"
 #include "cable_club.h"
+#include "done_button.h"
 
 extern struct MusicPlayerInfo gMPlayInfo_SE1;
 extern struct MusicPlayerInfo gMPlayInfo_SE2;
@@ -601,6 +602,8 @@ void CB2_InitBattle(void)
     AllocateBattleSpritesData();
     AllocateMonSpritesGfx();
     sub_8185F84();
+    sInSubMenu = FALSE;
+    sInField = FALSE;
     sInBattle = TRUE;
 
     if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
