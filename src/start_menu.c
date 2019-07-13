@@ -630,6 +630,9 @@ void ShowStartMenu(void) // Called from overworld.c and field_control_avatar.s
 
 static bool8 HandleStartMenuInput(void)
 {
+    sInSubMenu = TRUE;
+    sInBattle = FALSE;
+    sInField = FALSE;
     if (gMain.newKeys & DPAD_UP)
     {
         PlaySE(SE_SELECT);
