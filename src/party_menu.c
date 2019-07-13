@@ -1180,21 +1180,21 @@ struct
     bool8 (*fieldMoveFunc)(void);
     u8 msgId;
 } static const sFieldMoveCursorCallbacks[] =
-{
-    [FIELD_MOVE_CUT] = {SetUpFieldMove_Cut, 0x07},
-    [FIELD_MOVE_FLASH] = {SetUpFieldMove_Flash, 0x0d},
-    [FIELD_MOVE_ROCK_SMASH] = {SetUpFieldMove_RockSmash, 0x0d},
-    [FIELD_MOVE_STRENGTH] = {SetUpFieldMove_Strength, 0x0d},
-    [FIELD_MOVE_SURF] = {SetUpFieldMove_Surf, 0x08},
-    [FIELD_MOVE_FLY] = {SetUpFieldMove_Fly, 0x0d},
-    [FIELD_MOVE_DIVE] = {SetUpFieldMove_Dive, 0x0d},
-    [FIELD_MOVE_WATERFALL] = {SetUpFieldMove_Waterfall, 0x0d},
-    [FIELD_MOVE_TELEPORT] = {SetUpFieldMove_Teleport, 0x0d},
-    [FIELD_MOVE_DIG] = {SetUpFieldMove_Dig, 0x0d},
-    [FIELD_MOVE_SECRET_POWER] = {SetUpFieldMove_SecretPower, 0x0d},
-    [FIELD_MOVE_MILK_DRINK] = {SetUpFieldMove_SoftBoiled, 0x10},
-    [FIELD_MOVE_SOFT_BOILED] = {SetUpFieldMove_SoftBoiled, 0x10},
-    [FIELD_MOVE_SWEET_SCENT] = {SetUpFieldMove_SweetScent, 0x0d},
+{ // Set exit sub menu? (assume successfully meet requirements)
+    [FIELD_MOVE_CUT] = {SetUpFieldMove_Cut, 0x07}, // yes
+    [FIELD_MOVE_FLASH] = {SetUpFieldMove_Flash, 0x0d}, // yes
+    [FIELD_MOVE_ROCK_SMASH] = {SetUpFieldMove_RockSmash, 0x0d}, // yes
+    [FIELD_MOVE_STRENGTH] = {SetUpFieldMove_Strength, 0x0d}, // yes
+    [FIELD_MOVE_SURF] = {SetUpFieldMove_Surf, 0x08}, // yes
+    [FIELD_MOVE_FLY] = {SetUpFieldMove_Fly, 0x0d}, // yes IF a destination is set. special case
+    [FIELD_MOVE_DIVE] = {SetUpFieldMove_Dive, 0x0d}, // yes
+    [FIELD_MOVE_WATERFALL] = {SetUpFieldMove_Waterfall, 0x0d}, // yes
+    [FIELD_MOVE_TELEPORT] = {SetUpFieldMove_Teleport, 0x0d}, // yes
+    [FIELD_MOVE_DIG] = {SetUpFieldMove_Dig, 0x0d}, // yes
+    [FIELD_MOVE_SECRET_POWER] = {SetUpFieldMove_SecretPower, 0x0d}, // yes
+    [FIELD_MOVE_MILK_DRINK] = {SetUpFieldMove_SoftBoiled, 0x10}, // no (you dont leave menu)
+    [FIELD_MOVE_SOFT_BOILED] = {SetUpFieldMove_SoftBoiled, 0x10}, // no (you dont leave menu)
+    [FIELD_MOVE_SWEET_SCENT] = {SetUpFieldMove_SweetScent, 0x0d}, // yes
 };
 
 static const u8 *const gUnknown_08615E0C[] =
@@ -4857,8 +4857,11 @@ bool8 FieldCallback_PrepareFadeInFromMenu(void)
     return TRUE;
 }
 
+extern bool8 sInSubMenu;
+
 static void task_launch_hm_phase_2(u8 taskId)
 {
+    sInSubMenu = FALSE;
     if (IsWeatherNotFadingIn() == TRUE)
     {
         gFieldEffectArguments[0] = brm_get_selected_species();

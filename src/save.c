@@ -12,6 +12,7 @@
 #include "trainer_hill.h"
 #include "link.h"
 #include "constants/game_stat.h"
+#include "done_button.h"
 
 static u16 CalculateChecksum(void *data, u16 size);
 static u8 DoReadFlashWholeSection(u8 sector, struct SaveSection *section);
@@ -706,6 +707,14 @@ u8 HandleSavingData(u8 saveType)
     return 0;
 }
 
+#define TRY_INCREMENT_UINT(base, increment) \
+do { \
+    if((UINT_MAX - base) < increment) \
+        base = UINT_MAX; \
+    else \
+        base += increment; \
+} while(0)\
+
 u8 TrySavingData(u8 saveType)
 {
     if (gFlashMemoryPresent != TRUE)
@@ -713,6 +722,18 @@ u8 TrySavingData(u8 saveType)
         gUnknown_03006294 = 0xFF;
         return 0xFF;
     }
+    // Since the flash memory is present, lets move the current Frame Timers to the
+    // save block.
+    TRY_INCREMENT_UINT(gSaveBlock1Ptr->doneButtonStats.frameCount, gFrameTimers.frameCount);
+    TRY_INCREMENT_UINT(gSaveBlock1Ptr->doneButtonStats.owFrameCount, gFrameTimers.owFrameCount);
+    TRY_INCREMENT_UINT(gSaveBlock1Ptr->doneButtonStats.battleFrameCount, gFrameTimers.battleFrameCount);
+    TRY_INCREMENT_UINT(gSaveBlock1Ptr->doneButtonStats.menuFrameCount, gFrameTimers.menuFrameCount);
+    TRY_INCREMENT_UINT(gSaveBlock1Ptr->doneButtonStats.introsFrameCount, gFrameTimers.introsFrameCount);
+    gFrameTimers.frameCount = 0; // clear.
+    gFrameTimers.owFrameCount = 0; // clear.
+    gFrameTimers.battleFrameCount = 0; // clear.
+    gFrameTimers.menuFrameCount = 0; // clear.
+    gFrameTimers.introsFrameCount = 0; // clear.
 
     HandleSavingData(saveType);
     if (!gDamagedSaveSectors)

@@ -3,14 +3,24 @@
 
 // The done stat fields are defined in global.h.
 
+// This is kept seperate and then loaded when the save is loaded.
+struct FrameTimers
+{
+    u32 frameCount;  
+    u32 owFrameCount;
+    u32 battleFrameCount;
+    u32 menuFrameCount;
+    u32 introsFrameCount;
+};
+
 enum DoneButtonStat
 {
     // DoneButtonStats1
     DB_FRAME_COUNT_TOTAL,
     DB_FRAME_COUNT_OW,
     DB_FRAME_COUNT_BATTLE,
-    DB_FRAME_COUNT_MENU,
-    DB_FRAME_COUNT_INTROS, // This needs special handling because Save Block isn't loaded yet when this increments.
+    DB_FRAME_COUNT_MENU, // count start menu + PC
+    /*accounted*/ DB_FRAME_COUNT_INTROS,
     DB_SAVE_COUNT,
     DB_RELOAD_COUNT,
     DB_CLOCK_RESET_COUNT,
@@ -61,5 +71,10 @@ enum DoneButtonStat
 
 void TryIncrementButtonStat(enum DoneButtonStat stat);
 u32 GetDoneButtonStat(enum DoneButtonStat stat);
+
+extern struct FrameTimers gFrameTimers;
+extern bool8 sInSubMenu;
+extern bool8 sInBattle;
+extern bool8 sInField;
 
 #endif // _GUARD_DONE_BUTTON_H

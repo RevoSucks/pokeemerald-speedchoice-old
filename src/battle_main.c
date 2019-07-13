@@ -591,6 +591,8 @@ static const u8 sPkblToEscapeFactor[][3] = {{0, 0, 0}, {3, 5, 0}, {2, 3, 0}, {1,
 static const u8 sGoNearCounterToCatchFactor[] = {4, 3, 2, 1};
 static const u8 sGoNearCounterToEscapeFactor[] = {4, 4, 4, 4};
 
+extern bool8 sInBattle;
+
 // code
 void CB2_InitBattle(void)
 {
@@ -599,6 +601,7 @@ void CB2_InitBattle(void)
     AllocateBattleSpritesData();
     AllocateMonSpritesGfx();
     sub_8185F84();
+    sInBattle = TRUE;
 
     if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
     {

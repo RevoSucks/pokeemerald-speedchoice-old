@@ -26,6 +26,7 @@
 #include "title_screen.h"
 #include "constants/rgb.h"
 #include "constants/battle_anim.h"
+#include "done_button.h"
 
 /*
  * Intro animation sequence state machine
@@ -965,6 +966,8 @@ static void MainCB2_Intro(void)
         SetMainCallback2(MainCB2_EndIntro);
     else if (gIntroFrameCounter != -1)
         gIntroFrameCounter++;
+    if(gFrameTimers.introsFrameCount != 0xFFFFFFFF)
+        gFrameTimers.introsFrameCount++;
 }
 
 static void MainCB2_EndIntro(void)

@@ -23,6 +23,7 @@
 #include "intro.h"
 #include "main.h"
 #include "trainer_hill.h"
+#include "done_button.h"
 
 static void VBlankIntr(void);
 static void HBlankIntr(void);
@@ -80,6 +81,7 @@ static void ReadKeys(void);
 void InitIntrHandlers(void);
 static void WaitForVBlank(void);
 void EnableVCountIntrAtLine150(void);
+void DoFrameTimers(void);
 
 #define B_START_SELECT (B_BUTTON | START_BUTTON | SELECT_BUTTON)
 
@@ -146,9 +148,23 @@ void AgbMain()
         }
 
         PlayTimeCounter_Update();
+        DoFrameTimers(); // SPEEDCHOICE
         MapMusicMain();
         WaitForVBlank();
     }
+}
+
+void DoFrameTimers(void)
+{
+    if(gFrameTimers.frameCount != 0xFFFFFFFF)
+        gFrameTimers.frameCount++;
+    if(sInField && gFrameTimers.owFrameCount != 0xFFFFFFFF)
+        gFrameTimers.owFrameCount++;
+    if(sInBattle && gFrameTimers.battleFrameCount != 0xFFFFFFFF)
+        gFrameTimers.battleFrameCount++;
+    if(sInSubMenu && gFrameTimers.menuFrameCount != 0xFFFFFFFF)
+        gFrameTimers.menuFrameCount++;
+    // Intro is handled seperately
 }
 
 static void UpdateLinkAndCallCallbacks(void)

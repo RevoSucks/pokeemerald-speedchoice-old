@@ -24,6 +24,13 @@ struct DoneButton
 
 #define NELEMS ARRAY_COUNT
 
+EWRAM_DATA bool8 sInSubMenu = FALSE;
+EWRAM_DATA bool8 sInBattle = FALSE;
+EWRAM_DATA bool8 sInField = FALSE;
+
+EWRAM_DATA struct FrameTimers gFrameTimers = {0};
+
+
 static EWRAM_DATA struct DoneButton *doneButton = NULL;
 
 static void DoneButtonCB(void);
@@ -51,6 +58,14 @@ do {                                                             \
 
 // UINT_MAX for u32
 // USHRT_MAX for u16
+
+void DB_Special_IncFrameIntro(u32 increment)
+{
+    if((UINT_MAX - gSaveBlock1Ptr->doneButtonStats.introsFrameCount) < increment)
+        gSaveBlock1Ptr->doneButtonStats.introsFrameCount = UINT_MAX;
+    else
+        gSaveBlock1Ptr->doneButtonStats.introsFrameCount += increment;
+}
 
 void TryIncrementButtonStat(enum DoneButtonStat stat)
 {

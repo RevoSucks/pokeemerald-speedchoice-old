@@ -573,10 +573,13 @@ void StartRegiBattle(void)
     sub_80B1218();
 }
 
+extern bool8 sInBattle;
+
 static void CB2_EndWildBattle(void)
 {
     CpuFill16(0, (void*)(BG_PLTT), BG_PLTT_SIZE);
     ResetOamRange(0, 128);
+    sInBattle = FALSE;
 
     if (IsPlayerDefeated(gBattleOutcome) == TRUE && !InBattlePyramid() && !InBattlePike())
     {
@@ -593,6 +596,7 @@ static void CB2_EndScriptedWildBattle(void)
 {
     CpuFill16(0, (void*)(BG_PLTT), BG_PLTT_SIZE);
     ResetOamRange(0, 128);
+    sInBattle = FALSE;
 
     if (IsPlayerDefeated(gBattleOutcome) == TRUE)
     {
@@ -921,6 +925,7 @@ static void CB2_EndFirstBattle(void)
 {
     Overworld_ClearSavedMusic();
     SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+    sInBattle = FALSE;
 }
 
 static void sub_80B1218(void)
@@ -1294,6 +1299,7 @@ void BattleSetup_StartTrainerBattle(void)
 
 static void CB2_EndTrainerBattle(void)
 {
+    sInBattle = FALSE;
     if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
     {
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
@@ -1318,6 +1324,7 @@ static void CB2_EndTrainerBattle(void)
 
 static void CB2_EndRematchBattle(void)
 {
+    sInBattle = FALSE;
     if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
     {
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);

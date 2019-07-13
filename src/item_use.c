@@ -886,8 +886,11 @@ void ItemUseOutOfBattle_BlackWhiteFlute(u8 taskId)
     gTasks[taskId].func = sub_80FE1D0;
 }
 
+extern bool8 sInSubMenu;
+
 void task08_080A1C44(u8 taskId)
 {
+    sInSubMenu = FALSE;
     ResetInitialPlayerAvatarState();
     StartEscapeRopeFieldEffect();
     DestroyTask(taskId);

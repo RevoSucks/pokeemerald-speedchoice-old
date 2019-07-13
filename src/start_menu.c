@@ -610,6 +610,8 @@ void sub_809FA34(u8 taskId) // Referenced in field_screen.s and rom_8011DC0.s
     }
 }
 
+extern bool8 sInSubMenu;
+
 void ShowStartMenu(void) // Called from overworld.c and field_control_avatar.s
 {
     if (!IsUpdateLinkStateCBActive())
@@ -620,6 +622,7 @@ void ShowStartMenu(void) // Called from overworld.c and field_control_avatar.s
     }
     CreateStartMenuTask(sub_809FA34);
     ScriptContext2_Enable();
+    sInSubMenu = TRUE;
 }
 
 static bool8 HandleStartMenuInput(void)
@@ -862,6 +865,7 @@ static bool8 SaveCallback(void)
         ScriptUnfreezeEventObjects();
         ScriptContext2_Disable();
         SoftResetInBattlePyramid();
+        sInSubMenu = FALSE;
         return TRUE;
     }
 
@@ -1461,6 +1465,7 @@ void HideStartMenu(void) // Called from map_name_popup.s
 {
     PlaySE(SE_SELECT);
     HideStartMenuWindow();
+    sInSubMenu = FALSE;
 }
 
 void AppendToList(u8 *list, u8 *pos, u8 newEntry)
