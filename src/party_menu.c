@@ -77,6 +77,7 @@
 #include "constants/species.h"
 #include "constants/vars.h"
 #include "speedchoice.h"
+#include "done_button.h"
 
 enum
 {
@@ -5811,6 +5812,7 @@ static void sub_81B6EB4(u8 taskId)
     }
     GetMonNickname(mon, gStringVar1);
     StringCopy(gStringVar2, gMoveNames[move[0]]);
+    TryIncrementButtonStat(DB_MOVES_LEARNT);
     StringExpandPlaceholders(gStringVar4, gText_PkmnLearnedMove3);
     sub_81B1B5C(gStringVar4, 1);
     schedule_bg_copy_tilemap_to_vram(2);
@@ -5904,6 +5906,7 @@ static void sub_81B7154(u8 taskId)
     GetMonNickname(mon, gStringVar1);
     StringCopy(gStringVar2, gMoveNames[move]);
     sub_81B6D74(gText_12PoofForgotMove);
+    TryIncrementButtonStat(DB_MOVES_LEARNT);
     gTasks[taskId].func = sub_81B71D4;
 }
 
@@ -6152,6 +6155,7 @@ static void sub_81B7910(u8 taskId, u16 move)
 {
     GetMonNickname(&gPlayerParty[gUnknown_0203CEC8.slotId], gStringVar1);
     StringCopy(gStringVar2, gMoveNames[move]);
+    TryIncrementButtonStat(DB_MOVES_LEARNT);
     StringExpandPlaceholders(gStringVar4, gText_PkmnLearnedMove3);
     sub_81B1B5C(gStringVar4, 1);
     schedule_bg_copy_tilemap_to_vram(2);

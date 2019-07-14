@@ -387,6 +387,8 @@ static void DoStandardWildBattle(void)
         gBattleTypeFlags |= BATTLE_TYPE_PYRAMID;
     }
     CreateBattleStartTask(GetWildBattleTransition(), 0);
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
     sub_80EECC8();
@@ -401,6 +403,8 @@ void BattleSetup_StartRoamerBattle(void)
     gMain.savedCallback = CB2_EndWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_ROAMER;
     CreateBattleStartTask(GetWildBattleTransition(), 0);
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
     sub_80EECC8();
@@ -425,6 +429,8 @@ static void DoBattlePikeWildBattle(void)
     gMain.savedCallback = CB2_EndWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_PIKE;
     CreateBattleStartTask(GetWildBattleTransition(), 0);
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
     sub_80EECC8();
@@ -434,6 +440,8 @@ static void DoBattlePikeWildBattle(void)
 static void DoTrainerBattle(void)
 {
     CreateBattleStartTask(GetTrainerBattleTransition(), 0);
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_TRAINER_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_TRAINER_BATTLES);
     sub_80B1234();
@@ -445,7 +453,8 @@ static void sub_80B0828(void)
         CreateBattleStartTask(sub_80B100C(10), 0);
     else
         CreateBattleStartTask(sub_80B100C(11), 0);
-
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_TRAINER_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_TRAINER_BATTLES);
     sub_80B1234();
@@ -467,6 +476,8 @@ void BattleSetup_StartScriptedWildBattle(void)
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = 0;
     CreateBattleStartTask(GetWildBattleTransition(), 0);
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
     sub_80EECC8();
@@ -479,6 +490,8 @@ void BattleSetup_StartLatiBattle(void)
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_LEGENDARY;
     CreateBattleStartTask(GetWildBattleTransition(), 0);
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
     sub_80EECC8();
@@ -517,7 +530,8 @@ void BattleSetup_StartLegendaryBattle(void)
         CreateBattleStartTask(B_TRANSITION_GRID_SQUARES, MUS_VS_MEW);
         break;
     }
-
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
     sub_80EECC8();
@@ -534,7 +548,8 @@ void StartGroudonKyogreBattle(void)
         CreateBattleStartTask(B_TRANSITION_SHARDS, MUS_BATTLE34); // GROUDON
     else
         CreateBattleStartTask(B_TRANSITION_RIPPLE, MUS_BATTLE34); // KYOGRE
-
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
     sub_80EECC8();
@@ -567,7 +582,8 @@ void StartRegiBattle(void)
         break;
     }
     CreateBattleStartTask(transitionId, MUS_BATTLE36);
-
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
     sub_80EECC8();
@@ -919,6 +935,8 @@ static void CB2_StartFirstBattle(void)
         SetMainCallback2(CB2_InitBattle);
         RestartWildEncounterImmunitySteps();
         ClearPoisonStepCounter();
+        TryIncrementButtonStat(DB_BATTLES);
+        TryIncrementButtonStat(DB_WILD_BATTLES);
         IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
         IncrementGameStat(GAME_STAT_WILD_BATTLES);
         sub_80EECC8();

@@ -51,6 +51,7 @@
 #include "window.h"
 #include "constants/event_objects.h"
 #include "speedchoice.h"
+#include "done_button.h"
 
 typedef u16 (*SpecialFunc)(void);
 typedef void (*NativeFunc)(void);
@@ -490,6 +491,7 @@ bool8 ScrCmd_giveitem(struct ScriptContext *ctx)
     u16 itemId = VarGet(ScriptReadHalfword(ctx));
     u32 quantity = VarGet(ScriptReadHalfword(ctx));
 
+    TryAddButtonStatBy(DB_ITEMS_PICKED_UP, quantity);
     gSpecialVar_Result = AddBagItem(itemId, (u8)quantity);
     return FALSE;
 }
@@ -1743,8 +1745,10 @@ bool8 ScrCmd_takemoney(struct ScriptContext *ctx)
     u32 amount = ScriptReadWord(ctx);
     u8 ignore = ScriptReadByte(ctx);
 
-    if (!ignore)
+    if (!ignore) {
+        TryAddButtonStatBy(DB_MONEY_SPENT, amount);
         RemoveMoney(&gSaveBlock1Ptr->money, amount);
+    }
     return FALSE;
 }
 

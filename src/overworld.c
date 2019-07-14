@@ -384,7 +384,11 @@ static void (*const gMovementStatusHandler[])(struct LinkPlayerEventObject *, st
 // code
 void DoWhiteOut(void)
 {
+    u32 money, moneyLost;
     ScriptContext2_RunNewScript(EventScript_WhiteOut);
+    money = GetMoney(&gSaveBlock1Ptr->money) / 2;
+    moneyLost = GetMoney(&gSaveBlock1Ptr->money) - money;
+    TryAddButtonStatBy(DB_MONEY_LOST, moneyLost);
     SetMoney(&gSaveBlock1Ptr->money, GetMoney(&gSaveBlock1Ptr->money) / 2);
     HealPlayerParty();
     Overworld_ResetStateAfterWhiteOut();

@@ -50,6 +50,7 @@
 #include "apprentice.h"
 #include "battle_pike.h"
 #include "constants/rgb.h"
+#include "done_button.h"
 
 void GoToBagMenu(u8 bagMenuType, u8 pocketId, void ( *postExitMenuMainCallback2)());
 void CB2_Bag(void);
@@ -2009,7 +2010,9 @@ void sub_81AD8C8(u8 taskId)
 
     PlaySE(SE_REGI);
     RemoveBagItem(gSpecialVar_ItemId, data[8]);
+    TryAddButtonStatBy(DB_ITEMS_SOLD, data[8]);
     AddMoney(&gSaveBlock1Ptr->money, (ItemId_GetPrice(gSpecialVar_ItemId) / 2) * data[8]);
+    TryAddButtonStatBy(DB_MONEY_MADE, (ItemId_GetPrice(gSpecialVar_ItemId) / 2) * data[8]);
     DestroyListMenuTask(data[0], scrollPos, cursorPos);
     sub_81AB9A8(gBagPositionStruct.pocket);
     SetInitialScrollAndCursorPositions(gBagPositionStruct.pocket);

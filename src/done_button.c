@@ -44,8 +44,8 @@ struct DoneButtonLineItem
     const u8 * (*printfn)(void); // string formatter for each type.
 };
 
-#define TRY_INC_GAME_STAT(saveBlock, statName, max)              \
-do {                                                             \
+#define TRY_INC_GAME_STAT(saveBlock, statName, max)                   \
+do {                                                                  \
     if(gSaveBlock##saveBlock##Ptr->doneButtonStats.statName < max)    \
         gSaveBlock##saveBlock##Ptr->doneButtonStats.statName++;       \
 }while(0)
@@ -55,16 +55,175 @@ do {                                                             \
 do {                                                             \
     return gSaveBlock##saveBlock##Ptr->doneButtonStats.statName; \
 }while(0)
+    
+#define TRY_INC_GAME_STAT_BY(saveBlock, statName, add, max)                \
+do {                                                                       \
+    u32 diff = max - gSaveBlock##saveBlock##Ptr->doneButtonStats.statName; \
+    if(diff > add)                                                         \
+        gSaveBlock##saveBlock##Ptr->doneButtonStats.statName += add;       \
+    else                                                                   \
+        gSaveBlock##saveBlock##Ptr->doneButtonStats.statName = max;        \
+}while(0)
 
-// UINT_MAX for u32
-// USHRT_MAX for u16
-
-void DB_Special_IncFrameIntro(u32 increment)
+// Hmm, 3 giant switches. Repetitive?
+// TODO: Better way of handling?
+void TryAddButtonStatBy(enum DoneButtonStat stat, u32 add)
 {
-    if((UINT_MAX - gSaveBlock1Ptr->doneButtonStats.introsFrameCount) < increment)
-        gSaveBlock1Ptr->doneButtonStats.introsFrameCount = UINT_MAX;
-    else
-        gSaveBlock1Ptr->doneButtonStats.introsFrameCount += increment;
+    switch(stat)
+    {
+        // DoneButtonStats1
+        case DB_FRAME_COUNT_TOTAL:
+            TRY_INC_GAME_STAT_BY(1, frameCount, add, UINT_MAX);
+            break;
+        case DB_FRAME_COUNT_OW:
+            TRY_INC_GAME_STAT_BY(1, owFrameCount, add, UINT_MAX);
+            break;
+        case DB_FRAME_COUNT_BATTLE:
+            TRY_INC_GAME_STAT_BY(1, battleFrameCount, add, UINT_MAX);
+            break;
+        case DB_FRAME_COUNT_MENU:
+            TRY_INC_GAME_STAT_BY(1, menuFrameCount, add, UINT_MAX);
+            break;
+        case DB_FRAME_COUNT_INTROS:
+            TRY_INC_GAME_STAT_BY(1, introsFrameCount, add, UINT_MAX);
+            break;
+        case DB_SAVE_COUNT:
+            TRY_INC_GAME_STAT_BY(1, saveCount, add, USHRT_MAX);
+            break;
+        case DB_RELOAD_COUNT:
+            TRY_INC_GAME_STAT_BY(1, reloadCount, add, USHRT_MAX);
+            break;
+        case DB_CLOCK_RESET_COUNT:
+            TRY_INC_GAME_STAT_BY(1, clockResetCount, add, USHRT_MAX);
+            break;
+        case DB_STEP_COUNT:
+            TRY_INC_GAME_STAT_BY(1, stepCount, add, UINT_MAX);
+            break;
+        case DB_STEP_COUNT_WALK:
+            TRY_INC_GAME_STAT_BY(1, stepCountWalk, add, UINT_MAX);
+            break;
+        case DB_STEP_COUNT_SURF:
+            TRY_INC_GAME_STAT_BY(1, stepCountSurf, add, UINT_MAX);
+            break;
+        case DB_STEP_COUNT_BIKE:
+            TRY_INC_GAME_STAT_BY(1, stepCountBike, add, UINT_MAX);
+            break;
+        case DB_STEP_COUNT_RUN:
+            TRY_INC_GAME_STAT_BY(1, stepCountRun, add, UINT_MAX);
+            break;
+        case DB_BONKS:
+            TRY_INC_GAME_STAT_BY(1, bonks, add, USHRT_MAX);
+            break;
+        case DB_TOTAL_DAMAGE_DEALT:
+            TRY_INC_GAME_STAT_BY(1, totalDamageDealt, add, UINT_MAX);
+            break;
+        case DB_ACTUAL_DAMAGE_DEALT:
+            TRY_INC_GAME_STAT_BY(1, actualDamageDealt, add, UINT_MAX);
+            break;
+        case DB_TOTAL_DAMAGE_TAKEN:
+            TRY_INC_GAME_STAT_BY(1, totalDamageTaken, add, UINT_MAX);
+            break;
+        case DB_ACTUAL_DAMAGE_TAKEN:
+            TRY_INC_GAME_STAT_BY(1, actualDamageTaken, add, UINT_MAX);
+            break;
+        case DB_OWN_MOVES_HIT:
+            TRY_INC_GAME_STAT_BY(1, ownMovesHit, add, USHRT_MAX);
+            break;
+        case DB_OWN_MOVES_MISSED:
+            TRY_INC_GAME_STAT_BY(1, ownMovesMissed, add, USHRT_MAX);
+            break;
+        case DB_ENEMY_MOVES_HIT:
+            TRY_INC_GAME_STAT_BY(1, enemyMovesHit, add, USHRT_MAX);
+            break;
+        case DB_ENEMY_MOVES_MISSED:
+            TRY_INC_GAME_STAT_BY(1, enemyMovesMissed, add, USHRT_MAX);
+            break;
+        // DoneButtonStats2
+        case DB_OWN_MOVES_SE:
+            TRY_INC_GAME_STAT_BY(2, ownMovesSE, add, USHRT_MAX);
+            break;
+        case DB_OWN_MOVES_NVE:
+            TRY_INC_GAME_STAT_BY(2, ownMovesNVE, add, USHRT_MAX);
+            break;
+        case DB_ENEMY_MOVES_SE:
+            TRY_INC_GAME_STAT_BY(2, enemyMovesSE, add, USHRT_MAX);
+            break;
+        case DB_ENEMY_MOVES_NVE:
+            TRY_INC_GAME_STAT_BY(2, enemyMovesNVE, add, USHRT_MAX);
+            break;
+        case DB_CRITS_DEALT:
+            TRY_INC_GAME_STAT_BY(2, critsDealt, add, USHRT_MAX);
+            break;
+        case DB_OHKOS_DEALT:
+            TRY_INC_GAME_STAT_BY(2, OHKOsDealt, add, USHRT_MAX);
+            break;
+        case DB_CRITS_TAKEN:
+            TRY_INC_GAME_STAT_BY(2, critsTaken, add, USHRT_MAX);
+            break;
+        case DB_OHKOS_TAKEN:
+            TRY_INC_GAME_STAT_BY(2, OHKOsTaken, add, USHRT_MAX);
+            break;
+        case DB_PLAYER_HP_HEALED:
+            TRY_INC_GAME_STAT_BY(2, playerHPHealed, add, UINT_MAX);
+            break;
+        case DB_ENEMY_HP_HEALED:
+            TRY_INC_GAME_STAT_BY(2, enemyHPHealed, add, UINT_MAX);
+            break;
+        case DB_PLAYER_POKEMON_FAINTED:
+            TRY_INC_GAME_STAT_BY(2, playerPokemonFainted, add, USHRT_MAX);
+            break;
+        case DB_ENEMY_POKEMON_FAINTED:
+            TRY_INC_GAME_STAT_BY(2, enemyPokemonFainted, add, USHRT_MAX);
+            break;
+        case DB_EXP_GAINED:
+            TRY_INC_GAME_STAT_BY(2, expGained, add, UINT_MAX);
+            break;
+        case DB_SWITCHOUTS:
+            TRY_INC_GAME_STAT_BY(2, switchouts, add, USHRT_MAX);
+            break;
+        case DB_BATTLES:
+            TRY_INC_GAME_STAT_BY(2, battles, add, USHRT_MAX);
+            break;
+        case DB_TRAINER_BATTLES:
+            TRY_INC_GAME_STAT_BY(2, trainerBattles, add, USHRT_MAX);
+            break;
+        case DB_WILD_BATTLES:
+            TRY_INC_GAME_STAT_BY(2, wildBattles, add, USHRT_MAX);
+            break;
+        case DB_BATTLES_FLED:
+            TRY_INC_GAME_STAT_BY(2, battlesFled, add, USHRT_MAX);
+            break;
+        case DB_FAILED_RUNS:
+            TRY_INC_GAME_STAT_BY(2, failedRuns, add, USHRT_MAX);
+            break;
+        case DB_MONEY_MADE:
+            TRY_INC_GAME_STAT_BY(2, moneyMade, add, UINT_MAX);
+            break;
+        case DB_MONEY_SPENT:
+            TRY_INC_GAME_STAT_BY(2, moneySpent, add, UINT_MAX);
+            break;
+        case DB_MONEY_LOST:
+            TRY_INC_GAME_STAT_BY(2, moneyLost, add, UINT_MAX);
+            break;
+        case DB_ITEMS_PICKED_UP:
+            TRY_INC_GAME_STAT_BY(2, itemsPickedUp, add, USHRT_MAX);
+            break;
+        case DB_ITEMS_BOUGHT:
+            TRY_INC_GAME_STAT_BY(2, itemsBought, add, USHRT_MAX);
+            break;
+        case DB_ITEMS_SOLD:
+            TRY_INC_GAME_STAT_BY(2, itemsSold, add, USHRT_MAX);
+            break;
+        case DB_MOVES_LEARNT:
+            TRY_INC_GAME_STAT_BY(2, movesLearnt, add, USHRT_MAX);
+            break;
+        case DB_BALLS_THROWN:
+            TRY_INC_GAME_STAT_BY(2, ballsThrown, add, USHRT_MAX);
+            break;
+        case DB_POKEMON_CAUGHT_IN_BALLS:
+            TRY_INC_GAME_STAT_BY(2, pokemonCaughtInBalls, add, USHRT_MAX);
+            break;
+    }
 }
 
 void TryIncrementButtonStat(enum DoneButtonStat stat)

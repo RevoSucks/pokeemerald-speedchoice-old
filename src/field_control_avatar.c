@@ -147,12 +147,12 @@ void DoDoneButtonStepStat(void)
         TryIncrementButtonStat(DB_STEP_COUNT_BIKE);
         TryIncrementButtonStat(DB_STEP_COUNT); // step total
     }
-    else if((gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_DASH)
+    else if((gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_DASH))
     {
         TryIncrementButtonStat(DB_STEP_COUNT_RUN);
         TryIncrementButtonStat(DB_STEP_COUNT); // step total
     }
-    else if((gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_ON_FOOT)
+    else if((gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_ON_FOOT))
     {
         TryIncrementButtonStat(DB_STEP_COUNT_WALK);
         TryIncrementButtonStat(DB_STEP_COUNT); // step total
