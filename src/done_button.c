@@ -13,6 +13,7 @@
 #include "text.h"
 #include "menu.h"
 #include "done_button.h"
+#include "overworld.h"
 
 struct DoneButton
 {
@@ -37,6 +38,8 @@ static void DoneButtonCB(void);
 static void PrintGameStatsPage(void);
 static void Task_DoneButton(u8 taskId);
 static void Task_DestroyDoneButton(u8 taskId);
+
+void OpenDoneButton(MainCallback doneCallback);
 
 struct DoneButtonLineItem
 {
@@ -674,7 +677,7 @@ static const struct WindowTemplate sWinTemplates[2] =
 
 void Task_InitDoneButtonMenu(u8 taskId)
 {
-    // TODO: Call OpenDoneButton based on field/bag.
+    OpenDoneButton(CB2_ReturnToField);
     DestroyTask(taskId);
 }
 
@@ -709,6 +712,8 @@ static void MainCB2(void)
 
 extern const struct BgTemplate sMainMenuBgTemplates[];
 extern const struct WindowTemplate sSpeedchoiceMenuWinTemplates[];
+
+void Task_DoneButtonFadeIn(u8 taskId);
 
 void DoneButtonCB(void)
 {
@@ -761,24 +766,27 @@ void DoneButtonCB(void)
         break;
     case 5:
         PrintGameStatsPage();
-        PlayBGM(MUS_FIELD13);
+        PlayBGM(MUS_PCC);
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
         gMain.state++;
         break;
     case 6:
-        if (!gPaletteFade.active)
-        {
-            ShowBg(0);
-            ShowBg(1);
-            SetGpuReg(REG_OFFSET_BLDCNT, 0);
-            SetGpuReg(REG_OFFSET_BLDALPHA, 0);
-            SetGpuReg(REG_OFFSET_BLDY, 0);
-            SetVBlankCallback(VBlankCB);
-            SetMainCallback2(MainCB2);
-            doneButton->taskId = CreateTask(Task_DoneButton, 0);
-        }
+        ShowBg(0);
+        ShowBg(1);
+        SetGpuReg(REG_OFFSET_BLDCNT, 0);
+        SetGpuReg(REG_OFFSET_BLDALPHA, 0);
+        SetGpuReg(REG_OFFSET_BLDY, 0);
+        SetVBlankCallback(VBlankCB);
+        SetMainCallback2(MainCB2);
+        doneButton->taskId = CreateTask(Task_DoneButtonFadeIn, 0);
         break;
     }
+}
+
+void Task_DoneButtonFadeIn(u8 taskId)
+{
+    if (!gPaletteFade.active)
+        gTasks[taskId].func = Task_DoneButton;
 }
 
 static void Task_DoneButton(u8 taskId)
