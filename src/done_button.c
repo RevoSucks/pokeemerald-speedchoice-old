@@ -14,6 +14,7 @@
 #include "menu.h"
 #include "done_button.h"
 #include "overworld.h"
+#include "text_window.h"
 
 struct DoneButton
 {
@@ -22,6 +23,10 @@ struct DoneButton
     u8 page;
     u16 tilemapBuffer[0x800];
 };
+
+extern u16 sUnknown_0855C6A0[1];
+extern u16 sUnknown_0855C604[16];
+extern u16 sMainMenuTextPal[16];
 
 #define NELEMS ARRAY_COUNT
 
@@ -755,13 +760,18 @@ void DoneButtonCB(void)
         break;
     case 4:
         ResetBgsAndClearDma3BusyFlags(0);
+        LoadBgTiles(1, GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->tiles, 0x120, 0x1A2);
+        LoadPalette(sUnknown_0855C6A0, 0, sizeof(sUnknown_0855C6A0));
+        LoadPalette(GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->pal, 0x70, 0x20);
+        LoadPalette(sUnknown_0855C604, 0x10, sizeof(sUnknown_0855C604));
+        LoadPalette(sMainMenuTextPal, 0xF0, sizeof(sMainMenuTextPal));
         InitBgsFromTemplates(0, sMainMenuBgTemplates, 2);
         SetBgTilemapBuffer(1, doneButton->tilemapBuffer);
         InitWindows(sSpeedchoiceMenuWinTemplates);
         DeactivateAllTextPrinters();
         FillWindowPixelBuffer(0, PIXEL_FILL(0));
         PutWindowTilemap(0);
-        reset_temp_tile_data_buffers();
+        //reset_temp_tile_data_buffers();
         gMain.state++;
         break;
     case 5:
@@ -773,6 +783,7 @@ void DoneButtonCB(void)
     case 6:
         ShowBg(0);
         ShowBg(1);
+        ShowBg(2);
         SetGpuReg(REG_OFFSET_BLDCNT, 0);
         SetGpuReg(REG_OFFSET_BLDALPHA, 0);
         SetGpuReg(REG_OFFSET_BLDY, 0);
