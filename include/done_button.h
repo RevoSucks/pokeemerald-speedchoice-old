@@ -73,6 +73,7 @@ enum DoneButtonStat
 void TryIncrementButtonStat(enum DoneButtonStat stat);
 void TryAddButtonStatBy(enum DoneButtonStat stat, u32 add);
 u32 GetDoneButtonStat(enum DoneButtonStat stat);
+void Task_InitDoneButtonMenu(u8 taskId);
 
 extern struct FrameTimers gFrameTimers;
 extern bool8 sInSubMenu;

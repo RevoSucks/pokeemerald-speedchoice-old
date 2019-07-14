@@ -43,6 +43,7 @@
 #include "constants/vars.h"
 #include "event_obj_lock.h"
 #include "speedchoice.h"
+#include "done_button.h"
 
 extern u8 BerryTree_EventScript_274482[];
 extern u8 BerryTree_EventScript_2744C0[];
@@ -763,6 +764,24 @@ void ItemUseOutOfBattle_TMHM(u8 taskId)
         DisplayItemMessage(taskId, 1, gText_BootedUpHM, sub_80FDF90); // HM
     else
         DisplayItemMessage(taskId, 1, gText_BootedUpTM, sub_80FDF90); // TM
+}
+
+static const struct YesNoFuncTable gDoneButtonYesNo =
+{
+    .yesFunc = Task_InitDoneButtonMenu,
+    .noFunc = BagMenu_InitListsMenu,
+};
+
+const u8 gAreYouDoneWithRace[] = _("Are you done with the race?");
+
+void DoDoneButtonYesNo(u8 taskId)
+{
+    BagMenu_YesNo(taskId, 1, &gDoneButtonYesNo);
+}
+
+void ItemUseOutOfBattle_DoneButton(u8 taskId)
+{
+    DisplayItemMessage(taskId, 1, gAreYouDoneWithRace, DoDoneButtonYesNo);
 }
 
 void sub_80FDF90(u8 taskId)

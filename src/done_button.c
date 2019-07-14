@@ -672,6 +672,12 @@ static const struct WindowTemplate sWinTemplates[2] =
     DUMMY_WIN_TEMPLATE,
 };
 
+void Task_InitDoneButtonMenu(u8 taskId)
+{
+    // TODO: Call OpenDoneButton based on field/bag.
+    DestroyTask(taskId);
+}
+
 void OpenDoneButton(MainCallback doneCallback)
 {
     doneButton = AllocZeroed(sizeof(*doneButton));

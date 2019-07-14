@@ -44,6 +44,7 @@
 #include "berry_powder.h"
 #include "mevent.h"
 #include "union_room_chat.h"
+#include "constants/items.h"
 
 extern void ResetPokeJumpResults(void);
 
@@ -207,6 +208,8 @@ void NewGameInitData(void)
     WipeTrainerNameRecords();
     ResetTrainerHillResults();
     ResetContestLinkResults();
+    // ADD DONE BUTTON
+    AddBagItem(ITEM_DONE_BUTTON, 1);
 }
 
 static void ResetMiniGamesResults(void)
