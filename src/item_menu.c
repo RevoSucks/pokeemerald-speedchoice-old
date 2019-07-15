@@ -1753,13 +1753,41 @@ void Task_ActuallyToss(u8 taskId)
     }
 }
 
+bool32 CantRegister(u32 item)
+{
+    switch(item)
+    {
+        case ITEM_DONE_BUTTON:
+            return TRUE;
+        default:
+            return FALSE;
+    }
+}
+
+const u8 gCantRegisterTest[] = _("This item can't be registered.");
+
+static void CantRegisterFunc(u8 taskId)
+{
+    if (gMain.newKeys & A_BUTTON)
+    {
+        PlaySE(SE_SELECT);
+        BagMenu_InitListsMenu(taskId);
+        ItemMenu_Cancel(taskId);
+    }
+}
+
 void ItemMenu_Register(u8 taskId)
 {
     s16* data = gTasks[taskId].data;
     u16* scrollPos = &gBagPositionStruct.scrollPosition[gBagPositionStruct.pocket];
     u16* cursorPos = &gBagPositionStruct.cursorPosition[gBagPositionStruct.pocket];
 
-    if (gSaveBlock1Ptr->registeredItem == gSpecialVar_ItemId)
+    if (CantRegister(gSpecialVar_ItemId))
+    {
+        DisplayItemMessage(taskId, 1, gCantRegisterTest, CantRegisterFunc);
+        return;
+    }
+    else if (gSaveBlock1Ptr->registeredItem == gSpecialVar_ItemId)
         gSaveBlock1Ptr->registeredItem = 0;
     else
         gSaveBlock1Ptr->registeredItem = gSpecialVar_ItemId;
