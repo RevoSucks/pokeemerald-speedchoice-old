@@ -17,6 +17,7 @@ enum DoneButtonStat
 {
     // DoneButtonStats1
     // These frame counters are accounted for by a seperate struct.
+    DB_NO_STAT, // used for struct definitions.
     /*accounted*/ DB_FRAME_COUNT_TOTAL,
     /*accounted*/ DB_FRAME_COUNT_OW,
     /*accounted*/ DB_FRAME_COUNT_BATTLE,

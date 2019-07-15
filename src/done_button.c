@@ -51,7 +51,7 @@ void DrawDoneButtonFrame(void);
 struct DoneButtonLineItem
 {
     const u8 * name;
-    const u8 * (*printfn)(void); // string formatter for each type.
+    const u8 * (*printfn)(enum DoneButtonStat stat); // string formatter for each type.
     enum DoneButtonStat stat; // 0 for header
 };
 
@@ -560,6 +560,17 @@ const u8 *GetStringSample(void)
     return NULL; // TODO
 }
 
+struct LocalFrameTimerLoad
+{
+    u32 totalFrames;
+    u32 totalFramesOw;
+    u32 totalFramesBattle;
+    u32 totalFramesMenu;
+    u32 totalFramesIntro;
+};
+
+EWRAM_DATA struct LocalFrameTimerLoad gLocalFrameTimers = {0};
+
 const u8 gTODOString[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TODO");
 
 // PAGE 1
@@ -627,56 +638,115 @@ const u8 gMiscClockResets[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}CLOCK RESETS: 
 
 const u8 gPageText[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}{LEFT_ARROW} PAGE {STR_VAR_1} {RIGHT_ARROW}");
 
+#define CHAR_0 0xA1
+
+EWRAM_DATA u8 gBufferedString[30] = {0};
+
+const u8 *GetFormattedFrameTimerStr(enum DoneButtonStat stat)
+{
+    u32 frames; // guaranteed to be one of the timer ones.
+    u32 hours;
+    u32 minutes;
+    u32 seconds;
+    u32 milliseconds;
+    
+    switch(stat)
+    {
+        case DB_FRAME_COUNT_TOTAL:
+            frames = gLocalFrameTimers.totalFrames;
+            break;
+        case DB_FRAME_COUNT_OW:
+            frames = gLocalFrameTimers.totalFramesOw;
+            break;
+        case DB_FRAME_COUNT_BATTLE:
+            frames = gLocalFrameTimers.totalFramesBattle;
+            break;
+        case DB_FRAME_COUNT_MENU:
+            frames = gLocalFrameTimers.totalFramesMenu;
+            break;
+        case DB_FRAME_COUNT_INTROS:
+            frames = gLocalFrameTimers.totalFramesIntro;
+            break;
+    }
+    
+    seconds = frames / 60;
+    milliseconds = frames - (seconds * 60);
+    minutes = seconds / 60;
+    seconds = seconds - (minutes * 60);
+    hours = minutes / 60;
+    minutes = minutes - (hours * 60);
+
+    gBufferedString[0] = 0xFC; // {COLOR GREEN}
+    gBufferedString[1] = 0x01;
+    gBufferedString[2] = 0x06;
+    gBufferedString[3] = 0xFC; // {SHADOW LIGHT_GREEN}
+    gBufferedString[4] = 0x03;
+    gBufferedString[5] = 0x07;
+    gBufferedString[6] = CHAR_0 + hours;
+    gBufferedString[7] = 0xF0; // ':'
+    gBufferedString[8] = CHAR_0 + (minutes / 10);
+    gBufferedString[9] = CHAR_0 + (minutes % 10);
+    gBufferedString[10] = 0xF0; // ':'
+    gBufferedString[11] = CHAR_0 + (seconds / 10);
+    gBufferedString[12] = CHAR_0 + (seconds % 10);
+    gBufferedString[13] = 0xAD; // '.'
+    gBufferedString[14] = CHAR_0 + (milliseconds / 10);
+    gBufferedString[15] = CHAR_0 + (milliseconds % 10);
+    gBufferedString[16] = 0xFF;
+
+    return (const u8 *)gBufferedString;
+}
+
 const struct DoneButtonLineItem sLineItems[8][7] = {
     { // PAGE 1 (TODO)
         {gTimersHeader, NULL},
-        {gTimersTotalTime, NULL},
-        {gTimersOverworldTime, NULL},
-        {gTimersTimeInBattle, NULL},
-        {gTimersTimeInMenus, NULL},
-        {gTimersTimeInIntros, NULL},
+        {gTimersTotalTime, GetFormattedFrameTimerStr, DB_FRAME_COUNT_TOTAL},
+        {gTimersOverworldTime, GetFormattedFrameTimerStr, DB_FRAME_COUNT_OW},
+        {gTimersTimeInBattle, GetFormattedFrameTimerStr, DB_FRAME_COUNT_BATTLE},
+        {gTimersTimeInMenus, GetFormattedFrameTimerStr, DB_FRAME_COUNT_MENU},
+        {gTimersTimeInIntros, GetFormattedFrameTimerStr, DB_FRAME_COUNT_INTROS},
         {NULL, NULL}
     },
     { // PAGE 2 (TODO)
         {gMovementHeader, NULL},
-        {gMovementTotalSteps, NULL},
-        {gMovementStepsWalked, NULL},
-        {gMovementStepsBiked, NULL},
-        {gMovementStepsSurfed, NULL},
-        {gMovementStepsRan, NULL},
-        {gMovementBonks, NULL}
+        {gMovementTotalSteps, NULL, DB_STEP_COUNT},
+        {gMovementStepsWalked, NULL, DB_STEP_COUNT_WALK},
+        {gMovementStepsBiked, NULL, DB_STEP_COUNT_BIKE},
+        {gMovementStepsSurfed, NULL, DB_STEP_COUNT_SURF},
+        {gMovementStepsRan, NULL, DB_STEP_COUNT_RUN},
+        {gMovementBonks, NULL, DB_BONKS}
     },
     { // PAGE 3 (TODO)
         {gBattle1Header, NULL},
-        {gBattle1TotalBattles, NULL},
-        {gBattle1WildBattles, NULL},
-        {gBattle1TrainerBattles, NULL},
-        {gBattle1BattlesFledFrom, NULL},
-        {gBattle1FailedEscapes, NULL},
+        {gBattle1TotalBattles, NULL, DB_BATTLES},
+        {gBattle1WildBattles, NULL, DB_WILD_BATTLES},
+        {gBattle1TrainerBattles, NULL, DB_TRAINER_BATTLES},
+        {gBattle1BattlesFledFrom, NULL, DB_WILD_BATTLES},
+        {gBattle1FailedEscapes, NULL, DB_BATTLES_FLED},
         {NULL, NULL}
     },
     { // PAGE 4 (TODO)
         {gBattle2Header, NULL},
-        {gBattle2EnemyPkmnFainted, NULL},
-        {gBattle2ExpGained, NULL},
-        {gBattle2OwnPkmnFainted, NULL},
-        {gBattle2NumSwitchouts, NULL},
-        {gBattle2BallsThrown, NULL},
-        {gBattle2PkmnCaptured, NULL}
+        {gBattle2EnemyPkmnFainted, NULL, DB_ENEMY_POKEMON_FAINTED},
+        {gBattle2ExpGained, NULL, DB_EXP_GAINED},
+        {gBattle2OwnPkmnFainted, NULL, DB_PLAYER_POKEMON_FAINTED},
+        {gBattle2NumSwitchouts, NULL, DB_SWITCHOUTS},
+        {gBattle2BallsThrown, NULL, DB_BALLS_THROWN},
+        {gBattle2PkmnCaptured, NULL, DB_POKEMON_CAUGHT_IN_BALLS}
     },
     { // PAGE 5 (TODO)
         {gBattle3Header, NULL},
-        {gBattle3MovesHitBy, NULL},
-        {gBattle3MovesMissed, NULL},
-        {gBattle3SEMovesUsed, NULL},
-        {gBattle3NVEMovesUsed, NULL},
-        {gBattle3CriticalHits, NULL},
-        {gBattle3OHKOs, NULL}
+        {gBattle3MovesHitBy, NULL, DB_OWN_MOVES_HIT}, // Players (Opponents)
+        {gBattle3MovesMissed, NULL, DB_OWN_MOVES_MISSED}, // Players (Opponents)
+        {gBattle3SEMovesUsed, NULL, DB_OWN_MOVES_SE}, // Players (Opponents)
+        {gBattle3NVEMovesUsed, NULL, DB_OWN_MOVES_NVE}, // Players (Opponents)
+        {gBattle3CriticalHits, NULL, DB_CRITS_DEALT}, // Players (Opponents)
+        {gBattle3OHKOs, NULL, DB_OHKOS_DEALT} // Players (Opponents)
     },
     { // PAGE 6 (TODO)
         {gBattle4Header, NULL},
-        {gBattle4DamageDealt, NULL},
-        {gBattle4DamageTaken, NULL},
+        {gBattle4DamageDealt, NULL, DB_TOTAL_DAMAGE_DEALT}, // Total (Actual)
+        {gBattle4DamageTaken, NULL, DB_TOTAL_DAMAGE_TAKEN}, // Total (Actual)
         {NULL, NULL},
         {NULL, NULL},
         {NULL, NULL},
@@ -684,18 +754,18 @@ const struct DoneButtonLineItem sLineItems[8][7] = {
     },
     { // PAGE 7 (TODO)
         {gMoneyItemsHeader, NULL},
-        {gMoneyItemsMoneyMade, NULL},
-        {gMoneyItemsMoneySpent, NULL},
-        {gMoneyItemsMoneyLost, NULL},
-        {gMoneyItemsItemsPickedUp, NULL},
-        {gMoneyItemsItemsBought, NULL},
-        {gMoneyItemsItemsSold, NULL}
+        {gMoneyItemsMoneyMade, NULL, DB_MONEY_MADE},
+        {gMoneyItemsMoneySpent, NULL, DB_MONEY_SPENT},
+        {gMoneyItemsMoneyLost, NULL, DB_MONEY_LOST},
+        {gMoneyItemsItemsPickedUp, NULL, DB_ITEMS_PICKED_UP},
+        {gMoneyItemsItemsBought, NULL, DB_ITEMS_BOUGHT},
+        {gMoneyItemsItemsSold, NULL, DB_ITEMS_SOLD}
     },
     { // PAGE 8 (TODO)
         {gMiscHeader, NULL},
-        {gMiscTimesSaved, NULL},
-        {gMiscSaveReloads, NULL},
-        {gMiscClockResets, NULL},
+        {gMiscTimesSaved, NULL, DB_SAVE_COUNT},
+        {gMiscSaveReloads, NULL, DB_RELOAD_COUNT},
+        {gMiscClockResets, NULL, DB_CLOCK_RESET_COUNT},
         {NULL, NULL},
         {NULL, NULL},
         {NULL, NULL}
@@ -889,6 +959,11 @@ void DoneButtonCB(void)
         gMain.state++;
     case 9:
         DrawDoneButtonFrame();
+        gLocalFrameTimers.totalFrames = GetDoneButtonStat(DB_FRAME_COUNT_TOTAL) + gFrameTimers.frameCount;
+        gLocalFrameTimers.totalFramesOw = GetDoneButtonStat(DB_FRAME_COUNT_OW) + gFrameTimers.owFrameCount;
+        gLocalFrameTimers.totalFramesBattle = GetDoneButtonStat(DB_FRAME_COUNT_BATTLE) + gFrameTimers.battleFrameCount;
+        gLocalFrameTimers.totalFramesMenu = GetDoneButtonStat(DB_FRAME_COUNT_MENU) + gFrameTimers.menuFrameCount;
+        gLocalFrameTimers.totalFramesIntro = GetDoneButtonStat(DB_FRAME_COUNT_INTROS) + gFrameTimers.introsFrameCount;
         gMain.state++;
         break;
     case 10:
@@ -993,7 +1068,7 @@ static void PrintGameStatsPage(void)
             }
             if (items[i].printfn != NULL)
             {
-                value_s = items[i].printfn();
+                value_s = items[i].printfn(items[i].stat);
             }
             else
             {
@@ -1002,7 +1077,10 @@ static void PrintGameStatsPage(void)
             width = GetStringWidth(0, value_s, 0);
             if (items[i].name != NULL)
             {
-                AddTextPrinterParameterized(0, 1, value_s, 200 - width, 18 * i + 1, -1, NULL);
+                if(doneButton->page + 1 == 1) // timer spacing handling
+                    AddTextPrinterParameterized(0, 1, value_s, 224 - width, 18 * i + 1, -1, NULL);
+                else
+                    AddTextPrinterParameterized(0, 1, value_s, 200 - width, 18 * i + 1, -1, NULL);
             }
         }
     }
