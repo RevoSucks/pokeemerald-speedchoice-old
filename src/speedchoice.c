@@ -237,19 +237,19 @@ static const u8 gPresetCEA[CURRENT_OPTIONS_NUM] = {
 static const u8 gPresetRace[CURRENT_OPTIONS_NUM] = {
     PRESET_RACE, // PRESET
     EXP_BW,      // EXP
-    PLOT_KEEP,   // PLOTLESS
+    PLOT_FULL,   // PLOTLESS
     IT_ON,       // INSTANTTEXT
-    SPIN_KEEP,   // SPINNERS
+    SPIN_NERF,   // SPINNERS
     MAX_OFF,     // MAXVISION
     NERF_YES,    // NERFROXANNE
     BIKE_ON,     // SUPERBIKE
     NEW_ON,      // NEWWILDENC
-    FLY_NO,      // EARLYFLY
+    FLY_YES,     // EARLYFLY
     RUN_ON,      // RUN_EVERYWHERE
     MEME_BIG,    // MEME_ISLAND
     MARTS_ON,    // BETTER_MARTS
     GOOD_STATIC, // GOOD_EARLY_WILDS
-    SURF_OFF     // EARLYSURF
+    SURF_ON      // EARLYSURF
 };
 
 const u8 *GetPresetPtr(int presetID) {

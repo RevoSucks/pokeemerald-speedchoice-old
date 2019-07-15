@@ -910,6 +910,8 @@ static u8 Bike_CheckCollisionTryAdvanceCollisionCount(struct EventObject *eventO
 
 bool8 RS_IsRunningDisallowed(u8 tile)
 {
+    if(CheckSpeedchoiceOption(RUN_EVERYWHERE, RUN_ON) == TRUE)
+        return FALSE;
     if (IsRunningDisallowedByMetatile(tile) != FALSE || gMapHeader.mapType == MAP_TYPE_INDOOR)
         return TRUE;
     else
