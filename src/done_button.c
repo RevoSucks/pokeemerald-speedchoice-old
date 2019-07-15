@@ -704,6 +704,19 @@ const u8 *GetFormattedFrameTimerStr(enum DoneButtonStat stat, enum DoneButtonSta
 const u8 gBufferedString4[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}{STR_VAR_1}");
 const u8 gBufferedString5[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}{STR_VAR_1}({STR_VAR_2})");
 
+int GetNumDigits(int n)
+{
+    int count = 0;
+    while(n != 0)
+    {
+        n /= 10;
+        ++count;
+    }
+    if(count == 0)
+        count = 1;
+    return count;
+}
+
 const u8 *GetStandardButtonStat(enum DoneButtonStat stat, enum DoneButtonStat stat2)
 {
     u32 number = GetDoneButtonStat(stat);
@@ -711,7 +724,7 @@ const u8 *GetStandardButtonStat(enum DoneButtonStat stat, enum DoneButtonStat st
     if(number > 999999)
         number = 999999;
 
-    ConvertIntToDecimalStringN(gStringVar1, number, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    ConvertIntToDecimalStringN(gStringVar1, number, STR_CONV_MODE_RIGHT_ALIGN, GetNumDigits(number));
     StringExpandPlaceholders(gStringVar4, gBufferedString4);
     return gStringVar4;
 }
@@ -727,8 +740,8 @@ const u8 *GetStandardDoubleButtonStat(enum DoneButtonStat stat, enum DoneButtonS
     if(number2 > 999999)
         number2 = 999999;
 
-    ConvertIntToDecimalStringN(gStringVar1, number1, STR_CONV_MODE_RIGHT_ALIGN, 3);
-    ConvertIntToDecimalStringN(gStringVar2, number2, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    ConvertIntToDecimalStringN(gStringVar1, number1, STR_CONV_MODE_RIGHT_ALIGN, GetNumDigits(number1));
+    ConvertIntToDecimalStringN(gStringVar2, number2, STR_CONV_MODE_RIGHT_ALIGN, GetNumDigits(number2));
     StringExpandPlaceholders(gStringVar4, gBufferedString5);
     return gStringVar4;
 }
@@ -1076,7 +1089,7 @@ void PrintPageString(void)
     struct DoneButton *data = doneButton;
     s32 width, centered_x;
 
-    ConvertIntToDecimalStringN(gStringVar1, data->page + 1, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    ConvertIntToDecimalStringN(gStringVar1, data->page + 1, STR_CONV_MODE_RIGHT_ALIGN, 1);
     StringExpandPlaceholders(gStringVar4, gPageText);
     width = GetStringWidth(0, gStringVar4, 0);
     centered_x = (240 - width) / 2;
