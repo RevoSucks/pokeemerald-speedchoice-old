@@ -5715,8 +5715,6 @@ bool8 TryRunFromBattle(u8 battler)
         gBattleOutcome = B_OUTCOME_RAN;
         TryIncrementButtonStat(DB_BATTLES_FLED);
     }
-    else
-        TryIncrementButtonStat(DB_FAILED_RUNS);
 
     return effect;
 }

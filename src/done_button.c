@@ -757,8 +757,8 @@ const struct DoneButtonLineItem sLineItems[8][7] = {
         {gBattle1TotalBattles, GetStandardButtonStat, DB_BATTLES},
         {gBattle1WildBattles, GetStandardButtonStat, DB_WILD_BATTLES},
         {gBattle1TrainerBattles, GetStandardButtonStat, DB_TRAINER_BATTLES},
-        {gBattle1BattlesFledFrom, GetStandardButtonStat, DB_WILD_BATTLES},
-        {gBattle1FailedEscapes, GetStandardButtonStat, DB_BATTLES_FLED},
+        {gBattle1BattlesFledFrom, GetStandardButtonStat, DB_BATTLES_FLED},
+        {gBattle1FailedEscapes, GetStandardButtonStat, DB_FAILED_RUNS},
         {NULL, NULL}
     },
     { // PAGE 4 (TODO)

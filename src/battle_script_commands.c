@@ -4625,32 +4625,6 @@ static void atk49_moveend(void)
     u16 *choicedMoveAtk = NULL;
     u8 arg1, arg2;
     u16 originallyUsedMove;
-    
-    // BUG: This increments 3 times. Find a better way to do this check.
-    if(gMoveResultFlags & MOVE_RESULT_MISSED)
-    {
-        switch(GetBattlerSide(gBattlerAttacker))
-        {
-            case B_SIDE_PLAYER:
-                TryIncrementButtonStat(DB_OWN_MOVES_MISSED);
-                break;
-            case B_SIDE_OPPONENT:
-                TryIncrementButtonStat(DB_ENEMY_MOVES_MISSED);
-                break;
-        }
-    }
-    else
-    {
-        switch(GetBattlerSide(gBattlerAttacker))
-        {
-            case B_SIDE_PLAYER:
-                TryIncrementButtonStat(DB_OWN_MOVES_HIT);
-                break;
-            case B_SIDE_OPPONENT:
-                TryIncrementButtonStat(DB_ENEMY_MOVES_HIT);
-                break;
-        }
-    }
 
     if (gChosenMove == 0xFFFF)
         originallyUsedMove = 0;
@@ -4884,6 +4858,18 @@ static void atk49_moveend(void)
                 target = gBattlerTarget;
                 attacker = gBattlerAttacker;
                 *(attacker * 2 + target * 8 + (u8*)(gBattleStruct->lastTakenMoveFrom) + 1) = gChosenMove >> 8;
+            }
+            if(!(gMoveResultFlags & MOVE_RESULT_MISSED))
+            {
+                switch(GetBattlerSide(gBattlerAttacker))
+                {
+                    case B_SIDE_PLAYER:
+                        TryIncrementButtonStat(DB_OWN_MOVES_HIT);
+                        break;
+                    case B_SIDE_OPPONENT:
+                        TryIncrementButtonStat(DB_ENEMY_MOVES_HIT);
+                        break;
+                }
             }
             gBattleScripting.atk49_state++;
             break;
