@@ -645,37 +645,64 @@ const struct DoneButtonLineItem sLineItems[8][8] = {
 
 #define NPAGES (NELEMS(sLineItems))
 
-static const struct BgTemplate sDiplomaBgTemplates[2] =
+static const struct BgTemplate sSpeedchoiceDoneButtonTemplates[3] =
 {
-    {
-        .bg = 0,
-        .charBaseIndex = 1,
-        .mapBaseIndex = 30,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 0,
-        .baseTile = 0
-    },
-    {
-        .bg = 1,
-        .charBaseIndex = 1,
-        .mapBaseIndex = 31,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 1,
-        .baseTile = 0
-    }
+   {
+       .bg = 1,
+       .charBaseIndex = 1,
+       .mapBaseIndex = 30,
+       .screenSize = 0,
+       .paletteMode = 0,
+       .priority = 1,
+       .baseTile = 0
+   },
+   {
+       .bg = 0,
+       .charBaseIndex = 1,
+       .mapBaseIndex = 31,
+       .screenSize = 0,
+       .paletteMode = 0,
+       .priority = 2,
+       .baseTile = 0
+   },
+   // 0x000001ec
+   {
+       .bg = 2,
+       .charBaseIndex = 1,
+       .mapBaseIndex = 29,
+       .screenSize = 0,
+       .paletteMode = 0,
+       .priority = 0,
+       .baseTile = 0
+   }
 };
 
-static const struct WindowTemplate sWinTemplates[2] =
+/*
+    {1, 2, 1, 0x1A, 2, 1, 2},
+    {0, 2, 5, 0x1A, 14, 1, 0x36},
+    {2, 2, 15, 0x1A, 4, 15, 427},
+    {2, 23, 9, 4, 4, 15, 531}, // YES/NO
+    DUMMY_WIN_TEMPLATE
+*/
+
+static const struct WindowTemplate sWinTemplates[3] =
 {
+    {
+        .bg = 1,
+        .tilemapLeft = 2,
+        .tilemapTop = 1,
+        .width = 0x1A,
+        .height = 2,
+        .paletteNum = 1,
+        .baseBlock = 2,
+    },
     {
         .bg = 0,
         .tilemapLeft = 2,
-        .tilemapTop = 1,
-        .width = 26,
-        .height = 18,
-        .paletteNum = 15,
+        .tilemapTop = 5,
+        .width = 0x1A,
+        .height = 14,
+        .paletteNum = 1,
         .baseBlock = 0x36,
     },
     DUMMY_WIN_TEMPLATE,
@@ -721,41 +748,38 @@ extern const struct WindowTemplate sSpeedchoiceMenuWinTemplates[];
 
 void Task_DoneButtonFadeIn(u8 taskId);
 
-const struct WindowTemplate sSpeedchoiceDoneButtonTemplates[] =
-{
-    {1, 2, 1, 0x1A, 2, 1, 2},
-    {0, 2, 5, 0x1A, 14, 1, 0x36},
-    {2, 2, 15, 0x1A, 4, 15, 427},
-    {2, 23, 9, 4, 4, 15, 531}, // YES/NO
-    DUMMY_WIN_TEMPLATE
-};
-
 void DoneButtonCB(void)
 {
     switch (gMain.state)
     {
+    default:
     case 0:
         SetVBlankCallback(NULL);
-        DmaFillLarge16(3, 0, (void *)VRAM, VRAM_SIZE, 0x1000);
+        gMain.state++;
+        break;
+    case 1:
+    {
+        u8 *addr;
+        u32 size;
+
+        addr = (u8 *)VRAM;
+        size = 0x18000;
+        while (1)
+        {
+            DmaFill16(3, 0, addr, 0x1000);
+            addr += 0x1000;
+            size -= 0x1000;
+            if (size <= 0x1000)
+            {
+                DmaFill16(3, 0, addr, size);
+                break;
+            }
+        }
         DmaClear32(3, OAM, OAM_SIZE);
         DmaClear16(3, PLTT, PLTT_SIZE);
         SetGpuReg(REG_OFFSET_DISPCNT, 0);
-        SetGpuReg(REG_OFFSET_BG3CNT, 0);
-        SetGpuReg(REG_OFFSET_BG2CNT, 0);
-        SetGpuReg(REG_OFFSET_BG1CNT, 0);
-        SetGpuReg(REG_OFFSET_BG0CNT, 0);
-        SetGpuReg(REG_OFFSET_BG3HOFS, 0);
-        SetGpuReg(REG_OFFSET_BG3VOFS, 0);
-        SetGpuReg(REG_OFFSET_BG2HOFS, 0);
-        SetGpuReg(REG_OFFSET_BG2VOFS, 0);
-        SetGpuReg(REG_OFFSET_BG1HOFS, 0);
-        SetGpuReg(REG_OFFSET_BG1VOFS, 0);
-        SetGpuReg(REG_OFFSET_BG0HOFS, 0);
-        SetGpuReg(REG_OFFSET_BG0VOFS, 0);
         ResetBgsAndClearDma3BusyFlags(0);
-        SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON | DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
-        InitBgsFromTemplates(0, sDiplomaBgTemplates, NELEMS(sDiplomaBgTemplates));
-        SetBgTilemapBuffer(1, doneButton->tilemapBuffer);
+        InitBgsFromTemplates(0, sSpeedchoiceDoneButtonTemplates, ARRAY_COUNT(sSpeedchoiceDoneButtonTemplates));
         ChangeBgX(0, 0, 0);
         ChangeBgY(0, 0, 0);
         ChangeBgX(1, 0, 0);
@@ -766,60 +790,68 @@ void DoneButtonCB(void)
         ChangeBgY(3, 0, 0);
         InitWindows(sWinTemplates);
         DeactivateAllTextPrinters();
+        SetGpuReg(REG_OFFSET_WIN0H, 0);
+        SetGpuReg(REG_OFFSET_WIN0V, 0);
+        SetGpuReg(REG_OFFSET_WININ, 5);
+        SetGpuReg(REG_OFFSET_WINOUT, 39);
+        SetGpuReg(REG_OFFSET_BLDCNT, 0);
+        SetGpuReg(REG_OFFSET_BLDALPHA, 0);
+        SetGpuReg(REG_OFFSET_BLDY, 0);
+        SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON | DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
         ShowBg(0);
         ShowBg(1);
+        ShowBg(2);
         gMain.state++;
         break;
-    case 1:
+    }
+    case 2:
+        ResetPaletteFade();
         ScanlineEffect_Stop();
         ResetTasks();
         ResetSpriteData();
-        ResetPaletteFade();
-        FreeAllSpritePalettes();
         gMain.state++;
         break;
-    case 2:
+    case 3:
         LoadBgTiles(1, GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->tiles, 0x120, 0x1A2);
-        LoadPalette(sUnknown_0855C6A0, 0, sizeof(sUnknown_0855C6A0));
-        LoadPalette(GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->pal, 0x70, 0x20);
-        //LoadPalette(sUnknown_0855C604, 0x10, sizeof(sUnknown_0855C604));
-        //LoadPalette(sMainMenuTextPal, 0xF0, sizeof(sMainMenuTextPal));
-        gMain.state++;
-        break;
-    case 3: 
-        FillWindowPixelBuffer(0, PIXEL_FILL(0));
-        PutWindowTilemap(0);
-        //reset_temp_tile_data_buffers();
         gMain.state++;
         break;
     case 4:
-        FillBgTilemapBufferRect(1, 0x1A2, 1,    0,      1,      1,      7);
-        FillBgTilemapBufferRect(1, 0x1A3, 2,    0,      0x1A,   1,      7);
-        FillBgTilemapBufferRect(1, 0x1A4, 28,   0,      1,      1,      7);
-        FillBgTilemapBufferRect(1, 0x1A5, 1,    1,      1,      0x16,   7);
-        FillBgTilemapBufferRect(1, 0x1A7, 28,   1,      1,      0x16,   7);
-        FillBgTilemapBufferRect(1, 0x1A8, 1,    19,     1,      1,      7);
-        FillBgTilemapBufferRect(1, 0x1A9, 2,    19,     0x1A,   1,      7);
-        FillBgTilemapBufferRect(1, 0x1AA, 28,   19,     1,      1,      7);
-
-        CopyBgTilemapBufferToVram(1);
+        LoadPalette(sUnknown_0855C6A0, 0, sizeof(sUnknown_0855C6A0));
+        LoadPalette(GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->pal, 0x70, 0x20);
         gMain.state++;
         break;
     case 5:
-         PlayBGM(MUS_PCC);
-         SetGpuReg(REG_OFFSET_BLDCNT, 0);
-         SetGpuReg(REG_OFFSET_BLDALPHA, 0);
-         SetGpuReg(REG_OFFSET_BLDY, 0);
-         SetVBlankCallback(VBlankCB);
-         SetMainCallback2(MainCB2);
-         PrintGameStatsPage();
-         BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
-         doneButton->taskId = CreateTask(Task_DoneButtonFadeIn, 0);
-         DrawDoneButtonFrame();
-         gMain.state++;
-         break;
+        LoadPalette(sUnknown_0855C604, 0x10, sizeof(sUnknown_0855C604));
+        LoadPalette(sMainMenuTextPal, 0xF0, sizeof(sMainMenuTextPal));
+        gMain.state++;
+        break;
     case 6:
-         break;
+        PutWindowTilemap(0);
+        gMain.state++;
+        break;
+    case 7:
+        gMain.state++;
+        break;
+    case 8:
+        //PutWindowTilemap(1);
+        //DrawOptionMenuTexts();
+        gMain.state++;
+    case 9:
+        DrawDoneButtonFrame();
+        gMain.state++;
+        break;
+    case 10:
+        //FillWindowPixelBuffer(0, PIXEL_FILL(0));
+        PlayBGM(MUS_PCC);
+        PrintGameStatsPage();
+        doneButton->taskId = CreateTask(Task_DoneButtonFadeIn, 0);
+        gMain.state++;
+        break;
+    case 11:
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
+        SetVBlankCallback(VBlankCB);
+        SetMainCallback2(MainCB2);
+        break;
     }
 }
 
