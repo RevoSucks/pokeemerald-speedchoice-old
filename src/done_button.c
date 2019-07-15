@@ -15,6 +15,7 @@
 #include "done_button.h"
 #include "overworld.h"
 #include "text_window.h"
+#include "string_util.h"
 
 struct DoneButton
 {
@@ -51,6 +52,7 @@ struct DoneButtonLineItem
 {
     const u8 * name;
     const u8 * (*printfn)(void); // string formatter for each type.
+    enum DoneButtonStat stat; // 0 for header
 };
 
 #define TRY_INC_GAME_STAT(saveBlock, statName, max)                   \
@@ -561,7 +563,7 @@ const u8 *GetStringSample(void)
 const u8 gTODOString[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TODO");
 
 // PAGE 1
-const u8 gTimersHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TIMERS");
+const u8 gTimersHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}PLAYER STATS (TIMERS)");
 const u8 gTimersTotalTime[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TOTAL TIME: ");
 const u8 gTimersOverworldTime[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}OVERWORLD TIME: ");
 const u8 gTimersTimeInBattle[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TIME IN BATTLE: ");
@@ -569,7 +571,7 @@ const u8 gTimersTimeInMenus[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TIME IN MENU
 const u8 gTimersTimeInIntros[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TIME IN INTROS: ");
 
 // PAGE 2
-const u8 gMovementHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MOVEMENT");
+const u8 gMovementHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}PLAYER STATS (MOVEMENT)");
 const u8 gMovementTotalSteps[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TOTAL STEPS: ");
 const u8 gMovementStepsWalked[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}STEPS WALKED: ");
 const u8 gMovementStepsBiked[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}STEPS BIKED: ");
@@ -578,7 +580,7 @@ const u8 gMovementStepsRan[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}STEPS RAN: ")
 const u8 gMovementBonks[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}BONKS: ");
 
 // PAGE 3
-const u8 gBattle1Header[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}BATTLE 1");
+const u8 gBattle1Header[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}PLAYER STATS (BATTLE 1)");
 const u8 gBattle1TotalBattles[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TOTAL BATTLES: ");
 const u8 gBattle1WildBattles[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}WILD BATTLES: ");
 const u8 gBattle1TrainerBattles[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TRAINER BATTLES: ");
@@ -586,7 +588,7 @@ const u8 gBattle1BattlesFledFrom[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}BATTLES
 const u8 gBattle1FailedEscapes[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}FAILED ESCAPES: ");
 
 // PAGE 4
-const u8 gBattle2Header[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}BATTLE 2");
+const u8 gBattle2Header[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}PLAYER STATS (BATTLE 2)");
 const u8 gBattle2EnemyPkmnFainted[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}ENEMY PKMN FAINTED: ");
 const u8 gBattle2ExpGained[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}EXP GAINED: ");
 const u8 gBattle2OwnPkmnFainted[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}OWN PKMN FAINTED: ");
@@ -595,7 +597,7 @@ const u8 gBattle2BallsThrown[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}BALLS THROW
 const u8 gBattle2PkmnCaptured[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}PKMN CAPTURED: ");
 
 // PAGE 5
-const u8 gBattle3Header[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}BATTLE 3");
+const u8 gBattle3Header[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}PLAYER STATS (BATTLE 3)");
 const u8 gBattle3MovesHitBy[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MOVES HIT BY: ");
 const u8 gBattle3MovesMissed[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MOVES MISSED: ");
 const u8 gBattle3SEMovesUsed[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}S.E. MOVES USED: ");
@@ -604,12 +606,12 @@ const u8 gBattle3CriticalHits[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}CRITICAL H
 const u8 gBattle3OHKOs[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}OHKOs: ");
 
 // PAGE 6
-const u8 gBattle4Header[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}BATTLE 4");
+const u8 gBattle4Header[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}PLAYER STATS (BATTLE 4)");
 const u8 gBattle4DamageDealt[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}DAMAGE DEALT: ");
 const u8 gBattle4DamageTaken[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}DAMAGE TAKEN: ");
 
 // PAGE 7
-const u8 gMoneyItemsHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MONEY & ITEMS");
+const u8 gMoneyItemsHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}PLAYER STATS (MONEY & ITEMS)");
 const u8 gMoneyItemsMoneyMade[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MONEY MADE: ");
 const u8 gMoneyItemsMoneySpent[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MONEY SPENT: ");
 const u8 gMoneyItemsMoneyLost[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MONEY LOST: ");
@@ -618,10 +620,12 @@ const u8 gMoneyItemsItemsBought[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}ITEMS BO
 const u8 gMoneyItemsItemsSold[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}ITEMS SOLD: ");
 
 // PAGE 8
-const u8 gMiscHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MISC.");
+const u8 gMiscHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}PLAYER STATS (MISC.)");
 const u8 gMiscTimesSaved[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TIMES SAVED: ");
 const u8 gMiscSaveReloads[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}SAVE RELOADS: ");
 const u8 gMiscClockResets[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}CLOCK RESETS: ");
+
+const u8 gPageText[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}{LEFT_ARROW} PAGE {STR_VAR_1} {RIGHT_ARROW}");
 
 const struct DoneButtonLineItem sLineItems[8][7] = {
     { // PAGE 1 (TODO)
@@ -947,12 +951,26 @@ static void Task_DestroyDoneButton(u8 taskId)
     }
 }
 
+// it doesnt seem centered right. subtract 8 pixels to compensate for these functions
 void PrintPageHeader(const struct DoneButtonLineItem *item)
 {
     s32 width = GetStringWidth(0, item->name, 0);
     s32 centered_x = ((29 * 8) - (1 * 8) - width) / 2;
 
-    AddTextPrinterParameterized(0, 1, item->name, centered_x, 1, -1, NULL);
+    AddTextPrinterParameterized(0, 1, item->name, centered_x - 8, 1, -1, NULL);
+}
+
+void PrintPageString(void)
+{
+    struct DoneButton *data = doneButton;
+    s32 width, centered_x;
+
+    ConvertIntToDecimalStringN(gStringVar1, data->page + 1, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    StringExpandPlaceholders(gStringVar4, gPageText);
+    width = GetStringWidth(0, gStringVar4, 0);
+    centered_x = (240 - width) / 2;
+
+    AddTextPrinterParameterized(0, 1, gStringVar4, centered_x - 8, 128, -1, NULL);
 }
 
 static void PrintGameStatsPage(void)
@@ -988,7 +1006,7 @@ static void PrintGameStatsPage(void)
             }
         }
     }
-    // Print Page
+    PrintPageString();
     PutWindowTilemap(0);
     CopyWindowToVram(0, 3);
 }
