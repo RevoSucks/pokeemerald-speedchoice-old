@@ -51,8 +51,9 @@ void DrawDoneButtonFrame(void);
 struct DoneButtonLineItem
 {
     const u8 * name;
-    const u8 * (*printfn)(enum DoneButtonStat stat); // string formatter for each type.
-    enum DoneButtonStat stat; // 0 for header
+    const u8 * (*printfn)(enum DoneButtonStat stat, enum DoneButtonStat stat2); // string formatter for each type.
+    enum DoneButtonStat stat;
+    enum DoneButtonStat stat2;
 };
 
 #define TRY_INC_GAME_STAT(saveBlock, statName, max)                   \
@@ -640,16 +641,18 @@ const u8 gPageText[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}{LEFT_ARROW} PAGE {ST
 
 #define CHAR_0 0xA1
 
-EWRAM_DATA u8 gBufferedString[30] = {0};
+EWRAM_DATA u8 gBufferedString[17] = {0}; // Timer
+EWRAM_DATA u8 gBufferedString2[13] = {0}; // Standard 6 digit stats
+EWRAM_DATA u8 gBufferedString3[15] = {0}; // Standard 6 digit stats + (secondary stat)
 
-const u8 *GetFormattedFrameTimerStr(enum DoneButtonStat stat)
+const u8 *GetFormattedFrameTimerStr(enum DoneButtonStat stat, enum DoneButtonStat stat2)
 {
     u32 frames; // guaranteed to be one of the timer ones.
     u32 hours;
     u32 minutes;
     u32 seconds;
     u32 milliseconds;
-    
+
     switch(stat)
     {
         case DB_FRAME_COUNT_TOTAL:
@@ -697,6 +700,38 @@ const u8 *GetFormattedFrameTimerStr(enum DoneButtonStat stat)
     return (const u8 *)gBufferedString;
 }
 
+const u8 gBufferedString4[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}{STR_VAR_1}");
+const u8 gBufferedString5[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}{STR_VAR_1}({STR_VAR_2})");
+
+const u8 *GetStandardButtonStat(enum DoneButtonStat stat, enum DoneButtonStat stat2)
+{
+    u32 number = GetDoneButtonStat(stat);
+
+    if(number > 999999)
+        number = 999999;
+
+    ConvertIntToDecimalStringN(gStringVar1, number, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    StringExpandPlaceholders(gStringVar4, gBufferedString4);
+    return gStringVar4;
+}
+
+const u8 *GetStandardDoubleButtonStat(enum DoneButtonStat stat, enum DoneButtonStat stat2)
+{
+    u32 number1 = GetDoneButtonStat(stat);
+    u32 number2 = GetDoneButtonStat(stat2);
+
+    if(number1 > 999999)
+        number1 = 999999;
+
+    if(number2 > 999999)
+        number2 = 999999;
+
+    ConvertIntToDecimalStringN(gStringVar1, number1, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    ConvertIntToDecimalStringN(gStringVar2, number2, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    StringExpandPlaceholders(gStringVar4, gBufferedString5);
+    return gStringVar4;
+}
+
 const struct DoneButtonLineItem sLineItems[8][7] = {
     { // PAGE 1 (TODO)
         {gTimersHeader, NULL},
@@ -709,44 +744,44 @@ const struct DoneButtonLineItem sLineItems[8][7] = {
     },
     { // PAGE 2 (TODO)
         {gMovementHeader, NULL},
-        {gMovementTotalSteps, NULL, DB_STEP_COUNT},
-        {gMovementStepsWalked, NULL, DB_STEP_COUNT_WALK},
-        {gMovementStepsBiked, NULL, DB_STEP_COUNT_BIKE},
-        {gMovementStepsSurfed, NULL, DB_STEP_COUNT_SURF},
-        {gMovementStepsRan, NULL, DB_STEP_COUNT_RUN},
-        {gMovementBonks, NULL, DB_BONKS}
+        {gMovementTotalSteps, GetStandardButtonStat, DB_STEP_COUNT},
+        {gMovementStepsWalked, GetStandardButtonStat, DB_STEP_COUNT_WALK},
+        {gMovementStepsBiked, GetStandardButtonStat, DB_STEP_COUNT_BIKE},
+        {gMovementStepsSurfed, GetStandardButtonStat, DB_STEP_COUNT_SURF},
+        {gMovementStepsRan, GetStandardButtonStat, DB_STEP_COUNT_RUN},
+        {gMovementBonks, GetStandardButtonStat, DB_BONKS}
     },
     { // PAGE 3 (TODO)
         {gBattle1Header, NULL},
-        {gBattle1TotalBattles, NULL, DB_BATTLES},
-        {gBattle1WildBattles, NULL, DB_WILD_BATTLES},
-        {gBattle1TrainerBattles, NULL, DB_TRAINER_BATTLES},
-        {gBattle1BattlesFledFrom, NULL, DB_WILD_BATTLES},
-        {gBattle1FailedEscapes, NULL, DB_BATTLES_FLED},
+        {gBattle1TotalBattles, GetStandardButtonStat, DB_BATTLES},
+        {gBattle1WildBattles, GetStandardButtonStat, DB_WILD_BATTLES},
+        {gBattle1TrainerBattles, GetStandardButtonStat, DB_TRAINER_BATTLES},
+        {gBattle1BattlesFledFrom, GetStandardButtonStat, DB_WILD_BATTLES},
+        {gBattle1FailedEscapes, GetStandardButtonStat, DB_BATTLES_FLED},
         {NULL, NULL}
     },
     { // PAGE 4 (TODO)
         {gBattle2Header, NULL},
-        {gBattle2EnemyPkmnFainted, NULL, DB_ENEMY_POKEMON_FAINTED},
-        {gBattle2ExpGained, NULL, DB_EXP_GAINED},
-        {gBattle2OwnPkmnFainted, NULL, DB_PLAYER_POKEMON_FAINTED},
-        {gBattle2NumSwitchouts, NULL, DB_SWITCHOUTS},
-        {gBattle2BallsThrown, NULL, DB_BALLS_THROWN},
-        {gBattle2PkmnCaptured, NULL, DB_POKEMON_CAUGHT_IN_BALLS}
+        {gBattle2EnemyPkmnFainted, GetStandardButtonStat, DB_ENEMY_POKEMON_FAINTED},
+        {gBattle2ExpGained, GetStandardButtonStat, DB_EXP_GAINED},
+        {gBattle2OwnPkmnFainted, GetStandardButtonStat, DB_PLAYER_POKEMON_FAINTED},
+        {gBattle2NumSwitchouts, GetStandardButtonStat, DB_SWITCHOUTS},
+        {gBattle2BallsThrown, GetStandardButtonStat, DB_BALLS_THROWN},
+        {gBattle2PkmnCaptured, GetStandardButtonStat, DB_POKEMON_CAUGHT_IN_BALLS}
     },
     { // PAGE 5 (TODO)
         {gBattle3Header, NULL},
-        {gBattle3MovesHitBy, NULL, DB_OWN_MOVES_HIT}, // Players (Opponents)
-        {gBattle3MovesMissed, NULL, DB_OWN_MOVES_MISSED}, // Players (Opponents)
-        {gBattle3SEMovesUsed, NULL, DB_OWN_MOVES_SE}, // Players (Opponents)
-        {gBattle3NVEMovesUsed, NULL, DB_OWN_MOVES_NVE}, // Players (Opponents)
-        {gBattle3CriticalHits, NULL, DB_CRITS_DEALT}, // Players (Opponents)
-        {gBattle3OHKOs, NULL, DB_OHKOS_DEALT} // Players (Opponents)
+        {gBattle3MovesHitBy, GetStandardDoubleButtonStat, DB_OWN_MOVES_HIT, DB_ENEMY_MOVES_HIT}, // Players (Opponents)
+        {gBattle3MovesMissed, GetStandardDoubleButtonStat, DB_OWN_MOVES_MISSED, DB_ENEMY_MOVES_MISSED}, // Players (Opponents)
+        {gBattle3SEMovesUsed, GetStandardDoubleButtonStat, DB_OWN_MOVES_SE, DB_ENEMY_MOVES_SE}, // Players (Opponents)
+        {gBattle3NVEMovesUsed, GetStandardDoubleButtonStat, DB_OWN_MOVES_NVE, DB_ENEMY_MOVES_NVE}, // Players (Opponents)
+        {gBattle3CriticalHits, GetStandardDoubleButtonStat, DB_CRITS_DEALT, DB_CRITS_TAKEN}, // Players (Opponents)
+        {gBattle3OHKOs, GetStandardDoubleButtonStat, DB_OHKOS_DEALT, DB_OHKOS_TAKEN} // Players (Opponents)
     },
     { // PAGE 6 (TODO)
         {gBattle4Header, NULL},
-        {gBattle4DamageDealt, NULL, DB_TOTAL_DAMAGE_DEALT}, // Total (Actual)
-        {gBattle4DamageTaken, NULL, DB_TOTAL_DAMAGE_TAKEN}, // Total (Actual)
+        {gBattle4DamageDealt, GetStandardDoubleButtonStat, DB_TOTAL_DAMAGE_DEALT, DB_ACTUAL_DAMAGE_DEALT}, // Total (Actual)
+        {gBattle4DamageTaken, GetStandardDoubleButtonStat, DB_TOTAL_DAMAGE_TAKEN, DB_ACTUAL_DAMAGE_TAKEN}, // Total (Actual)
         {NULL, NULL},
         {NULL, NULL},
         {NULL, NULL},
@@ -754,18 +789,18 @@ const struct DoneButtonLineItem sLineItems[8][7] = {
     },
     { // PAGE 7 (TODO)
         {gMoneyItemsHeader, NULL},
-        {gMoneyItemsMoneyMade, NULL, DB_MONEY_MADE},
-        {gMoneyItemsMoneySpent, NULL, DB_MONEY_SPENT},
-        {gMoneyItemsMoneyLost, NULL, DB_MONEY_LOST},
-        {gMoneyItemsItemsPickedUp, NULL, DB_ITEMS_PICKED_UP},
-        {gMoneyItemsItemsBought, NULL, DB_ITEMS_BOUGHT},
-        {gMoneyItemsItemsSold, NULL, DB_ITEMS_SOLD}
+        {gMoneyItemsMoneyMade, GetStandardButtonStat, DB_MONEY_MADE},
+        {gMoneyItemsMoneySpent, GetStandardButtonStat, DB_MONEY_SPENT},
+        {gMoneyItemsMoneyLost, GetStandardButtonStat, DB_MONEY_LOST},
+        {gMoneyItemsItemsPickedUp, GetStandardButtonStat, DB_ITEMS_PICKED_UP},
+        {gMoneyItemsItemsBought, GetStandardButtonStat, DB_ITEMS_BOUGHT},
+        {gMoneyItemsItemsSold, GetStandardButtonStat, DB_ITEMS_SOLD}
     },
     { // PAGE 8 (TODO)
         {gMiscHeader, NULL},
-        {gMiscTimesSaved, NULL, DB_SAVE_COUNT},
-        {gMiscSaveReloads, NULL, DB_RELOAD_COUNT},
-        {gMiscClockResets, NULL, DB_CLOCK_RESET_COUNT},
+        {gMiscTimesSaved, GetStandardButtonStat, DB_SAVE_COUNT},
+        {gMiscSaveReloads, GetStandardButtonStat, DB_RELOAD_COUNT},
+        {gMiscClockResets, GetStandardButtonStat, DB_CLOCK_RESET_COUNT},
         {NULL, NULL},
         {NULL, NULL},
         {NULL, NULL}
@@ -1068,7 +1103,7 @@ static void PrintGameStatsPage(void)
             }
             if (items[i].printfn != NULL)
             {
-                value_s = items[i].printfn(items[i].stat);
+                value_s = items[i].printfn(items[i].stat, items[i].stat2);
             }
             else
             {
