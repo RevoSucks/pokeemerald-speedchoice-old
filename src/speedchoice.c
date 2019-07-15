@@ -81,7 +81,7 @@ const u8 gSystemText_TerminatorS[] = _("{COLOR RED}$");
 
 // HEADER
 const u8 gSpeedchoiceTextHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}SPEEDCHOICE MENU");
-const u8 gSpeedchoiceCurrentVersion[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}BETA v1.1");
+const u8 gSpeedchoiceCurrentVersion[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}v1.1");
 
 // OPTION CHOICES
 const u8 gSpeedchoiceTextYes[]    = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}YES");
@@ -201,7 +201,7 @@ static const u8 gPresetVanilla[CURRENT_OPTIONS_NUM] = {
 static const u8 gPresetBingo[CURRENT_OPTIONS_NUM] = {
     PRESET_BINGO, // PRESET
     EXP_BW,      // EXP
-    PLOT_KEEP,   // PLOTLESS
+    PLOT_FULL,   // PLOTLESS
     IT_ON,       // INSTANTTEXT
     SPIN_KEEP,   // SPINNERS
     MAX_OFF,     // MAXVISION
@@ -219,7 +219,7 @@ static const u8 gPresetBingo[CURRENT_OPTIONS_NUM] = {
 static const u8 gPresetCEA[CURRENT_OPTIONS_NUM] = {
     PRESET_CEA,  // PRESET
     EXP_BW,      // EXP
-    PLOT_KEEP,   // PLOTLESS
+    PLOT_FULL,   // PLOTLESS
     IT_ON,       // INSTANTTEXT
     SPIN_KEEP,   // SPINNERS
     MAX_OFF,     // MAXVISION
@@ -1063,7 +1063,7 @@ static void DrawHeaderWindow(void)
 {
     FillWindowPixelBuffer(WIN_TEXT_OPTION, 0x11);
     AddTextPrinterParameterized(WIN_TEXT_OPTION, 1, gSpeedchoiceTextHeader, 4, 1, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(WIN_TEXT_OPTION, 1, gSpeedchoiceCurrentVersion, 160, 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(WIN_TEXT_OPTION, 1, gSpeedchoiceCurrentVersion, 182, 1, TEXT_SPEED_FF, NULL);
     CopyWindowToVram(WIN_TEXT_OPTION, 3);
 }
 
