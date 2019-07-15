@@ -4626,9 +4626,10 @@ static void atk49_moveend(void)
     u8 arg1, arg2;
     u16 originallyUsedMove;
     
+    // BUG: This increments 3 times. Find a better way to do this check.
     if(gMoveResultFlags & MOVE_RESULT_MISSED)
     {
-        switch(GetBattlerSide(gActiveBattler))
+        switch(GetBattlerSide(gBattlerAttacker))
         {
             case B_SIDE_PLAYER:
                 TryIncrementButtonStat(DB_OWN_MOVES_MISSED);
@@ -4640,7 +4641,7 @@ static void atk49_moveend(void)
     }
     else
     {
-        switch(GetBattlerSide(gActiveBattler))
+        switch(GetBattlerSide(gBattlerAttacker))
         {
             case B_SIDE_PLAYER:
                 TryIncrementButtonStat(DB_OWN_MOVES_HIT);
