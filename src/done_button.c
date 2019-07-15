@@ -560,86 +560,141 @@ const u8 *GetStringSample(void)
 
 const u8 gTODOString[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TODO");
 
-const struct DoneButtonLineItem sLineItems[8][8] = {
+// PAGE 1
+const u8 gTimersHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TIMERS");
+const u8 gTimersTotalTime[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TOTAL TIME: ");
+const u8 gTimersOverworldTime[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}OVERWORLD TIME: ");
+const u8 gTimersTimeInBattle[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TIME IN BATTLE: ");
+const u8 gTimersTimeInMenus[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TIME IN MENUS: ");
+const u8 gTimersTimeInIntros[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TIME IN INTROS: ");
+
+// PAGE 2
+const u8 gMovementHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MOVEMENT");
+const u8 gMovementTotalSteps[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TOTAL STEPS: ");
+const u8 gMovementStepsWalked[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}STEPS WALKED: ");
+const u8 gMovementStepsBiked[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}STEPS BIKED: ");
+const u8 gMovementStepsSurfed[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}STEPS SURFED: ");
+const u8 gMovementStepsRan[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}STEPS RAN: ");
+const u8 gMovementBonks[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}BONKS: ");
+
+// PAGE 3
+const u8 gBattle1Header[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}BATTLE 1");
+const u8 gBattle1TotalBattles[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TOTAL BATTLES: ");
+const u8 gBattle1WildBattles[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}WILD BATTLES: ");
+const u8 gBattle1TrainerBattles[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TRAINER BATTLES: ");
+const u8 gBattle1BattlesFledFrom[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}BATTLES FLED FROM: ");
+const u8 gBattle1FailedEscapes[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}FAILED ESCAPES: ");
+
+// PAGE 4
+const u8 gBattle2Header[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}BATTLE 2");
+const u8 gBattle2EnemyPkmnFainted[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}ENEMY PKMN FAINTED: ");
+const u8 gBattle2ExpGained[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}EXP GAINED: ");
+const u8 gBattle2OwnPkmnFainted[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}OWN PKMN FAINTED: ");
+const u8 gBattle2NumSwitchouts[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}NUM SWITCHOUTS: ");
+const u8 gBattle2BallsThrown[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}BALLS THROWN: ");
+const u8 gBattle2PkmnCaptured[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}PKMN CAPTURED: ");
+
+// PAGE 5
+const u8 gBattle3Header[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}BATTLE 3");
+const u8 gBattle3MovesHitBy[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MOVES HIT BY: ");
+const u8 gBattle3MovesMissed[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MOVES MISSED: ");
+const u8 gBattle3SEMovesUsed[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}S.E. MOVES USED: ");
+const u8 gBattle3NVEMovesUsed[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}N.V.E. MOVES USED: ");
+const u8 gBattle3CriticalHits[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}CRITICAL HITS: ");
+const u8 gBattle3OHKOs[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}OHKOs: ");
+
+// PAGE 6
+const u8 gBattle4Header[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}BATTLE 4");
+const u8 gBattle4DamageDealt[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}DAMAGE DEALT: ");
+const u8 gBattle4DamageTaken[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}DAMAGE TAKEN: ");
+
+// PAGE 7
+const u8 gMoneyItemsHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MONEY & ITEMS");
+const u8 gMoneyItemsMoneyMade[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MONEY MADE: ");
+const u8 gMoneyItemsMoneySpent[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MONEY SPENT: ");
+const u8 gMoneyItemsMoneyLost[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MONEY LOST: ");
+const u8 gMoneyItemsItemsPickedUp[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}ITEMS PICKED UP: ");
+const u8 gMoneyItemsItemsBought[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}ITEMS BOUGHT: ");
+const u8 gMoneyItemsItemsSold[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}ITEMS SOLD: ");
+
+// PAGE 8
+const u8 gMiscHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}MISC.");
+const u8 gMiscTimesSaved[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TIMES SAVED: ");
+const u8 gMiscSaveReloads[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}SAVE RELOADS: ");
+const u8 gMiscClockResets[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}CLOCK RESETS: ");
+
+const struct DoneButtonLineItem sLineItems[8][7] = {
     { // PAGE 1 (TODO)
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL}
+        {gTimersHeader, NULL},
+        {gTimersTotalTime, NULL},
+        {gTimersOverworldTime, NULL},
+        {gTimersTimeInBattle, NULL},
+        {gTimersTimeInMenus, NULL},
+        {gTimersTimeInIntros, NULL},
+        {NULL, NULL}
     },
     { // PAGE 2 (TODO)
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL}
+        {gMovementHeader, NULL},
+        {gMovementTotalSteps, NULL},
+        {gMovementStepsWalked, NULL},
+        {gMovementStepsBiked, NULL},
+        {gMovementStepsSurfed, NULL},
+        {gMovementStepsRan, NULL},
+        {gMovementBonks, NULL}
     },
     { // PAGE 3 (TODO)
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL}
+        {gBattle1Header, NULL},
+        {gBattle1TotalBattles, NULL},
+        {gBattle1WildBattles, NULL},
+        {gBattle1TrainerBattles, NULL},
+        {gBattle1BattlesFledFrom, NULL},
+        {gBattle1FailedEscapes, NULL},
+        {NULL, NULL}
     },
     { // PAGE 4 (TODO)
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL}
+        {gBattle2Header, NULL},
+        {gBattle2EnemyPkmnFainted, NULL},
+        {gBattle2ExpGained, NULL},
+        {gBattle2OwnPkmnFainted, NULL},
+        {gBattle2NumSwitchouts, NULL},
+        {gBattle2BallsThrown, NULL},
+        {gBattle2PkmnCaptured, NULL}
     },
     { // PAGE 5 (TODO)
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL}
+        {gBattle3Header, NULL},
+        {gBattle3MovesHitBy, NULL},
+        {gBattle3MovesMissed, NULL},
+        {gBattle3SEMovesUsed, NULL},
+        {gBattle3NVEMovesUsed, NULL},
+        {gBattle3CriticalHits, NULL},
+        {gBattle3OHKOs, NULL}
     },
     { // PAGE 6 (TODO)
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL}
+        {gBattle4Header, NULL},
+        {gBattle4DamageDealt, NULL},
+        {gBattle4DamageTaken, NULL},
+        {NULL, NULL},
+        {NULL, NULL},
+        {NULL, NULL},
+        {NULL, NULL}
     },
     { // PAGE 7 (TODO)
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL}
+        {gMoneyItemsHeader, NULL},
+        {gMoneyItemsMoneyMade, NULL},
+        {gMoneyItemsMoneySpent, NULL},
+        {gMoneyItemsMoneyLost, NULL},
+        {gMoneyItemsItemsPickedUp, NULL},
+        {gMoneyItemsItemsBought, NULL},
+        {gMoneyItemsItemsSold, NULL}
     },
     { // PAGE 8 (TODO)
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL},
-        {gTODOString, NULL}
+        {gMiscHeader, NULL},
+        {gMiscTimesSaved, NULL},
+        {gMiscSaveReloads, NULL},
+        {gMiscClockResets, NULL},
+        {NULL, NULL},
+        {NULL, NULL},
+        {NULL, NULL}
     }
 };
 
@@ -892,31 +947,48 @@ static void Task_DestroyDoneButton(u8 taskId)
     }
 }
 
+void PrintPageHeader(const struct DoneButtonLineItem *item)
+{
+    s32 width = GetStringWidth(0, item->name, 0);
+    s32 centered_x = ((29 * 8) - (1 * 8) - width) / 2;
+
+    AddTextPrinterParameterized(0, 1, item->name, centered_x, 1, -1, NULL);
+}
+
 static void PrintGameStatsPage(void)
 {
     const struct DoneButtonLineItem * items = sLineItems[doneButton->page];
     s32 i;
 
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
-    for (i = 0; i < 8; i++)
+    for (i = 0; i < 7; i++)
     {
         s32 width;
         const char * value_s;
-        if (items[i].name != NULL)
-        {
-            AddTextPrinterParameterized(0, 1, items[i].name, 1, 18 * i + 1, -1, NULL);
-        }
-        if (items[i].printfn != NULL)
-        {
-            value_s = items[i].printfn();
-        }
+        if(i == 0 && items[i].name) // this is the header. special treatment
+            PrintPageHeader(&items[i]);
         else
         {
-            value_s = gTODOString;
+            if (items[i].name != NULL)
+            {
+                AddTextPrinterParameterized(0, 1, items[i].name, 1, 18 * i + 1, -1, NULL);
+            }
+            if (items[i].printfn != NULL)
+            {
+                value_s = items[i].printfn();
+            }
+            else
+            {
+                value_s = gTODOString;
+            }
+            width = GetStringWidth(0, value_s, 0);
+            if (items[i].name != NULL)
+            {
+                AddTextPrinterParameterized(0, 1, value_s, 200 - width, 18 * i + 1, -1, NULL);
+            }
         }
-        width = GetStringWidth(0, value_s, 0);
-        AddTextPrinterParameterized(0, 1, items[i].name, 200 - width, 18 * i + 1, -1, NULL);
     }
+    // Print Page
     PutWindowTilemap(0);
     CopyWindowToVram(0, 3);
 }
