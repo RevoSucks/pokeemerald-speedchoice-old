@@ -558,7 +558,7 @@ const u8 *GetStringSample(void)
     return NULL; // TODO
 }
 
-const u8 gTODOString[] = _("TODO");
+const u8 gTODOString[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}TODO");
 
 const struct DoneButtonLineItem sLineItems[8][8] = {
     { // PAGE 1 (TODO)
@@ -689,22 +689,14 @@ static const struct WindowTemplate sWinTemplates[3] =
 {
     {
         .bg = 1,
-        .tilemapLeft = 2,
+        .tilemapLeft = 1,
         .tilemapTop = 1,
-        .width = 0x1A,
-        .height = 2,
+        .width = 28,
+        .height = 18,
         .paletteNum = 1,
-        .baseBlock = 2,
+        .baseBlock = 427,
     },
-    {
-        .bg = 0,
-        .tilemapLeft = 2,
-        .tilemapTop = 5,
-        .width = 0x1A,
-        .height = 14,
-        .paletteNum = 1,
-        .baseBlock = 0x36,
-    },
+    //{0, 2, 5, 0x1A, 14, 1, 0x36},
     DUMMY_WIN_TEMPLATE,
 };
 
@@ -905,7 +897,7 @@ static void PrintGameStatsPage(void)
     const struct DoneButtonLineItem * items = sLineItems[doneButton->page];
     s32 i;
 
-    FillWindowPixelBuffer(0, PIXEL_FILL(0));
+    FillWindowPixelBuffer(0, PIXEL_FILL(1));
     for (i = 0; i < 8; i++)
     {
         s32 width;
