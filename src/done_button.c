@@ -641,7 +641,7 @@ const u8 gPageText[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}{LEFT_ARROW} PAGE {ST
 
 #define CHAR_0 0xA1
 
-EWRAM_DATA u8 gBufferedString[17] = {0}; // Timer
+EWRAM_DATA u8 gBufferedString[18] = {0}; // Timer
 EWRAM_DATA u8 gBufferedString2[13] = {0}; // Standard 6 digit stats
 EWRAM_DATA u8 gBufferedString3[15] = {0}; // Standard 6 digit stats + (secondary stat)
 
@@ -685,17 +685,18 @@ const u8 *GetFormattedFrameTimerStr(enum DoneButtonStat stat, enum DoneButtonSta
     gBufferedString[3] = 0xFC; // {SHADOW LIGHT_GREEN}
     gBufferedString[4] = 0x03;
     gBufferedString[5] = 0x07;
-    gBufferedString[6] = CHAR_0 + hours;
-    gBufferedString[7] = 0xF0; // ':'
-    gBufferedString[8] = CHAR_0 + (minutes / 10);
-    gBufferedString[9] = CHAR_0 + (minutes % 10);
-    gBufferedString[10] = 0xF0; // ':'
-    gBufferedString[11] = CHAR_0 + (seconds / 10);
-    gBufferedString[12] = CHAR_0 + (seconds % 10);
-    gBufferedString[13] = 0xAD; // '.'
-    gBufferedString[14] = CHAR_0 + (milliseconds / 10);
-    gBufferedString[15] = CHAR_0 + (milliseconds % 10);
-    gBufferedString[16] = 0xFF;
+    gBufferedString[6] = CHAR_0 + (hours / 10);
+    gBufferedString[7] = CHAR_0 + (hours % 10);
+    gBufferedString[8] = 0xF0; // ':'
+    gBufferedString[9] = CHAR_0 + (minutes / 10);
+    gBufferedString[10] = CHAR_0 + (minutes % 10);
+    gBufferedString[11] = 0xF0; // ':'
+    gBufferedString[12] = CHAR_0 + (seconds / 10);
+    gBufferedString[13] = CHAR_0 + (seconds % 10);
+    gBufferedString[14] = 0xAD; // '.'
+    gBufferedString[15] = CHAR_0 + (milliseconds / 10);
+    gBufferedString[16] = CHAR_0 + (milliseconds % 10);
+    gBufferedString[17] = 0xFF;
 
     return (const u8 *)gBufferedString;
 }
