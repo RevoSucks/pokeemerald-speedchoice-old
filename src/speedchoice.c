@@ -15,6 +15,7 @@
 #include "text_window.h"
 #include "field_message_box.h"
 #include "text_window.h"
+#include "done_button.h"
 
 extern u16 sUnknown_0855C604[16];
 extern u16 sUnknown_0855C6A0[1];
@@ -936,6 +937,10 @@ static void Task_SpeedchoiceMenuFadeOut(u8 taskId)
         SetGpuReg(REG_OFFSET_BG0VOFS, 0);
         ResetBgs();
         InitBgsFromTemplates(0, sMainMenuBgTemplates, 2);
+        sInIntro = TRUE;
+        sInSubMenu = FALSE;
+        sInBattle = FALSE;
+        sInField = FALSE;
         gTasks[taskId].func = Task_NewGameBirchSpeech_Init;
     }
 }

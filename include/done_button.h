@@ -80,5 +80,6 @@ extern struct FrameTimers gFrameTimers;
 extern bool8 sInSubMenu;
 extern bool8 sInBattle;
 extern bool8 sInField;
+extern bool8 sInIntro;
 
 #endif // _GUARD_DONE_BUTTON_H

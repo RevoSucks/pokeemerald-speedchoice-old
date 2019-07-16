@@ -113,6 +113,7 @@ PetalburgCity_Gym_EventScript_2049A4:: @ 82049A4
     setflag FLAG_HIDE_MAGMA_HIDEOUT_GRUNTS
     setflag FLAG_HIDE_MAGMA_HIDEOUT_4F_GROUDON_1
     setflag FLAG_HIDE_MAGMA_HIDEOUT_4F_GROUDON_2
+    setflag FLAG_HIDE_JAGGED_PASS_MAGMA_GUARD
 EndOfWallyTutorial::
 	releaseall
 	end

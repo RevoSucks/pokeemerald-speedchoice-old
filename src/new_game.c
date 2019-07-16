@@ -45,6 +45,7 @@
 #include "mevent.h"
 #include "union_room_chat.h"
 #include "constants/items.h"
+#include "done_button.h"
 
 extern void ResetPokeJumpResults(void);
 
@@ -144,6 +145,10 @@ static void WarpToTruck(void)
 {
     SetWarpDestination(MAP_GROUP(INSIDE_OF_TRUCK), MAP_NUM(INSIDE_OF_TRUCK), -1, -1, -1);
     WarpIntoMap();
+    sInIntro = FALSE;
+    sInSubMenu = FALSE;
+    sInBattle = FALSE;
+    sInField = TRUE;
 }
 
 void Sav2_ClearSetDefault(void)

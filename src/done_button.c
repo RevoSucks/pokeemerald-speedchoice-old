@@ -34,6 +34,7 @@ extern u16 sMainMenuTextPal[16];
 EWRAM_DATA bool8 sInSubMenu = FALSE;
 EWRAM_DATA bool8 sInBattle = FALSE;
 EWRAM_DATA bool8 sInField = FALSE;
+EWRAM_DATA bool8 sInIntro = FALSE;
 
 EWRAM_DATA struct FrameTimers gFrameTimers = {0};
 
