@@ -499,6 +499,7 @@ int main(int argc, char ** argv)
     Elf32_Sym * Em_gAbilityNames = GetSymbolByName("gAbilityNames");
     print("AbilityNameLength=%d\n", Em_gAbilityNames->st_size / ABILITIES_COUNT);
     config_sym("TmMoves", "gTMHMMoves");
+    config_sym("TmMovesDuplicate", "gUnknown_08615B94");
     config_sym("MoveTutorData", "gTutorMoves");
     Elf32_Sym* Em_gTutorMoves = GetSymbolByName("gTutorMoves");
     print("MoveDutorMoves=%d\n", Em_gTutorMoves->st_size / 2);
@@ -520,6 +521,7 @@ int main(int argc, char ** argv)
     config_sym("TradeTableOffset", "gIngameTrades");
     Elf32_Sym * Em_gIngameTrades = GetSymbolByName("gIngameTrades");
     print("TradeTableSize=%d\n", Em_gIngameTrades->st_size / 60); // hardcoded for now
+    print("TradesUnused=[]\n");
     config_set("RunIndoorsTweakOffset", get_instr_addr(elfFile, "IsRunningDisallowed", IsRunIndoorsTweakOffset) & 0xFFFFFF);
     config_sym("TextSpeedValuesOffset", "gUnknown_0860F094");
     config_set("CatchingTutorialOpponentMonOffset", get_instr_addr(elfFile, "StartWallyTutorialBattle", IsWallyRalts) & 0xFFFFFF);
@@ -533,7 +535,7 @@ int main(int argc, char ** argv)
             if (gStaticPokemon[i][j].label == NULL) break;
             if (j != 0)
                 print(",");
-            print("0x%X", (sym_get(gStaticPokemon[i][j].label)) + gStaticPokemon[i][j].offset);
+            print("0x%X", (sym_get(gStaticPokemon[i][j].label) & 0xFFFFFF) + gStaticPokemon[i][j].offset);
         }
         print("]\n");
     }
