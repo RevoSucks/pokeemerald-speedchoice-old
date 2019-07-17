@@ -646,6 +646,57 @@ static bool8 AreLegendariesInSootopolisPreventingEncounters(void)
     return FlagGet(FLAG_LEGENDARIES_IN_SOOTOPOLIS);
 }
 
+bool32 IsWildMonInCurrentMap(u16 species)
+{
+    u16 headerId = GetCurrentMapWildMonHeaderId();
+    if(headerId != 0xFFFF)
+    {
+        const struct WildPokemonInfo *landMonsInfo = gWildMonHeaders[headerId].landMonsInfo;
+        const struct WildPokemonInfo *waterMonsInfo = gWildMonHeaders[headerId].waterMonsInfo;
+        const struct WildPokemonInfo *rockSmashMonsInfo = gWildMonHeaders[headerId].rockSmashMonsInfo;
+        const struct WildPokemonInfo *fishingMonsInfo = gWildMonHeaders[headerId].fishingMonsInfo;
+        int i;
+
+        if(landMonsInfo && landMonsInfo->wildPokemon)
+        {
+            for(i = 0; i < LAND_WILD_COUNT; i++)
+            {
+                if (landMonsInfo->wildPokemon[i].species == species)
+                    return TRUE;
+            }
+        }
+        
+        if(waterMonsInfo && waterMonsInfo->wildPokemon)
+        {
+            for(i = 0; i < WATER_WILD_COUNT; i++)
+            {
+                if (waterMonsInfo->wildPokemon[i].species == species)
+                    return TRUE;
+            }
+        }
+        
+        if(rockSmashMonsInfo && rockSmashMonsInfo->wildPokemon)
+        {
+            for(i = 0; i < ROCK_WILD_COUNT; i++)
+            {
+                if (rockSmashMonsInfo->wildPokemon[i].species == species)
+                    return TRUE;
+            }
+        }
+        
+        if(fishingMonsInfo && fishingMonsInfo->wildPokemon)
+        {
+            for(i = 0; i < FISH_WILD_COUNT; i++)
+            {
+                if (fishingMonsInfo->wildPokemon[i].species == species)
+                    return TRUE;
+            }
+        }
+    }
+
+    return FALSE;
+};
+
 bool8 StandardWildEncounter(u16 currMetaTileBehavior, u16 previousMetaTileBehavior)
 {
     u16 headerId;
