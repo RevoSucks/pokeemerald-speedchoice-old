@@ -44,19 +44,6 @@ static const char * gTypeNames[] = {
     "Dark"
 };
 
-typedef struct {
-    size_t nitems;
-    uint32_t data[0];
-} vector_u32;
-
-static vector_u32 * push_back(vector_u32 * orig, uint32_t value)
-{
-    orig = realloc(orig, sizeof(vector_u32) + (orig->nitems + 1) * sizeof(uint32_t));
-    orig->data[orig->nitems] = value;
-    orig->nitems++;
-    return orig;
-}
-
 struct TMText {
     int tmno;
     int mapgp;
@@ -188,7 +175,7 @@ static int IsIntroLotadForCry_1(const struct cs_insn * insn)
     // str rX, [sp, 16]
     else if (insn->id == ARM_INS_STR
              && insn->detail->arm.operands[0].type == ARM_OP_REG
-             && insn->detail->arm.operands[0].reg == tmp_reg
+             && insn->detail->arm.operands[0].reg == tmp_reg2
              && insn->detail->arm.operands[1].type == ARM_OP_MEM
              && !insn->detail->arm.operands[1].subtracted
              && insn->detail->arm.operands[1].mem.base == ARM_REG_SP
@@ -396,8 +383,8 @@ static int get_instr_addr(FILE * elfFile, const char * symname, int (*callback)(
     Elf32_Sym * sym = GetSymbolByName(symname);
     fseek(elfFile, (sym->st_value & ~1) - sh_text->sh_addr + sh_text->sh_offset, SEEK_SET);
     unsigned char * data = malloc(sym->st_size);
-    fread(data, 1, sym->st_size, elfFile);
-    uint16_t thumb_instr;
+    if (fread(data, 1, sym->st_size, elfFile) != sym->st_size)
+        FATAL_ERROR("fread");
     struct cs_insn *insn;
     int count = cs_disasm(sCapstone, data, sym->st_size, sym->st_value & ~1, 0, &insn);
     for (int i = 0; i < count; i++) {
@@ -410,20 +397,6 @@ static int get_instr_addr(FILE * elfFile, const char * symname, int (*callback)(
     cs_free(insn, count);
     free(data);
     return retval;
-}
-
-static int compare_u32(const void * a, const void * b)
-{
-    return *(const uint32_t *)a > *(const uint32_t *)b;
-}
-
-static unsigned int get_size_rawasm(Elf32_Sym * sym)
-{
-    Elf32_Sym * next = sym + 1;
-    while (next->st_value == sym->st_value || (next->st_shndx & 0xFF00) == 0xFF00) {
-        next++;
-    }
-    return next->st_value - sym->st_value;
 }
 
 int main(int argc, char ** argv)
