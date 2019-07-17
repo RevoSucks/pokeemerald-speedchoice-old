@@ -547,6 +547,7 @@ int main(int argc, char ** argv)
     }
 
     config_sym("WildMonHeaders", "gWildMonHeaders");
+    config_sym("PokedexOrder", "gSpeciesToNationalPokedexNum");
 
     DestroyResources();
     fclose(outFile);
