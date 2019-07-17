@@ -16,12 +16,37 @@
 #include "constants/pokemon.h"
 #include "constants/event_objects.h"
 
+/*
+ * ---------------------------------------------------------
+ * Type definitions
+ * ---------------------------------------------------------
+ */
+
 #define len(arr) (sizeof(arr)/sizeof(*arr))
+
+struct TMText {
+    int tmno;
+    int mapgp;
+    int mapno;
+    int scriptno;
+    int offset;
+    const char * text;
+};
+
+struct StaticPokemon {
+    const char * label;
+    int offset;
+};
 
 static csh sCapstone;
 
 static Elf32_Shdr * sh_text;
-static Elf32_Shdr * sh_rodata;
+
+/*
+ * ---------------------------------------------------------
+ * Data
+ * ---------------------------------------------------------
+ */
 
 static const char * gTypeNames[] = {
     "Normal",
@@ -42,20 +67,6 @@ static const char * gTypeNames[] = {
     "Ice",
     "Dragon",
     "Dark"
-};
-
-struct TMText {
-    int tmno;
-    int mapgp;
-    int mapno;
-    int scriptno;
-    int offset;
-    const char * text;
-};
-
-struct StaticPokemon {
-    const char * label;
-    int offset;
 };
 
 const struct StaticPokemon gStaticPokemon[][8] = {
@@ -129,21 +140,28 @@ const struct TMText gMoveTutorTexts[] = {
     {25, 9, 6, 9, 0x60, "I’ll just praise my POKéMON from now on without the [move]."}
 };
 
+/*
+ * ----------------------------------------------
+ * Capstone callbacks
+ * ----------------------------------------------
+ */
+
 static int IsLoadingStarterItems(const struct cs_insn * insn)
 {
     static int to_return;
     Elf32_Sym *sym = GetSymbolByName("ScriptGiveMon");
+    cs_arm_op * ops = insn->detail->arm.operands;
     // mov r2, #0
     if (insn->id == ARM_INS_MOV
-     && insn->detail->arm.operands[0].type == ARM_OP_REG
-     && insn->detail->arm.operands[0].reg == ARM_REG_R2
-     && insn->detail->arm.operands[1].type == ARM_OP_IMM
-     && insn->detail->arm.operands[1].imm == 0)
+     && ops[0].type == ARM_OP_REG
+     && ops[0].reg == ARM_REG_R2
+     && ops[1].type == ARM_OP_IMM
+     && ops[1].imm == 0)
         to_return = insn->address;
     // bl ScriptGiveMon
     else if (insn->id == ARM_INS_BL)
     {
-        uint32_t target = insn->detail->arm.operands[0].imm;
+        uint32_t target = ops[0].imm;
         if (target == (sym->st_value & ~1))
             return to_return;
     }
@@ -154,33 +172,34 @@ static int IsIntroLotadForCry_1(const struct cs_insn * insn)
 {
     static int to_return;
     static unsigned tmp_reg, tmp_reg2;
+    cs_arm_op * ops = insn->detail->arm.operands;
     // mov rX, SPECIES_LOTAD / 2
     if (insn->id == ARM_INS_MOV
-    && insn->detail->arm.operands[0].type == ARM_OP_REG
-    && insn->detail->arm.operands[1].type == ARM_OP_IMM
-    && insn->detail->arm.operands[1].imm == SPECIES_LOTAD / 2)
+    && ops[0].type == ARM_OP_REG
+    && ops[1].type == ARM_OP_IMM
+    && ops[1].imm == SPECIES_LOTAD / 2)
     {
         to_return = insn->address;
-        tmp_reg = insn->detail->arm.operands[0].reg;
+        tmp_reg = ops[0].reg;
     }
     // lsl rX, rY, 1
     else if (insn->id == ARM_INS_LSL
-    && insn->detail->arm.operands[0].type == ARM_OP_REG
-    && insn->detail->arm.operands[1].type == ARM_OP_REG
-    && insn->detail->arm.operands[1].reg == tmp_reg
-    && insn->detail->arm.operands[2].type == ARM_OP_IMM
-    && insn->detail->arm.operands[2].imm == 1
+    && ops[0].type == ARM_OP_REG
+    && ops[1].type == ARM_OP_REG
+    && ops[1].reg == tmp_reg
+    && ops[2].type == ARM_OP_IMM
+    && ops[2].imm == 1
     )
-        tmp_reg2 = insn->detail->arm.operands[0].reg;
+        tmp_reg2 = ops[0].reg;
     // str rX, [sp, 16]
     else if (insn->id == ARM_INS_STR
-             && insn->detail->arm.operands[0].type == ARM_OP_REG
-             && insn->detail->arm.operands[0].reg == tmp_reg2
-             && insn->detail->arm.operands[1].type == ARM_OP_MEM
-             && !insn->detail->arm.operands[1].subtracted
-             && insn->detail->arm.operands[1].mem.base == ARM_REG_SP
-             && insn->detail->arm.operands[1].mem.index == ARM_REG_INVALID
-             && insn->detail->arm.operands[1].mem.disp == 16)
+             && ops[0].type == ARM_OP_REG
+             && ops[0].reg == tmp_reg2
+             && ops[1].type == ARM_OP_MEM
+             && !ops[1].subtracted
+             && ops[1].mem.base == ARM_REG_SP
+             && ops[1].mem.index == ARM_REG_INVALID
+             && ops[1].mem.disp == 16)
         return to_return;
 
     return -1;
@@ -190,26 +209,27 @@ static int IsIntroLotadForCry_2(const struct cs_insn * insn)
 {
     static int to_return;
     static unsigned tmp_reg;
+    cs_arm_op * ops = insn->detail->arm.operands;
     // ldr rX, =SPECIES_LOTAD
     if (insn->id == ARM_INS_LDR
-        && insn->detail->arm.operands[0].type == ARM_OP_REG
-        && insn->detail->arm.operands[1].type == ARM_OP_MEM
-        && !insn->detail->arm.operands[1].subtracted
-        && insn->detail->arm.operands[1].mem.base == ARM_REG_PC
-        && insn->detail->arm.operands[1].mem.index == ARM_REG_INVALID)
+        && ops[0].type == ARM_OP_REG
+        && ops[1].type == ARM_OP_MEM
+        && !ops[1].subtracted
+        && ops[1].mem.base == ARM_REG_PC
+        && ops[1].mem.index == ARM_REG_INVALID)
     {
-        to_return = (insn->address & ~3) + insn->detail->arm.operands[1].mem.disp + 4;
-        tmp_reg = insn->detail->arm.operands[0].reg;
+        to_return = (insn->address & ~3) + ops[1].mem.disp + 4;
+        tmp_reg = ops[0].reg;
     }
     // str rX, [sp, #0x10]
     else if (insn->id == ARM_INS_STR
-             && insn->detail->arm.operands[0].type == ARM_OP_REG
-             && insn->detail->arm.operands[0].reg == tmp_reg
-             && insn->detail->arm.operands[1].type == ARM_OP_MEM
-             && !insn->detail->arm.operands[1].subtracted
-             && insn->detail->arm.operands[1].mem.base == ARM_REG_SP
-             && insn->detail->arm.operands[1].mem.index == ARM_REG_INVALID
-             && insn->detail->arm.operands[1].mem.disp == 16)
+             && ops[0].type == ARM_OP_REG
+             && ops[0].reg == tmp_reg
+             && ops[1].type == ARM_OP_MEM
+             && !ops[1].subtracted
+             && ops[1].mem.base == ARM_REG_SP
+             && ops[1].mem.index == ARM_REG_INVALID
+             && ops[1].mem.disp == 16)
         return to_return;
     return -1;
 }
@@ -226,22 +246,23 @@ static int IsIntroLotadForPic_1(const struct cs_insn * insn)
 {
     static int to_return;
     static unsigned tmp_reg;
+    cs_arm_op * ops = insn->detail->arm.operands;
     // mov rX, SPECIES_LOTAD / 2
     if (insn->id == ARM_INS_MOV
-    && insn->detail->arm.operands[0].type == ARM_OP_REG
-    && insn->detail->arm.operands[1].type == ARM_OP_IMM
-    && insn->detail->arm.operands[1].imm == SPECIES_LOTAD / 2)
+    && ops[0].type == ARM_OP_REG
+    && ops[1].type == ARM_OP_IMM
+    && ops[1].imm == SPECIES_LOTAD / 2)
     {
         to_return = insn->address;
-        tmp_reg = insn->detail->arm.operands[0].reg;
+        tmp_reg = ops[0].reg;
     }
     // lsl rX, rY, 1
     else if (insn->id == ARM_INS_LSL
-    && insn->detail->arm.operands[0].type == ARM_OP_REG
-    && insn->detail->arm.operands[1].type == ARM_OP_REG
-    && insn->detail->arm.operands[1].reg == tmp_reg
-    && insn->detail->arm.operands[2].type == ARM_OP_IMM
-    && insn->detail->arm.operands[2].imm == 1
+    && ops[0].type == ARM_OP_REG
+    && ops[1].type == ARM_OP_REG
+    && ops[1].reg == tmp_reg
+    && ops[2].type == ARM_OP_IMM
+    && ops[2].imm == 1
     )
         return to_return;
 
@@ -250,14 +271,15 @@ static int IsIntroLotadForPic_1(const struct cs_insn * insn)
 
 static int IsIntroLotadForPic_2(const struct cs_insn * insn)
 {
+    cs_arm_op * ops = insn->detail->arm.operands;
     // ldr rX, =SPECIES_LOTAD
     if (insn->id == ARM_INS_LDR
-        && insn->detail->arm.operands[0].type == ARM_OP_REG
-        && insn->detail->arm.operands[1].type == ARM_OP_MEM
-        && !insn->detail->arm.operands[1].subtracted
-        && insn->detail->arm.operands[1].mem.base == ARM_REG_PC
-        && insn->detail->arm.operands[1].mem.index == ARM_REG_INVALID)
-        return (insn->address & ~3) + insn->detail->arm.operands[1].mem.disp + 4;
+        && ops[0].type == ARM_OP_REG
+        && ops[1].type == ARM_OP_MEM
+        && !ops[1].subtracted
+        && ops[1].mem.base == ARM_REG_PC
+        && ops[1].mem.index == ARM_REG_INVALID)
+        return (insn->address & ~3) + ops[1].mem.disp + 4;
     return -1;
 }
 
@@ -271,13 +293,14 @@ static int IsIntroLotadForPic(const struct cs_insn * insn)
 
 static int IsRunIndoorsTweakOffset(const struct cs_insn * insn)
 {
+    cs_arm_op * ops = insn->detail->arm.operands;
     if (insn->id == ARM_INS_AND
-        && insn->detail->arm.operands[0].type == ARM_OP_REG
-        && insn->detail->arm.operands[1].type == ARM_OP_REG
+        && ops[0].type == ARM_OP_REG
+        && ops[1].type == ARM_OP_REG
         && (insn - 1)->id == ARM_INS_MOV
         && (insn - 1)->detail->arm.operands[0].type == ARM_OP_REG
         && (insn - 1)->detail->arm.operands[1].type == ARM_OP_IMM
-        && (insn - 1)->detail->arm.operands[0].reg == insn->detail->arm.operands[0].reg
+        && (insn - 1)->detail->arm.operands[0].reg == ops[0].reg
         && (insn - 1)->detail->arm.operands[1].imm == 4)
         return insn->address;
     return -1;
@@ -287,22 +310,23 @@ static int IsWallyZigzagoon_1(const struct cs_insn * insn)
 {
     static int to_return;
     static unsigned tmp_reg;
-    // mov rX, SPECIES_LOTAD / 2
+    cs_arm_op * ops = insn->detail->arm.operands;
+    // mov rX, SPECIES_ZIGZAGOON / 2
     if (insn->id == ARM_INS_MOV
-        && insn->detail->arm.operands[0].type == ARM_OP_REG
-        && insn->detail->arm.operands[1].type == ARM_OP_IMM
-        && insn->detail->arm.operands[1].imm == SPECIES_ZIGZAGOON / 2)
+        && ops[0].type == ARM_OP_REG
+        && ops[1].type == ARM_OP_IMM
+        && ops[1].imm == SPECIES_ZIGZAGOON / 2)
     {
         to_return = insn->address;
-        tmp_reg = insn->detail->arm.operands[0].reg;
+        tmp_reg = ops[0].reg;
     }
         // lsl rX, rY, 1
     else if (insn->id == ARM_INS_LSL
-             && insn->detail->arm.operands[0].type == ARM_OP_REG
-             && insn->detail->arm.operands[1].type == ARM_OP_REG
-             && insn->detail->arm.operands[1].reg == tmp_reg
-             && insn->detail->arm.operands[2].type == ARM_OP_IMM
-             && insn->detail->arm.operands[2].imm == 1
+             && ops[0].type == ARM_OP_REG
+             && ops[1].type == ARM_OP_REG
+             && ops[1].reg == tmp_reg
+             && ops[2].type == ARM_OP_IMM
+             && ops[2].imm == 1
         )
         return to_return;
 
@@ -311,14 +335,15 @@ static int IsWallyZigzagoon_1(const struct cs_insn * insn)
 
 static int IsWallyZigzagoon_2(const struct cs_insn * insn)
 {
-    // ldr rX, =SPECIES_LOTAD
+    cs_arm_op * ops = insn->detail->arm.operands;
+    // ldr rX, =SPECIES_ZIGZAGOON
     if (insn->id == ARM_INS_LDR
-        && insn->detail->arm.operands[0].type == ARM_OP_REG
-        && insn->detail->arm.operands[1].type == ARM_OP_MEM
-        && !insn->detail->arm.operands[1].subtracted
-        && insn->detail->arm.operands[1].mem.base == ARM_REG_PC
-        && insn->detail->arm.operands[1].mem.index == ARM_REG_INVALID)
-        return (insn->address & ~3) + insn->detail->arm.operands[1].mem.disp + 4;
+        && ops[0].type == ARM_OP_REG
+        && ops[1].type == ARM_OP_MEM
+        && !ops[1].subtracted
+        && ops[1].mem.base == ARM_REG_PC
+        && ops[1].mem.index == ARM_REG_INVALID)
+        return (insn->address & ~3) + ops[1].mem.disp + 4;
     return -1;
 }
 
@@ -334,22 +359,23 @@ static int IsWallyRalts_1(const struct cs_insn * insn)
 {
     static int to_return;
     static unsigned tmp_reg;
-    // mov rX, SPECIES_LOTAD / 2
+    cs_arm_op * ops = insn->detail->arm.operands;
+    // mov rX, SPECIES_RALTS / 2
     if (insn->id == ARM_INS_MOV
-        && insn->detail->arm.operands[0].type == ARM_OP_REG
-        && insn->detail->arm.operands[1].type == ARM_OP_IMM
-        && insn->detail->arm.operands[1].imm == SPECIES_RALTS / 2)
+        && ops[0].type == ARM_OP_REG
+        && ops[1].type == ARM_OP_IMM
+        && ops[1].imm == SPECIES_RALTS / 2)
     {
         to_return = insn->address;
-        tmp_reg = insn->detail->arm.operands[0].reg;
+        tmp_reg = ops[0].reg;
     }
         // lsl rX, rY, 1
     else if (insn->id == ARM_INS_LSL
-             && insn->detail->arm.operands[0].type == ARM_OP_REG
-             && insn->detail->arm.operands[1].type == ARM_OP_REG
-             && insn->detail->arm.operands[1].reg == tmp_reg
-             && insn->detail->arm.operands[2].type == ARM_OP_IMM
-             && insn->detail->arm.operands[2].imm == 1
+             && ops[0].type == ARM_OP_REG
+             && ops[1].type == ARM_OP_REG
+             && ops[1].reg == tmp_reg
+             && ops[2].type == ARM_OP_IMM
+             && ops[2].imm == 1
         )
         return to_return;
 
@@ -358,14 +384,15 @@ static int IsWallyRalts_1(const struct cs_insn * insn)
 
 static int IsWallyRalts_2(const struct cs_insn * insn)
 {
-    // ldr rX, =SPECIES_LOTAD
+    cs_arm_op * ops = insn->detail->arm.operands;
+    // ldr rX, =SPECIES_RALTS
     if (insn->id == ARM_INS_LDR
-        && insn->detail->arm.operands[0].type == ARM_OP_REG
-        && insn->detail->arm.operands[1].type == ARM_OP_MEM
-        && !insn->detail->arm.operands[1].subtracted
-        && insn->detail->arm.operands[1].mem.base == ARM_REG_PC
-        && insn->detail->arm.operands[1].mem.index == ARM_REG_INVALID)
-        return (insn->address & ~3) + insn->detail->arm.operands[1].mem.disp + 4;
+        && ops[0].type == ARM_OP_REG
+        && ops[1].type == ARM_OP_MEM
+        && !ops[1].subtracted
+        && ops[1].mem.base == ARM_REG_PC
+        && ops[1].mem.index == ARM_REG_INVALID)
+        return (insn->address & ~3) + ops[1].mem.disp + 4;
     return -1;
 }
 
@@ -376,6 +403,26 @@ static int IsWallyRalts(const struct cs_insn * insn)
         return retval;
     return IsWallyRalts_2(insn);
 }
+
+/*
+ * ---------------------------------------------------------
+ * get_instr_addr(
+ *   FILE * elfFile,
+ *   const char * symname,
+ *   int (*callback)(const struct cs_insn *)
+ * )
+ *
+ * Disassembles the function of the provided name until the
+ * callback returns a positive integer, then returns that
+ * integer. If the end of the function is reached and the
+ * callback never returns positive, -1 is returned instead.
+ * The callback takes a single argument, a pointer to a
+ * disassembled instruction. It then runs internal logic to
+ * determine whether the instruction or sequence of in-
+ * structions is what is desired, then returns the address
+ * of that instruction.
+ * ---------------------------------------------------------
+ */
 
 static int get_instr_addr(FILE * elfFile, const char * symname, int (*callback)(const struct cs_insn *))
 {
@@ -406,6 +453,7 @@ int main(int argc, char ** argv)
     FILE * elfFile = NULL;
     FILE * outFile = NULL;
 
+    // Argument parser
     for (int i = 1; i < argc; i++) {
         char * arg = argv[i];
         if (strcmp(arg, "--name") == 0) {
@@ -441,6 +489,7 @@ int main(int argc, char ** argv)
         FATAL_ERROR("usage: %s ELF OUTPUT [--name NAME] [--code CODE]\n", argv[0]);
     }
 
+    // Load the ELF metadata
     InitElf(elfFile);
 #ifdef _MSC_VER
 #define print(format, ...) (fprintf(outFile, format, __VA_ARGS__))
@@ -451,15 +500,19 @@ int main(int argc, char ** argv)
 #define sym_get(name) (GetSymbolByName((name))->st_value)
 #define config_sym(name, symname) (config_set((name), sym_get(symname) & 0xFFFFFF))
 
+    // Initialize Capstone
     cs_open(CS_ARCH_ARM, CS_MODE_THUMB, &sCapstone);
     cs_option(sCapstone, CS_OPT_DETAIL, CS_OPT_ON);
     sh_text = GetSectionHeaderByName(".text");
-    sh_rodata = GetSectionHeaderByName(".rodata");
+
+    // Start writing the INI
     print("[%s]\n", romName);
     print("Game=%s\n", romCode);
     print("Version=0\n");
     print("Type=Em\n");
     print("TableFile=gba_english\n");
+
+    // Find the first block after the ROM
     int shnum = GetSectionHeaderCount();
     uint32_t entry = GetEntryPoint();
     uint32_t end = entry;
@@ -472,12 +525,15 @@ int main(int argc, char ** argv)
         end += 0x10000 - (end & 0xFFFF);
     }
     print("FreeSpace=0x%X\n", end);
+
+    // Pokemon data
     print("PokemonCount=%d\n", NUM_SPECIES - 1);
     print("PokemonNameLength=%d\n", POKEMON_NAME_LENGTH + 1);
     config_sym("PokemonMovesets", "gLevelUpLearnsets");
     config_sym("PokemonTMHMCompat", "gTMHMLearnsets");
     config_sym("PokemonEvolutions", "gEvolutionTable");
     config_sym("StarterPokemon", "sStarterMon");
+    // This symbol is inside a C function, so we must take an assist from capstone.
     config_set("StarterItems", get_instr_addr(elfFile, "CB2_GiveStarter", IsLoadingStarterItems) & 0xFFFFFF);
     config_sym("TrainerData", "gTrainers");
     Elf32_Sym * Em_gTrainers = GetSymbolByName("gTrainers");
@@ -529,6 +585,7 @@ int main(int argc, char ** argv)
     config_set("CatchingTutorialPlayerMonOffset", get_instr_addr(elfFile, "PutZigzagoonInPlayerParty", IsWallyZigzagoon) & 0xFFFFFF);
     config_sym("PCPotionOffset", "gNewGamePCItems");
 
+    // These may need some fixing to support dynamic offsets.
     print("StaticPokemonSupport=1\n");
     for (int i = 0; i < len(gStaticPokemon); i++) {
         print("StaticPokemon[]=[");
