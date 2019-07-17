@@ -15,6 +15,7 @@
 #include "text_window.h"
 #include "field_message_box.h"
 #include "text_window.h"
+#include "done_button.h"
 
 extern u16 sUnknown_0855C604[16];
 extern u16 sUnknown_0855C6A0[1];
@@ -237,19 +238,19 @@ static const u8 gPresetCEA[CURRENT_OPTIONS_NUM] = {
 static const u8 gPresetRace[CURRENT_OPTIONS_NUM] = {
     PRESET_RACE, // PRESET
     EXP_BW,      // EXP
-    PLOT_KEEP,   // PLOTLESS
+    PLOT_FULL,   // PLOTLESS
     IT_ON,       // INSTANTTEXT
-    SPIN_KEEP,   // SPINNERS
+    SPIN_NERF,   // SPINNERS
     MAX_OFF,     // MAXVISION
     NERF_YES,    // NERFROXANNE
     BIKE_ON,     // SUPERBIKE
     NEW_ON,      // NEWWILDENC
-    FLY_NO,      // EARLYFLY
+    FLY_YES,     // EARLYFLY
     RUN_ON,      // RUN_EVERYWHERE
     MEME_BIG,    // MEME_ISLAND
     MARTS_ON,    // BETTER_MARTS
     GOOD_STATIC, // GOOD_EARLY_WILDS
-    SURF_OFF     // EARLYSURF
+    SURF_ON      // EARLYSURF
 };
 
 const u8 *GetPresetPtr(int presetID) {
@@ -936,6 +937,10 @@ static void Task_SpeedchoiceMenuFadeOut(u8 taskId)
         SetGpuReg(REG_OFFSET_BG0VOFS, 0);
         ResetBgs();
         InitBgsFromTemplates(0, sMainMenuBgTemplates, 2);
+        sInIntro = TRUE;
+        sInSubMenu = FALSE;
+        sInBattle = FALSE;
+        sInField = FALSE;
         gTasks[taskId].func = Task_NewGameBirchSpeech_Init;
     }
 }

@@ -70,7 +70,7 @@ static void DoBattlePikeWildBattle(void);
 static void DoSafariBattle(void);
 static void DoStandardWildBattle(void);
 static void CB2_EndWildBattle(void);
-static void CB2_EndScriptedWildBattle(void);
+void CB2_EndScriptedWildBattle(void);
 static u8 GetWildBattleTransition(void);
 static u8 GetTrainerBattleTransition(void);
 static void sub_80B1218(void);
@@ -611,7 +611,9 @@ static void CB2_EndWildBattle(void)
     }
 }
 
-static void CB2_EndScriptedWildBattle(void)
+extern void HealPlayerParty(void);
+
+void CB2_EndScriptedWildBattle(void)
 {
     CpuFill16(0, (void*)(BG_PLTT), BG_PLTT_SIZE);
     ResetOamRange(0, 128);
@@ -619,7 +621,7 @@ static void CB2_EndScriptedWildBattle(void)
     sInBattle = FALSE;
     sInField = TRUE;
 
-    if (IsPlayerDefeated(gBattleOutcome) == TRUE)
+    if (IsPlayerDefeated(gBattleOutcome) == TRUE && (gTrainerBattleOpponent_A != TRAINER_BRENDAN_1 && gTrainerBattleOpponent_A != TRAINER_MAY_1) )
     {
         if (InBattlePyramid())
             SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
@@ -628,6 +630,10 @@ static void CB2_EndScriptedWildBattle(void)
     }
     else
     {
+        if(gTrainerBattleOpponent_A == TRAINER_BRENDAN_1 || gTrainerBattleOpponent_A == TRAINER_MAY_1) {
+            if(IsPlayerDefeated(gBattleOutcome) == TRUE)
+                HealPlayerParty();
+        }
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
     }
 }

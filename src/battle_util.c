@@ -255,8 +255,8 @@ void PrepareStringBattle(u16 stringId, u8 battler)
                 break;
         }
     }
-    //if(stringId == STRINGID_CANTESCAPE2)
-    //    TryIncrementButtonStat(DB_FAILED_RUNS);
+    if(stringId == STRINGID_CANTESCAPE2 || stringId == STRINGID_CANTESCAPE)
+        TryIncrementButtonStat(DB_FAILED_RUNS);
 }
 
 void ResetSentPokesToOpponentValue(void)

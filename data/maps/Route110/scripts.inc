@@ -470,7 +470,10 @@ Route110_EventScript_1EF8B4:: @ 81EF8B4
 
 Route110_EventScript_1EF8C4:: @ 81EF8C4
 	msgbox Route110_Text_1EFECD, MSGBOX_DEFAULT
-	call Route110_EventScript_1EF8DF
+	checkspeedchoice EARLYFLY, FLY_YES
+	call_if TRUE, Speedchoice_GiveFly
+	checkspeedchoice EARLYFLY, FLY_NO
+	call_if TRUE, Route110_EventScript_1EF8DF
 	msgbox Route110_Text_1EFF1C, MSGBOX_DEFAULT
 	goto Route110_EventScript_1EF8EC
 	end

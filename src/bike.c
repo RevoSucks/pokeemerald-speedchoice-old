@@ -910,6 +910,8 @@ static u8 Bike_CheckCollisionTryAdvanceCollisionCount(struct EventObject *eventO
 
 bool8 RS_IsRunningDisallowed(u8 tile)
 {
+    if(CheckSpeedchoiceOption(RUN_EVERYWHERE, RUN_ON) == TRUE)
+        return FALSE;
     if (IsRunningDisallowedByMetatile(tile) != FALSE || gMapHeader.mapType == MAP_TYPE_INDOOR)
         return TRUE;
     else
@@ -920,8 +922,8 @@ static bool8 IsRunningDisallowedByMetatile(u8 tile)
 {
     if (MetatileBehavior_IsRunningDisallowed(tile))
         return TRUE;
-    if (MetatileBehavior_IsFortreeBridge(tile) && (PlayerGetZCoord() & 1) == 0)
-        return TRUE;
+    //if (MetatileBehavior_IsFortreeBridge(tile) && (PlayerGetZCoord() & 1) == 0)
+    //    return TRUE;
     return FALSE;
 }
 

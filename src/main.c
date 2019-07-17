@@ -160,11 +160,17 @@ void DoFrameTimers(void)
         gFrameTimers.frameCount++;
     if(sInField && gFrameTimers.owFrameCount != 0xFFFFFFFF)
         gFrameTimers.owFrameCount++;
-    if(sInBattle && gFrameTimers.battleFrameCount != 0xFFFFFFFF)
+    else if(sInBattle && gFrameTimers.battleFrameCount != 0xFFFFFFFF)
         gFrameTimers.battleFrameCount++;
-    if(sInSubMenu && gFrameTimers.menuFrameCount != 0xFFFFFFFF)
+    else if(sInIntro && gFrameTimers.introsFrameCount != 0xFFFFFFFF)
+        gFrameTimers.introsFrameCount++;
+    else if(sInSubMenu && gFrameTimers.menuFrameCount != 0xFFFFFFFF)
         gFrameTimers.menuFrameCount++;
-    // Intro is handled seperately
+    else if(!sInField && !sInBattle && !sInIntro && !sInSubMenu) // no category detected, we consider this a menu frame. (between menu transitions?)
+    {
+        if (gFrameTimers.menuFrameCount != 0xFFFFFFFF)
+            gFrameTimers.menuFrameCount++;
+    }
 }
 
 static void UpdateLinkAndCallCallbacks(void)
