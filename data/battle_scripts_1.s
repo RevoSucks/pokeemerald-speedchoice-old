@@ -2960,6 +2960,8 @@ BattleScript_LocalBattleLost::
 	jumpifbattletype BATTLE_TYPE_TRAINER_HILL, BattleScript_LocalBattleLostPrintTrainersWinText
 	jumpifbattletype BATTLE_TYPE_EREADER_TRAINER, BattleScript_LocalBattleLostEnd
 	jumpifhalfword CMP_EQUAL, gTrainerBattleOpponent_A, 0x400, BattleScript_LocalBattleLostEnd
+    jumpifhalfword CMP_EQUAL, gTrainerBattleOpponent_A, 520, BattleScript_LocalBattleLostEnd @ TRAINER_BRENDAN_1
+    jumpifhalfword CMP_EQUAL, gTrainerBattleOpponent_A, 529, BattleScript_LocalBattleLostEnd @ TRAINER_MAY_1
 BattleScript_LocalBattleLostPrintWhiteOut::
 	printstring STRINGID_PLAYERWHITEOUT
 	waitmessage 1

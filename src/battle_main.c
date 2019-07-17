@@ -5160,7 +5160,7 @@ static void HandleEndTurn_MonFled(void)
 
 static void HandleEndTurn_FinishBattle(void)
 {
-    if (gCurrentActionFuncId == 0xB || gCurrentActionFuncId == 0xC)
+    if (gCurrentActionFuncId == B_ACTION_TRY_FINISH || gCurrentActionFuncId == B_ACTION_FINISHED)
     {
         if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK
                                   | BATTLE_TYPE_x2000000
@@ -5277,6 +5277,8 @@ static void WaitForEvoSceneToFinish(void)
         gBattleMainFunc = TryEvolvePokemon;
 }
 
+extern void CB2_EndScriptedWildBattle(void);
+
 static void ReturnFromBattleToOverworld(void)
 {
     if (!(gBattleTypeFlags & BATTLE_TYPE_LINK))
@@ -5300,7 +5302,10 @@ static void ReturnFromBattleToOverworld(void)
     }
 
     m4aSongNumStop(SE_HINSI);
-    SetMainCallback2(gMain.savedCallback);
+    if(gTrainerBattleOpponent_A == TRAINER_BRENDAN_1 || gTrainerBattleOpponent_A == TRAINER_MAY_1) // haaaaack!
+        SetMainCallback2(CB2_EndScriptedWildBattle);
+    else
+        SetMainCallback2(gMain.savedCallback);
 }
 
 void RunBattleScriptCommands_PopCallbacksStack(void)
