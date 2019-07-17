@@ -546,6 +546,8 @@ int main(int argc, char ** argv)
         print("MoveTutorText[]=[%d,%d,%d,%d,0x%X,%s]\n", gMoveTutorTexts[i].tmno, gMoveTutorTexts[i].mapgp, gMoveTutorTexts[i].mapno, gMoveTutorTexts[i].scriptno, gMoveTutorTexts[i].offset, gMoveTutorTexts[i].text);
     }
 
+    config_sym("WildMonHeaders", "gWildMonHeaders");
+
     DestroyResources();
     fclose(outFile);
     fclose(elfFile);
