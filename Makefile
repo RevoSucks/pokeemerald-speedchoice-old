@@ -22,6 +22,7 @@ OBJ_DIR := build/emerald
 
 ELF = $(ROM:.gba=.elf)
 MAP = $(ROM:.gba=.map)
+INI = $(ROM:.gba=.ini)
 
 C_SUBDIR = src
 ASM_SUBDIR = asm
@@ -57,6 +58,7 @@ RAMSCRGEN := tools/ramscrgen/ramscrgen$(EXE)
 FIX := tools/gbafix/gbafix$(EXE)
 MAPJSON := tools/mapjson/mapjson$(EXE)
 JSONPROC := tools/jsonproc/jsonproc$(EXE)
+INIGEN := tools/inigen/inigen$(EXE)
 
 # Clear the default suffixes
 .SUFFIXES:
@@ -96,9 +98,11 @@ $(shell mkdir -p $(SUBDIRS))
 
 rom: $(ROM)
 
+ini: $(INI)
+
 # For contributors to make sure a change didn't affect the contents of the ROM.
-compare: $(ROM)
-	@$(SHA1) rom.sha1
+# compare: $(ROM)
+# 	@$(SHA1) rom.sha1
 
 clean: tidy
 	rm -f sound/direct_sound_samples/*.bin
@@ -203,3 +207,6 @@ $(ELF): $(OBJ_DIR)/ld_script.ld $(OBJS)
 $(ROM): $(ELF)
 	$(OBJCOPY) -O binary $< $@
 	$(FIX) $@ -p -t"$(TITLE)" -c$(GAME_CODE) -m$(MAKER_CODE) -r$(REVISION) --silent
+
+$(INI): $(ELF)
+	$(INIGEN) $< $@ --name "Emerald Speedchoice" --code $(GAME_CODE)
