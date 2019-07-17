@@ -74,6 +74,7 @@ struct PokeDexAreaScreen
 };
 
 static EWRAM_DATA struct PokeDexAreaScreen *sPokedexAreaScreen = NULL;
+EWRAM_DATA bool32 sPlaySound = FALSE;
 
 static void FindMapsWithMon(u16);
 static void BuildAreaGlowTilemap(void);

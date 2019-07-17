@@ -29,6 +29,7 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/species.h"
+#include "wild_encounter.h"
 
 // EWRAM
 static EWRAM_DATA struct PokedexView *sPokedexView = NULL;
@@ -3170,12 +3171,17 @@ void sub_80BF0AC(u8 taskId)
             gMain.state++;
             break;
         case 2:
-            ShowPokedexAreaScreen(NationalPokedexNumToSpecies(sPokedexListItem->dexNum), &sPokedexView->unk64E);
+        {
+            u16 species = NationalPokedexNumToSpecies(sPokedexListItem->dexNum);
+            if(IsWildMonInCurrentMap(species))
+                PlaySE(SE_C_PIKON);
+            ShowPokedexAreaScreen(species, &sPokedexView->unk64E);
             SetVBlankCallback(gUnknown_030060B4);
             sPokedexView->unk64E = 0;
             gMain.state = 0;
             gTasks[taskId].func = sub_80BF1B4;
             break;
+        }
     }
 }
 

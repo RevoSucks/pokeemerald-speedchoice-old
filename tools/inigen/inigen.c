@@ -508,6 +508,7 @@ int main(int argc, char ** argv)
     config_set("StarterItems", get_instr_addr(elfFile, "CB2_GiveStarter", IsLoadingStarterItems) & 0xFFFFFF);
     config_sym("TrainerData", "gTrainers");
     Elf32_Sym * Em_gTrainers = GetSymbolByName("gTrainers");
+    config_sym("WildMonHeaders", "gWildMonHeaders");
     print("TrainerEntrySize=%d\n", Em_gTrainers->st_size / TRAINERS_COUNT);
     config_set("TrainerCount", TRAINERS_COUNT - 1);
     config_sym("TrainerClassNames", "gTrainerClassNames");
@@ -547,6 +548,7 @@ int main(int argc, char ** argv)
     config_sym("TradeTableOffset", "gIngameTrades");
     Elf32_Sym * Em_gIngameTrades = GetSymbolByName("gIngameTrades");
     print("TradeTableSize=%d\n", Em_gIngameTrades->st_size / 60); // hardcoded for now
+    print("TradesUnused=[]\n"); // so randomizer doesn't complain
     config_set("RunIndoorsTweakOffset", get_instr_addr(elfFile, "IsRunningDisallowed", IsRunIndoorsTweakOffset) & 0xFFFFFF);
     config_sym("TextSpeedValuesOffset", "gUnknown_0860F094");
     config_set("CatchingTutorialOpponentMonOffset", get_instr_addr(elfFile, "StartWallyTutorialBattle", IsWallyRalts) & 0xFFFFFF);
@@ -560,7 +562,7 @@ int main(int argc, char ** argv)
             if (gStaticPokemon[i][j].label == NULL) break;
             if (j != 0)
                 print(",");
-            print("0x%X", (sym_get(gStaticPokemon[i][j].label)) + gStaticPokemon[i][j].offset);
+            print("0x%X", (sym_get(gStaticPokemon[i][j].label)) + gStaticPokemon[i][j].offset - 0x08000000);
         }
         print("]\n");
     }
