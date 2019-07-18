@@ -8,6 +8,7 @@ GraniteCave_StevensRoom_EventScript_22DC7B:: @ 822DC7B
 	setvar VAR_0x8004, 274
 	call GraniteCave_StevensRoom_EventScript_2723E4
 	setflag FLAG_DELIVERED_STEVEN_LETTER
+gTMText_14::
 	msgbox GraniteCave_StevensRoom_Text_22DDBD, MSGBOX_DEFAULT
 	giveitem_std ITEM_TM47
 	compare VAR_RESULT, 0
