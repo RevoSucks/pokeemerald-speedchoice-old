@@ -24,12 +24,18 @@
 
 #define len(arr) (sizeof(arr)/sizeof(*arr))
 
+//struct TMText {
+//    int tmno;
+//    int mapgp;
+//    int mapno;
+//    int scriptno;
+//    int offset;
+//    const char * text;
+//};
+
 struct TMText {
     int tmno;
-    int mapgp;
-    int mapno;
-    int scriptno;
-    int offset;
+    const char * label;
     const char * text;
 };
 
@@ -98,46 +104,46 @@ const struct StaticPokemon gStaticPokemon[][8] = {
 };
 
 const struct TMText gTMTexts[] = {
-    {3, 15, 0, 1, 0xA9, "The TECHNICAL MACHINE I handed you contains [move].\\p… … … … … …"},
-    {4, 14, 0, 1, 0xB8, "TATE: That TM04 contains... LIZA: [move]!\\pTATE: It’s a move that’s perfect... LIZA: For any POKéMON!\\p… … … … … …"},
-    {5, 0, 29, 12, 0x0D, "All my POKéMON does is [move]... No one dares to come near me...\\pSigh... If you would, please take this TM away..."},
-    {5, 0, 29, 12, 0x2F, "TM05 contains [move]."},
-    {8, 3, 3, 1, 0xAC, "That TM08 contains [move].\\p… … … … … …"},
-    {9, 0, 19, 32, 0x0D, "I like filling my mouth with seeds, then spitting them out fast!\\pI like you, so you can have this!\\pUse it on a POKéMON, and it will learn [move].\\pWhat does that have to do with firing seeds? Well, nothing!"},
-    {24, 0, 2, 8, 0x4C, "WATTSON: Wahahahaha!\\pI knew it, \\v01\\v05! I knew I’d made the right choice asking you!\\pThis is my thanks - a TM containing [move]!\\pGo on, you’ve earned it!"},
-    {31, 15, 5, 1, 0x2F, "TM31 contains [move]! It’s a move so horrible that I can’t describe it."},
-    {34, 10, 0, 1, 0xBB, "That TM34 there contains [move]. You can count on it!\\p… … … … … …"},
-    {39, 11, 3, 1, 0x8F, "That TM39 contains [move].\\pIf you use a TM, it instantly teaches the move to a POKéMON.\\pRemember, a TM can be used only once, so think before you use it."},
-    {40, 12, 1, 1, 0x97, "TM40 contains [move].\\p… … … … … …"},
-    {41, 9, 2, 2, 0x2F, "That’s, like, TM41, you know? Hey, it’s [move], you hearing me?\\pHey, now, you listen here, like, I’m not laying a torment on you!"},
-    {42, 8, 1, 1, 0x4FD, "DAD: TM42 contains [move].\\pIt might be able to turn a bad situation into an advantage."},
-    {47, 24, 10, 1, 0x19, "STEVEN: Okay, thank you.\\pYou went through all this trouble to deliver that. I need to thank you.\\pLet me see... I’ll give you this TM.\\pIt contains my favorite move, [move]."},
-    {50, 4, 1, 1, 0xAA, "That TM50 contains [move]."}
+    {3, "gTMText_1", "The TECHNICAL MACHINE I handed you contains [move].\\p… … … … … …"},
+    {4, "gTMText_2", "TATE: That TM04 contains... LIZA: [move]!\\pTATE: It’s a move that’s perfect... LIZA: For any POKéMON!\\p… … … … … …"},
+    {5, "gTMText_3", "All my POKéMON does is [move]... No one dares to come near me...\\pSigh... If you would, please take this TM away..."},
+    {5, "gTMText_4", "TM05 contains [move]."},
+    {8, "gTMText_5", "That TM08 contains [move].\\p… … … … … …"},
+    {9, "gTMText_6", "I like filling my mouth with seeds, then spitting them out fast!\\pI like you, so you can have this!\\pUse it on a POKéMON, and it will learn [move].\\pWhat does that have to do with firing seeds? Well, nothing!"},
+    {24, "gTMText_7", "WATTSON: Wahahahaha!\\pI knew it, \\v01\\v05! I knew I’d made the right choice asking you!\\pThis is my thanks - a TM containing [move]!\\pGo on, you’ve earned it!"},
+    {31, "gTMText_8", "TM31 contains [move]! It’s a move so horrible that I can’t describe it."},
+    {34, "gTMText_9", "That TM34 there contains [move]. You can count on it!\\p… … … … … …"},
+    {39, "gTMText_10", "That TM39 contains [move].\\pIf you use a TM, it instantly teaches the move to a POKéMON.\\pRemember, a TM can be used only once, so think before you use it."},
+    {40, "gTMText_11", "TM40 contains [move].\\p… … … … … …"},
+    {41, "gTMText_12", "That’s, like, TM41, you know? Hey, it’s [move], you hearing me?\\pHey, now, you listen here, like, I’m not laying a torment on you!"},
+    {42, "gTMText_13", "DAD: TM42 contains [move].\\pIt might be able to turn a bad situation into an advantage."},
+    {47, "gTMText_14", "STEVEN: Okay, thank you.\\pYou went through all this trouble to deliver that. I need to thank you.\\pLet me see... I’ll give you this TM.\\pIt contains my favorite move, [move]."},
+    {50, "gTMText_15", "That TM50 contains [move]."}
 };
 
 const struct TMText gMoveTutorTexts[] = {
-    {4, 15, 2, 4, 0x0D, "Sigh…\\pSOOTOPOLIS’s GYM LEADER is really lovably admirable.\\pBut that also means I have many rivals for his attention.\\pHe’s got appeal with a [move]. I couldn’t even catch his eye.\\pPlease, let me teach your POKéMON the move [move]!"},
-    {4, 15, 2, 4, 0x30, "Okay, which POKéMON should I teach [move]?"},
-    {15, 0, 6, 15, 0x0D, "I can’t do this anymore!\\pIt’s utterly hopeless!\\pI’m a FIGHTING-type TRAINER, so I can’t win at the MOSSDEEP GYM no matter how hard I try!\\pArgh! Punch! Punch! Punch! Punch! Punch! Punch!\\pWhat, don’t look at me that way! I’m only hitting the ground!\\pOr do you want me to teach your POKéMON [move]?"},
-    {15, 0, 6, 15, 0x60, "I want you to win at the MOSSDEEP GYM using that [move]!"},
-    {12, 7, 0, 5, 0x0D, "I don’t intend to be going nowhere fast in the sticks like this forever.\\pYou watch me, I’ll get out to the city and become a huge hit.\\pSeriously, I’m going to cause a huge explosion of popularity!\\pIf you overheard that, I’ll happily teach [move] to your POKéMON!"},
-    {12, 7, 0, 5, 0x30, "Fine! [move] it is! Which POKéMON wants to learn it?"},
-    {12, 7, 0, 5, 0x60, "For a long time, I’ve taught POKéMON how to use [move], but I’ve yet to ignite my own explosion…\\pMaybe it’s because deep down, I would rather stay here…"},
-    {29, 6, 4, 4, 0x0D, "There’s a move that is wickedly cool.\\pIt’s called [move].\\nWant me to teach it to a POKéMON?"},
-    {8, 5, 0, 5, 0x0D, "I want all sorts of things! But I used up my allowance…\\pWouldn’t it be nice if there were a spell that made money appear when you waggle a finger?\\pIf you want, I can teach your POKéMON the move [move].\\pMoney won’t appear, but your POKéMON will do well in battle. Yes?"},
-    {8, 5, 0, 5, 0x60, "When a POKéMON uses [move], all sorts of nice things happen."},
-    {7, 4, 3, 3, 0x0D, "Ah, young one!\\pI am also a young one, but I mimic the styles and speech of the elderly folks of this town.\\pWhat do you say, young one? Would you agree to it if I were to offer to teach the move [move]?"},
-    {7, 4, 3, 3, 0x60, "[move] is a move of great depth.\\pCould you execute it to perfection as well as me…?"},
-    {7, 4, 3, 3, 0x56, "Oh, boo! I wanted to teach [move] to your POKéMON!"},
-    {16, 0, 2, 10, 0x0D, "Did you know that you can go from here a long way in that direction without changing direction?\\pI might even be able to roll that way.\\pDo you think your POKéMON will want to roll, too?\\pI can teach one the move [move] if you’d like."},
-    {24, 12, 5, 2, 0x0D, "Humph! My wife relies on HIDDEN POWER to stay awake.\\pShe should just take a nap like I do.\\pI can teach your POKéMON how to [move]. Interested?"},
-    {24, 12, 5, 2, 0x60, "I’ve never once gotten my wife’s coin trick right.\\pI would be happy if I got it right even as I teach [move]…"},
-    {14, 13, 21, 4, 0x0D, "When I see the wide world from up here on the roof…\\pI think about how nice it would be if there were more than just one me so I could enjoy all sorts of lives.\\pOf course it’s not possible. Giggle…\\pI know! Would you be interested in having a POKéMON learn [move]?"},
-    {14, 13, 21, 4, 0x30, "Giggle… Which POKéMON do you want me to teach [move]?"},
-    {14, 13, 21, 4, 0x56, "Oh, no?\\pA POKéMON can do well in a battle using it, you know."},
-    {25, 9, 6, 9, 0x0D, "Heh! My POKéMON totally rules! It’s cooler than any POKéMON!\\pI was lipping off with a swagger in my step like that when the CHAIRMAN chewed me out.\\pThat took the swagger out of my step.\\pIf you’d like, I’ll teach the move [move] to a POKéMON of yours."},
-    {25, 9, 6, 9, 0x30, "All right, which POKéMON wants to learn how to [move]?"},
-    {25, 9, 6, 9, 0x60, "I’ll just praise my POKéMON from now on without the [move]."}
+    {4, "gMoveTutorText_1", "Sigh…\\pSOOTOPOLIS’s GYM LEADER is really lovably admirable.\\pBut that also means I have many rivals for his attention.\\pHe’s got appeal with a [move]. I couldn’t even catch his eye.\\pPlease, let me teach your POKéMON the move [move]!"},
+    {4, "gMoveTutorText_2", "Okay, which POKéMON should I teach [move]?"},
+    {15, "gMoveTutorText_3", "I can’t do this anymore!\\pIt’s utterly hopeless!\\pI’m a FIGHTING-type TRAINER, so I can’t win at the MOSSDEEP GYM no matter how hard I try!\\pArgh! Punch! Punch! Punch! Punch! Punch! Punch!\\pWhat, don’t look at me that way! I’m only hitting the ground!\\pOr do you want me to teach your POKéMON [move]?"},
+    {15, "gMoveTutorText_4", "I want you to win at the MOSSDEEP GYM using that [move]!"},
+    {12, "gMoveTutorText_5", "I don’t intend to be going nowhere fast in the sticks like this forever.\\pYou watch me, I’ll get out to the city and become a huge hit.\\pSeriously, I’m going to cause a huge explosion of popularity!\\pIf you overheard that, I’ll happily teach [move] to your POKéMON!"},
+    {12, "gMoveTutorText_6", "Fine! [move] it is! Which POKéMON wants to learn it?"},
+    {12, "gMoveTutorText_7", "For a long time, I’ve taught POKéMON how to use [move], but I’ve yet to ignite my own explosion…\\pMaybe it’s because deep down, I would rather stay here…"},
+    {29, "gMoveTutorText_8", "There’s a move that is wickedly cool.\\pIt’s called [move].\\nWant me to teach it to a POKéMON?"},
+    {8, "gMoveTutorText_9", "I want all sorts of things! But I used up my allowance…\\pWouldn’t it be nice if there were a spell that made money appear when you waggle a finger?\\pIf you want, I can teach your POKéMON the move [move].\\pMoney won’t appear, but your POKéMON will do well in battle. Yes?"},
+    {8, "gMoveTutorText_10", "When a POKéMON uses [move], all sorts of nice things happen."},
+    {7, "gMoveTutorText_11", "Ah, young one!\\pI am also a young one, but I mimic the styles and speech of the elderly folks of this town.\\pWhat do you say, young one? Would you agree to it if I were to offer to teach the move [move]?"},
+    {7, "gMoveTutorText_12", "[move] is a move of great depth.\\pCould you execute it to perfection as well as me…?"},
+    {7, "gMoveTutorText_13", "Oh, boo! I wanted to teach [move] to your POKéMON!"},
+    {16, "gMoveTutorText_14", "Did you know that you can go from here a long way in that direction without changing direction?\\pI might even be able to roll that way.\\pDo you think your POKéMON will want to roll, too?\\pI can teach one the move [move] if you’d like."},
+    {24, "gMoveTutorText_15", "Humph! My wife relies on HIDDEN POWER to stay awake.\\pShe should just take a nap like I do.\\pI can teach your POKéMON how to [move]. Interested?"},
+    {24, "gMoveTutorText_16", "I’ve never once gotten my wife’s coin trick right.\\pI would be happy if I got it right even as I teach [move]…"},
+    {14, "gMoveTutorText_17", "When I see the wide world from up here on the roof…\\pI think about how nice it would be if there were more than just one me so I could enjoy all sorts of lives.\\pOf course it’s not possible. Giggle…\\pI know! Would you be interested in having a POKéMON learn [move]?"},
+    {14, "gMoveTutorText_18", "Giggle… Which POKéMON do you want me to teach [move]?"},
+    {14, "gMoveTutorText_19", "Oh, no?\\pA POKéMON can do well in a battle using it, you know."},
+    {25, "gMoveTutorText_20", "Heh! My POKéMON totally rules! It’s cooler than any POKéMON!\\pI was lipping off with a swagger in my step like that when the CHAIRMAN chewed me out.\\pThat took the swagger out of my step.\\pIf you’d like, I’ll teach the move [move] to a POKéMON of yours."},
+    {25, "gMoveTutorText_21", "All right, which POKéMON wants to learn how to [move]?"},
+    {25, "gMoveTutorText_22", "I’ll just praise my POKéMON from now on without the [move]."}
 };
 
 /*
@@ -598,10 +604,12 @@ int main(int argc, char ** argv)
         print("]\n");
     }
     for (int i = 0; i < len(gTMTexts); i++) {
-        print("TMText[]=[%d,%d,%d,%d,0x%X,%s]\n", gTMTexts[i].tmno, gTMTexts[i].mapgp, gTMTexts[i].mapno, gTMTexts[i].scriptno, gTMTexts[i].offset, gTMTexts[i].text);
+        Elf32_Sym * sym = GetSymbolByName(gTMTexts[i].label);
+        print("TMText[]=[%d,0x%X,%s]\n", gTMTexts[i].tmno, (sym->st_value + 1) & 0xFFFFFF, gTMTexts[i].text);
     }
     for (int i = 0; i < len(gMoveTutorTexts); i++) {
-        print("MoveTutorText[]=[%d,%d,%d,%d,0x%X,%s]\n", gMoveTutorTexts[i].tmno, gMoveTutorTexts[i].mapgp, gMoveTutorTexts[i].mapno, gMoveTutorTexts[i].scriptno, gMoveTutorTexts[i].offset, gMoveTutorTexts[i].text);
+        Elf32_Sym * sym = GetSymbolByName(gMoveTutorTexts[i].label);
+        print("MoveTutorText[]=[%d,0x%X,%s]\n", gMoveTutorTexts[i].tmno, (sym->st_value + 1) & 0xFFFFFF, gMoveTutorTexts[i].text);
     }
 
     config_sym("PokedexOrder", "gSpeciesToNationalPokedexNum");
