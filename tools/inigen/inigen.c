@@ -508,7 +508,7 @@ int main(int argc, char ** argv)
     config_set("StarterItems", get_instr_addr(elfFile, "CB2_GiveStarter", IsLoadingStarterItems) & 0xFFFFFF);
     config_sym("TrainerData", "gTrainers");
     Elf32_Sym * Em_gTrainers = GetSymbolByName("gTrainers");
-    config_sym("WildMonHeaders", "gWildMonHeaders");
+    config_sym("WildPokemon", "gWildMonHeaders");
     print("TrainerEntrySize=%d\n", Em_gTrainers->st_size / TRAINERS_COUNT);
     config_set("TrainerCount", TRAINERS_COUNT - 1);
     config_sym("TrainerClassNames", "gTrainerClassNames");
