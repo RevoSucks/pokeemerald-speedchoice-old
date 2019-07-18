@@ -323,6 +323,7 @@ static int IsWallyZigzagoon_1(const struct cs_insn * insn)
         // lsl rX, rY, 1
     else if (insn->id == ARM_INS_LSL
              && ops[0].type == ARM_OP_REG
+             && ops[0].reg == ARM_REG_R1
              && ops[1].type == ARM_OP_REG
              && ops[1].reg == tmp_reg
              && ops[2].type == ARM_OP_IMM
@@ -339,6 +340,7 @@ static int IsWallyZigzagoon_2(const struct cs_insn * insn)
     // ldr rX, =SPECIES_ZIGZAGOON
     if (insn->id == ARM_INS_LDR
         && ops[0].type == ARM_OP_REG
+        && ops[0].reg == ARM_REG_R1
         && ops[1].type == ARM_OP_MEM
         && !ops[1].subtracted
         && ops[1].mem.base == ARM_REG_PC
@@ -372,6 +374,7 @@ static int IsWallyRalts_1(const struct cs_insn * insn)
         // lsl rX, rY, 1
     else if (insn->id == ARM_INS_LSL
              && ops[0].type == ARM_OP_REG
+             && ops[0].reg == ARM_REG_R1
              && ops[1].type == ARM_OP_REG
              && ops[1].reg == tmp_reg
              && ops[2].type == ARM_OP_IMM
@@ -388,6 +391,7 @@ static int IsWallyRalts_2(const struct cs_insn * insn)
     // ldr rX, =SPECIES_RALTS
     if (insn->id == ARM_INS_LDR
         && ops[0].type == ARM_OP_REG
+        && ops[0].reg == ARM_REG_R1
         && ops[1].type == ARM_OP_MEM
         && !ops[1].subtracted
         && ops[1].mem.base == ARM_REG_PC
