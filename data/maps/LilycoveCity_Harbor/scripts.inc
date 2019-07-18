@@ -9,7 +9,7 @@ LilycoveCity_Harbor_OnTransition: @ 821E006
 LilycoveCity_Harbor_EventScript_21E00F:: @ 821E00F
 	lock
 	faceplayer
-	goto_if_unset FLAG_SYS_GAME_CLEAR, LilycoveCity_Harbor_EventScript_21E54D
+	@goto_if_unset FLAG_SYS_GAME_CLEAR, LilycoveCity_Harbor_EventScript_21E54D
 	call LilycoveCity_Harbor_EventScript_21E194
 	call LilycoveCity_Harbor_EventScript_21E1C6
 	call LilycoveCity_Harbor_EventScript_21E1F8
