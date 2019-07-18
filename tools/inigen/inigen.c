@@ -613,6 +613,7 @@ int main(int argc, char ** argv)
     }
 
     config_sym("PokedexOrder", "gSpeciesToNationalPokedexNum");
+    config_sym("CheckValueOffset", "gRandomizerCheckValue");
 
     DestroyResources();
     fclose(outFile);
