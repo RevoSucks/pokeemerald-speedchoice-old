@@ -209,5 +209,5 @@ $(ROM): $(ELF)
 	$(FIX) $@ -p -t"$(TITLE)" -c$(GAME_CODE) -m$(MAKER_CODE) -r$(REVISION) --silent
 
 $(INI): $(ROM)
-	$(INIGEN) $(ELF) $@ --name "Emerald Speedchoice" --code $(GAME_CODE)
+	$(INIGEN) $(ELF) $@ --name "Emerald Speedchoice (U)" --code $(GAME_CODE)
 	echo "MD5Hash="$(shell md5sum $< | cut -d' ' -f1) >> $@
