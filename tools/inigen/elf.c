@@ -25,7 +25,8 @@ static void ReadElfHeader(void)
     DEBUG_MSG("ReadElfHeader\n");
 
     fseek(elfFile, 0, SEEK_SET);
-    fread(&elfHeader, sizeof(elfHeader), 1, elfFile);
+    if (fread(&elfHeader, sizeof(elfHeader), 1, elfFile) != 1)
+        FATAL_ERROR("fread\n");
     if (memcmp(elfHeader.e_ident, ELFMAG, SELFMAG) != 0) {
         FATAL_ERROR("malformed ELF header\n");
     }
@@ -47,7 +48,8 @@ static void ReadProgramHeaders(void)
         FATAL_ERROR("failed to allocate programs table\n");
     }
     fseek(elfFile, elfHeader.e_phoff, SEEK_SET);
-    fread(programHeaders, elfHeader.e_phentsize, elfHeader.e_phnum, elfFile);
+    if (fread(programHeaders, elfHeader.e_phentsize, elfHeader.e_phnum, elfFile) != elfHeader.e_phnum)
+        FATAL_ERROR("fread\n");
 }
 
 static void ReadSectionHeaders(void)
@@ -59,7 +61,8 @@ static void ReadSectionHeaders(void)
     }
     fseek(elfFile, elfHeader.e_shoff, SEEK_SET);
     Elf32_Shdr firstHeader;
-    fread(&firstHeader, elfHeader.e_shentsize, 1, elfFile);
+    if (fread(&firstHeader, elfHeader.e_shentsize, 1, elfFile) != 1)
+        FATAL_ERROR("fread\n");
     unsigned nsecs = elfHeader.e_shnum;
     if (nsecs == SHN_UNDEF) {
         nsecs = firstHeader.sh_size;
@@ -69,7 +72,8 @@ static void ReadSectionHeaders(void)
         FATAL_ERROR("failed to allocate section table\n");
     }
     sectionHeaders[0] = firstHeader;
-    fread(sectionHeaders + 1, elfHeader.e_shentsize, nsecs - 1, elfFile);
+    if (fread(sectionHeaders + 1, elfHeader.e_shentsize, nsecs - 1, elfFile) != nsecs - 1)
+        FATAL_ERROR("fread\n");
 }
 
 static char * read_strings(Elf32_Shdr * section)
@@ -82,7 +86,8 @@ static char * read_strings(Elf32_Shdr * section)
         FATAL_ERROR("failed to allocate string table\n");
     }
     fseek(elfFile, section->sh_offset, SEEK_SET);
-    fread(dest, 1, section->sh_size, elfFile);
+    if (fread(dest, 1, section->sh_size, elfFile) != section->sh_size)
+        FATAL_ERROR("fread\n");
     return dest;
 }
 
@@ -131,7 +136,8 @@ static void ReadSymbols(void)
                 FATAL_ERROR("failed to allocate symbol table\n");
             }
             fseek(elfFile, sectionHeaders[i].sh_offset, SEEK_SET);
-            fread(symbols, sizeof(Elf32_Sym), nSymbols, elfFile);
+            if (fread(symbols, sizeof(Elf32_Sym), nSymbols, elfFile) != nSymbols)
+                FATAL_ERROR("fread\n");
             msort(symbols, nSymbols, sizeof(Elf32_Sym), symcmp);
             break;
         }
