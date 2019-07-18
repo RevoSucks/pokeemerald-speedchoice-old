@@ -605,11 +605,11 @@ int main(int argc, char ** argv)
     }
     for (int i = 0; i < len(gTMTexts); i++) {
         Elf32_Sym * sym = GetSymbolByName(gTMTexts[i].label);
-        print("TMText[]=[%d,0x%X,%s]\n", gTMTexts[i].tmno, (sym->st_value + 1) & 0xFFFFFF, gTMTexts[i].text);
+        print("TMTextSpdc[]=[%d,0x%X,%s]\n", gTMTexts[i].tmno, (sym->st_value + 1) & 0xFFFFFF, gTMTexts[i].text);
     }
     for (int i = 0; i < len(gMoveTutorTexts); i++) {
         Elf32_Sym * sym = GetSymbolByName(gMoveTutorTexts[i].label);
-        print("MoveTutorText[]=[%d,0x%X,%s]\n", gMoveTutorTexts[i].tmno, (sym->st_value + 1) & 0xFFFFFF, gMoveTutorTexts[i].text);
+        print("MoveTutorTextSpdc[]=[%d,0x%X,%s]\n", gMoveTutorTexts[i].tmno, (sym->st_value + 1) & 0xFFFFFF, gMoveTutorTexts[i].text);
     }
 
     config_sym("PokedexOrder", "gSpeciesToNationalPokedexNum");
