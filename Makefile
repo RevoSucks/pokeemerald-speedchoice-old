@@ -208,5 +208,6 @@ $(ROM): $(ELF)
 	$(OBJCOPY) -O binary $< $@
 	$(FIX) $@ -p -t"$(TITLE)" -c$(GAME_CODE) -m$(MAKER_CODE) -r$(REVISION) --silent
 
-$(INI): $(ELF)
-	$(INIGEN) $< $@ --name "Emerald Speedchoice" --code $(GAME_CODE)
+$(INI): $(ROM)
+	$(INIGEN) $(ELF) $@ --name "Emerald Speedchoice" --code $(GAME_CODE)
+	echo "MD5Hash="$(shell md5sum $< | cut -d' ' -f1) >> $@
