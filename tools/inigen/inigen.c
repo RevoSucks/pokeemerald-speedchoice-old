@@ -565,7 +565,7 @@ int main(int argc, char ** argv)
     config_sym("TmMovesDuplicate", "gUnknown_08615B94");
     config_sym("MoveTutorData", "gTutorMoves");
     Elf32_Sym* Em_gTutorMoves = GetSymbolByName("gTutorMoves");
-    print("MoveDutorMoves=%d\n", Em_gTutorMoves->st_size / 2);
+    print("MoveTutorMoves=%d\n", Em_gTutorMoves->st_size / 2);
     config_sym("ItemImages", "gItemIconTable");
 
     print("TmPals=[");
@@ -605,11 +605,11 @@ int main(int argc, char ** argv)
     }
     for (int i = 0; i < len(gTMTexts); i++) {
         Elf32_Sym * sym = GetSymbolByName(gTMTexts[i].label);
-        print("TMTextSpdc[]=[%d,0x%X,%s]\n", gTMTexts[i].tmno, (sym->st_value + 1) & 0xFFFFFF, gTMTexts[i].text);
+        print("TMTextSpdc[]=[%d,0x%X,%s]\n", gTMTexts[i].tmno, (sym->st_value + 2) & 0xFFFFFF, gTMTexts[i].text);
     }
     for (int i = 0; i < len(gMoveTutorTexts); i++) {
         Elf32_Sym * sym = GetSymbolByName(gMoveTutorTexts[i].label);
-        print("MoveTutorTextSpdc[]=[%d,0x%X,%s]\n", gMoveTutorTexts[i].tmno, (sym->st_value + 1) & 0xFFFFFF, gMoveTutorTexts[i].text);
+        print("MoveTutorTextSpdc[]=[%d,0x%X,%s]\n", gMoveTutorTexts[i].tmno, (sym->st_value + 2) & 0xFFFFFF, gMoveTutorTexts[i].text);
     }
 
     config_sym("PokedexOrder", "gSpeciesToNationalPokedexNum");
