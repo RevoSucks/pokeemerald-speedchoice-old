@@ -222,7 +222,7 @@ static const u8 gPresetCEA[CURRENT_OPTIONS_NUM] = {
     EXP_BW,      // EXP
     PLOT_FULL,   // PLOTLESS
     IT_ON,       // INSTANTTEXT
-    SPIN_PURGE,  // SPINNERS
+    SPIN_NERF,   // SPINNERS
     MAX_OFF,     // MAXVISION
     NERF_YES,    // NERFROXANNE
     BIKE_ON,     // SUPERBIKE
