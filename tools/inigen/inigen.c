@@ -585,8 +585,6 @@ int main(int argc, char ** argv)
     Elf32_Sym * Em_gIngameTrades = GetSymbolByName("gIngameTrades");
     print("TradeTableSize=%d\n", Em_gIngameTrades->st_size / 60); // hardcoded for now
     print("TradesUnused=[]\n"); // so randomizer doesn't complain
-    config_set("RunIndoorsTweakOffset", get_instr_addr(elfFile, "IsRunningDisallowed", IsRunIndoorsTweakOffset) & 0xFFFFFF);
-    config_sym("TextSpeedValuesOffset", "gUnknown_0860F094");
     config_set("CatchingTutorialOpponentMonOffset", get_instr_addr(elfFile, "StartWallyTutorialBattle", IsWallyRalts) & 0xFFFFFF);
     config_set("CatchingTutorialPlayerMonOffset", get_instr_addr(elfFile, "PutZigzagoonInPlayerParty", IsWallyZigzagoon) & 0xFFFFFF);
     config_sym("PCPotionOffset", "gNewGamePCItems");
