@@ -631,6 +631,7 @@ void CB2_EndScriptedWildBattle(void)
     else
     {
         if(gTrainerBattleOpponent_A == TRAINER_BRENDAN_1 || gTrainerBattleOpponent_A == TRAINER_MAY_1) {
+            gTrainerBattleOpponent_A = 0; // hack to prevent blackout bug
             if(IsPlayerDefeated(gBattleOutcome) == TRUE)
                 HealPlayerParty();
         }

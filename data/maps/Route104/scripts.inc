@@ -338,6 +338,7 @@ Route104_EventScript_1ED057:: @ 81ED057
 	lock
 	faceplayer
 	goto_if_set FLAG_RECEIVED_TM09, Route104_EventScript_1ED086
+gTMText_6::
 	msgbox Route104_Text_1ED838, MSGBOX_DEFAULT
 	giveitem_std ITEM_TM09
 	compare VAR_RESULT, 0

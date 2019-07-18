@@ -251,6 +251,7 @@ SlateportCity_BattleTentLobby_EventScript_208A3D:: @ 8208A3D
 	compare VAR_RESULT, 0
 	goto_if_eq Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_TM41
+gTMText_12::
 	msgbox SlateportCity_BattleTentLobby_Text_208C5C, MSGBOX_DEFAULT
 	release
 	end

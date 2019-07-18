@@ -222,7 +222,7 @@ static const u8 gPresetCEA[CURRENT_OPTIONS_NUM] = {
     EXP_BW,      // EXP
     PLOT_FULL,   // PLOTLESS
     IT_ON,       // INSTANTTEXT
-    SPIN_KEEP,   // SPINNERS
+    SPIN_PURGE,  // SPINNERS
     MAX_OFF,     // MAXVISION
     NERF_YES,    // NERFROXANNE
     BIKE_ON,     // SUPERBIKE
@@ -231,7 +231,7 @@ static const u8 gPresetCEA[CURRENT_OPTIONS_NUM] = {
     RUN_ON,      // RUN_EVERYWHERE
     MEME_BIG,    // MEME_ISLAND
     MARTS_ON,    // BETTER_MARTS
-    GOOD_STATIC, // GOOD_EARLY_WILDS
+    GOOD_OFF,    // GOOD_EARLY_WILDS
     SURF_ON      // EARLYSURF
 };
 

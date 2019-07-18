@@ -50,11 +50,13 @@ Route114_EventScript_1F25D1:: @ 81F25D1
 	lock
 	faceplayer
 	goto_if_set FLAG_RECEIVED_TM05, Route114_EventScript_1F2608
+gTMText_3::
 	msgbox Route114_Text_1F2809, MSGBOX_DEFAULT
 	giveitem_std ITEM_TM05
 	compare VAR_RESULT, 0
 	goto_if_eq Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_TM05
+gTMText_4::
 	msgbox Route114_Text_1F2872, MSGBOX_DEFAULT
 	release
 	end

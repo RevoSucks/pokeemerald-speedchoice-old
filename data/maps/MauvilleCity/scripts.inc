@@ -437,6 +437,7 @@ MauvilleCity_EventScript_1DF77A:: @ 81DF77A
 	end
 
 MauvilleCity_EventScript_1DF784:: @ 81DF784
+gTMText_7::
 	msgbox MauvilleCity_Text_1E020E, MSGBOX_DEFAULT
 	giveitem_std ITEM_TM24
 	compare VAR_RESULT, 0

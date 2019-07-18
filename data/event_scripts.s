@@ -6610,12 +6610,14 @@ SlateportCity_PokemonFanClub_EventScript_2C7F16:: @ 82C7F16
 	lock
 	faceplayer
 	goto_if_set FLAG_MOVE_TUTOR_TAUGHT_SWAGGER, SlateportCity_PokemonFanClub_EventScript_2C7F74
+gMoveTutorText_20::
 	msgbox SlateportCity_PokemonFanClub_Text_2C6E37, MSGBOX_YESNO
 	compare VAR_RESULT, 0
 	goto_if_eq SlateportCity_PokemonFanClub_EventScript_2C7F6A
 	call SlateportCity_PokemonFanClub_EventScript_2C832D
 	compare VAR_RESULT, 0
 	goto_if_eq SlateportCity_PokemonFanClub_EventScript_2C7F6A
+gMoveTutorText_21::
 	msgbox SlateportCity_PokemonFanClub_Text_2C6F66, MSGBOX_DEFAULT
 	setvar VAR_0x8005, 23
 	call EventScript_ShowPartyMenu
@@ -6631,6 +6633,7 @@ SlateportCity_PokemonFanClub_EventScript_2C7F6A:: @ 82C7F6A
 	end
 
 SlateportCity_PokemonFanClub_EventScript_2C7F74:: @ 82C7F74
+gMoveTutorText_22::
 	msgbox SlateportCity_PokemonFanClub_Text_2C6F9E, MSGBOX_DEFAULT
 	release
 	end
@@ -6639,6 +6642,7 @@ MauvilleCity_EventScript_2C7F7E:: @ 82C7F7E
 	lock
 	faceplayer
 	goto_if_set FLAG_MOVE_TUTOR_TAUGHT_ROLLOUT, MauvilleCity_EventScript_2C7FDC
+gMoveTutorText_14::
 	msgbox MauvilleCity_Text_2C6FDB, MSGBOX_YESNO
 	compare VAR_RESULT, 0
 	goto_if_eq MauvilleCity_EventScript_2C7FD2
@@ -6668,6 +6672,7 @@ VerdanturfTown_PokemonCenter_1F_EventScript_2C7FE6:: @ 82C7FE6
 	lock
 	faceplayer
 	goto_if_set FLAG_MOVE_TUTOR_TAUGHT_FURY_CUTTER, VerdanturfTown_PokemonCenter_1F_EventScript_2C8044
+gMoveTutorText_8::
 	msgbox VerdanturfTown_PokemonCenter_1F_Text_2C7174, MSGBOX_YESNO
 	compare VAR_RESULT, 0
 	goto_if_eq VerdanturfTown_PokemonCenter_1F_EventScript_2C803A
@@ -6697,6 +6702,7 @@ LavaridgeTown_House_EventScript_2C804E:: @ 82C804E
 	lock
 	faceplayer
 	goto_if_set FLAG_MOVE_TUTOR_TAUGHT_MIMIC, LavaridgeTown_House_EventScript_2C80AC
+gMoveTutorText_11::
 	msgbox LavaridgeTown_House_Text_2C72B6, MSGBOX_YESNO
 	compare VAR_RESULT, 0
 	goto_if_eq LavaridgeTown_House_EventScript_2C80A2
@@ -6713,11 +6719,13 @@ LavaridgeTown_House_EventScript_2C804E:: @ 82C804E
 	end
 
 LavaridgeTown_House_EventScript_2C80A2:: @ 82C80A2
+gMoveTutorText_13::
 	msgbox LavaridgeTown_House_Text_2C737F, MSGBOX_DEFAULT
 	release
 	end
 
 LavaridgeTown_House_EventScript_2C80AC:: @ 82C80AC
+gMoveTutorText_12::
 	msgbox LavaridgeTown_House_Text_2C73F6, MSGBOX_DEFAULT
 	release
 	end
@@ -6726,6 +6734,7 @@ FallarborTown_Mart_EventScript_2C80B6:: @ 82C80B6
 	lock
 	faceplayer
 	goto_if_set FLAG_MOVE_TUTOR_TAUGHT_METRONOME, FallarborTown_Mart_EventScript_2C8114
+gMoveTutorText_9::
 	msgbox FallarborTown_Mart_Text_2C7449, MSGBOX_YESNO
 	compare VAR_RESULT, 0
 	goto_if_eq FallarborTown_Mart_EventScript_2C810A
@@ -6747,6 +6756,7 @@ FallarborTown_Mart_EventScript_2C810A:: @ 82C810A
 	end
 
 FallarborTown_Mart_EventScript_2C8114:: @ 82C8114
+gMoveTutorText_10::
 	msgbox FallarborTown_Mart_Text_2C75B5, MSGBOX_DEFAULT
 	release
 	end
@@ -6755,6 +6765,7 @@ FortreeCity_House2_EventScript_2C811E:: @ 82C811E
 	lock
 	faceplayer
 	goto_if_set FLAG_MOVE_TUTOR_TAUGHT_SLEEP_TALK, FortreeCity_House2_EventScript_2C817C
+gMoveTutorText_15::
 	msgbox FortreeCity_House2_Text_2C7637, MSGBOX_YESNO
 	compare VAR_RESULT, 0
 	goto_if_eq FortreeCity_House2_EventScript_2C8172
@@ -6776,6 +6787,7 @@ FortreeCity_House2_EventScript_2C8172:: @ 82C8172
 	end
 
 FortreeCity_House2_EventScript_2C817C:: @ 82C817C
+gMoveTutorText_16::
 	msgbox FortreeCity_House2_Text_2C775A, MSGBOX_DEFAULT
 	release
 	end
@@ -6784,12 +6796,14 @@ LilycoveCity_DepartmentStoreRooftop_EventScript_2C8186:: @ 82C8186
 	lock
 	faceplayer
 	goto_if_set FLAG_MOVE_TUTOR_TAUGHT_SUBSTITUTE, LilycoveCity_DepartmentStoreRooftop_EventScript_2C81E4
+gMoveTutorText_17::
 	msgbox LilycoveCity_DepartmentStoreRooftop_Text_2C77C6, MSGBOX_YESNO
 	compare VAR_RESULT, 0
 	goto_if_eq LilycoveCity_DepartmentStoreRooftop_EventScript_2C81DA
 	call LilycoveCity_DepartmentStoreRooftop_EventScript_2C832D
 	compare VAR_RESULT, 0
 	goto_if_eq LilycoveCity_DepartmentStoreRooftop_EventScript_2C81DA
+gMoveTutorText_18::
 	msgbox LilycoveCity_DepartmentStoreRooftop_Text_2C7911, MSGBOX_DEFAULT
 	setvar VAR_0x8005, 14
 	call EventScript_ShowPartyMenu
@@ -6800,6 +6814,7 @@ LilycoveCity_DepartmentStoreRooftop_EventScript_2C8186:: @ 82C8186
 	end
 
 LilycoveCity_DepartmentStoreRooftop_EventScript_2C81DA:: @ 82C81DA
+gMoveTutorText_19::
 	msgbox LilycoveCity_DepartmentStoreRooftop_Text_2C78D1, MSGBOX_DEFAULT
 	release
 	end
@@ -6813,6 +6828,7 @@ MossdeepCity_EventScript_2C81EE:: @ 82C81EE
 	lock
 	faceplayer
 	goto_if_set FLAG_MOVE_TUTOR_TAUGHT_DYNAMICPUNCH, MossdeepCity_EventScript_2C824C
+gMoveTutorText_3::
 	msgbox MossdeepCity_Text_2C79A6, MSGBOX_YESNO
 	compare VAR_RESULT, 0
 	goto_if_eq MossdeepCity_EventScript_2C8242
@@ -6834,6 +6850,7 @@ MossdeepCity_EventScript_2C8242:: @ 82C8242
 	end
 
 MossdeepCity_EventScript_2C824C:: @ 82C824C
+gMoveTutorText_4::
 	msgbox MossdeepCity_Text_2C7B4F, MSGBOX_DEFAULT
 	release
 	end
@@ -6842,12 +6859,14 @@ SootopolisCity_PokemonCenter_1F_EventScript_2C8256:: @ 82C8256
 	lock
 	faceplayer
 	goto_if_set FLAG_MOVE_TUTOR_TAUGHT_DOUBLE_EDGE, SootopolisCity_PokemonCenter_1F_EventScript_2C82B4
+gMoveTutorText_1::
 	msgbox SootopolisCity_PokemonCenter_1F_Text_2C7B8E, MSGBOX_YESNO
 	compare VAR_RESULT, 0
 	goto_if_eq SootopolisCity_PokemonCenter_1F_EventScript_2C82AA
 	call SootopolisCity_PokemonCenter_1F_EventScript_2C832D
 	compare VAR_RESULT, 0
 	goto_if_eq SootopolisCity_PokemonCenter_1F_EventScript_2C82AA
+gMoveTutorText_2::
 	msgbox SootopolisCity_PokemonCenter_1F_Text_2C7C98, MSGBOX_DEFAULT
 	setvar VAR_0x8005, 4
 	call EventScript_ShowPartyMenu
@@ -6871,12 +6890,14 @@ PacifidlogTown_PokemonCenter_1F_EventScript_2C82BE:: @ 82C82BE
 	lock
 	faceplayer
 	goto_if_set FLAG_MOVE_TUTOR_TAUGHT_EXPLOSION, PacifidlogTown_PokemonCenter_1F_EventScript_2C831C
+gMoveTutorText_5::
 	msgbox PacifidlogTown_PokemonCenter_1F_Text_2C7CFA, MSGBOX_YESNO
 	compare VAR_RESULT, 0
 	goto_if_eq PacifidlogTown_PokemonCenter_1F_EventScript_2C8312
 	call PacifidlogTown_PokemonCenter_1F_EventScript_2C832D
 	compare VAR_RESULT, 0
 	goto_if_eq PacifidlogTown_PokemonCenter_1F_EventScript_2C8312
+gMoveTutorText_6::
 	msgbox PacifidlogTown_PokemonCenter_1F_Text_2C7E40, MSGBOX_DEFAULT
 	setvar VAR_0x8005, 12
 	call EventScript_ShowPartyMenu
@@ -6892,6 +6913,7 @@ PacifidlogTown_PokemonCenter_1F_EventScript_2C8312:: @ 82C8312
 	end
 
 PacifidlogTown_PokemonCenter_1F_EventScript_2C831C:: @ 82C831C
+gMoveTutorText_7::
 	msgbox PacifidlogTown_PokemonCenter_1F_Text_2C7E7A, MSGBOX_DEFAULT
 	release
 	end

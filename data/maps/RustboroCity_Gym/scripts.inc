@@ -78,6 +78,7 @@ RoxanneNoAqualess::
 	compare VAR_RESULT, 0
 	goto_if_eq Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_TM39
+gTMText_10::
 	msgbox RustboroCity_Gym_Text_2138B1, MSGBOX_DEFAULT
 	release
 	end

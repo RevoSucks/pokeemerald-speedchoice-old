@@ -467,6 +467,7 @@ PetalburgCity_Gym_EventScript_204ED2:: @ 8204ED2
 	compare VAR_RESULT, 0
 	goto_if_eq Common_EventScript_BagIsFull
 	setflag FLAG_RECEIVED_TM42
+gTMText_13::
 	msgbox PetalburgCity_Gym_Text_206254, MSGBOX_DEFAULT
 	return
 

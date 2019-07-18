@@ -99,6 +99,7 @@ LavaridgeTown_Gym_1F_EventScript_1FE81D:: @ 81FE81D
 	giveitem_std ITEM_TM50
 	compare VAR_RESULT, 0
 	goto_if_eq Common_EventScript_ShowBagIsFull
+gTMText_15::
 	msgbox LavaridgeTown_Gym_1F_Text_1FF45C, MSGBOX_DEFAULT
 	setflag FLAG_RECEIVED_TM50
 	release

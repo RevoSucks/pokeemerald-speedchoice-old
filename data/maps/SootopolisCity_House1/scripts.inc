@@ -10,6 +10,7 @@ SootopolisCity_House1_EventScript_22694D:: @ 822694D
 	compare VAR_RESULT, 0
 	goto_if_eq Common_EventScript_ShowBagIsFull
 	setflag FLAG_RECEIVED_TM31
+gTMText_8::
 	msgbox SootopolisCity_House1_Text_226A13, MSGBOX_DEFAULT
 	release
 	end
