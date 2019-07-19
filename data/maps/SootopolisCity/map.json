@@ -64,7 +64,7 @@
     "object_events": [
         {
             "elevation": 3,
-            "flag": "0",
+            "flag": "FLAG_HIDE_CAVE_OF_ORIGIN_B1F_WALLACE",
             "graphics_id": "EVENT_OBJ_GFX_EXPERT_M",
             "movement_range_x": 0,
             "movement_range_y": 0,

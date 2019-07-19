@@ -198,6 +198,7 @@ static const u8 sMapName_MarineCave[] = _("MARINE CAVE");
 static const u8 sMapName_TerraCave[] = _("TERRA CAVE");
 static const u8 sMapName_DesertUnderpass[] = _("DESERT UNDERPASS");
 static const u8 sMapName_TrainerHill[] = _("TRAINER HILL");
+static const u8 sMapName_MirrorCave[] = _("MIRROR CAVE");
 
 const struct RegionMapLocation gRegionMapEntries[] = {
     [MAPSEC_ABANDONED_SHIP]            = {6, 14, 1, 1, sMapName_AbandonedShip},
@@ -413,6 +414,7 @@ const struct RegionMapLocation gRegionMapEntries[] = {
     [MAPSEC_WATER_LABYRINTH]           = {0, 0, 1, 1, sMapName_WaterLabyrinth},
     [MAPSEC_WATER_PATH]                = {0, 0, 1, 1, sMapName_WaterPath},
     [MAPSEC_WEEPTH_CHAMBER]            = {0, 0, 1, 1, sMapName_WeepthChamber},
+    [MAPSEC_MIRROR_CAVE]               = {21, 7, 1, 1, sMapName_MirrorCave},
 };
 
 #endif // GUARD_DATA_REGION_MAP_REGION_MAP_ENTRIES_H

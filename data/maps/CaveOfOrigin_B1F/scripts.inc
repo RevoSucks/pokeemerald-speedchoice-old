@@ -55,6 +55,7 @@ CaveOfOrigin_B1F_EventScript_23584D:: @ 823584D
 	setvar VAR_RAYQUAZA_STATE, 3
 	removeobject 1
 	clearflag FLAG_HIDE_SKY_PILLAR_WALLACE
+    setflag FLAG_HIDE_CAVE_OF_ORIGIN_B1F_WALLACE @ also hides the expert as a hack
 	fadescreen 0
 	release
 	end
