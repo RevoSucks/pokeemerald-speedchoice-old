@@ -2780,6 +2780,10 @@ bool8 EventObjectIsTrainerAndCloseToPlayer(struct EventObject *eventObject)
     s16 minY;
     s16 maxY;
 
+    if (CheckSpeedchoiceOption(SPINNERS, SPIN_KEEP) == FALSE)
+    {
+        return FALSE;
+    }
     if (!TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_DASH))
     {
         return FALSE;
@@ -2998,7 +3002,7 @@ u8 TryGetTrainerEncounterDirection(struct EventObject *eventObject, u8 movementT
     s16 dx, dy;
     s16 absdx, absdy;
 
-    if (!EventObjectIsTrainerAndCloseToPlayer(eventObject) || CheckSpeedchoiceOption(SPINNERS, SPIN_KEEP) == FALSE)
+    if (!EventObjectIsTrainerAndCloseToPlayer(eventObject))
     {
         return 0;
     }
