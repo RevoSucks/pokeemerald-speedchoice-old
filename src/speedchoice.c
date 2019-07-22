@@ -82,7 +82,7 @@ const u8 gSystemText_TerminatorS[] = _("{COLOR RED}$");
 
 // HEADER
 const u8 gSpeedchoiceTextHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}SPEEDCHOICE MENU");
-const u8 gSpeedchoiceCurrentVersion[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}v1.1");
+const u8 gSpeedchoiceCurrentVersion[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}v1.1.1");
 
 // OPTION CHOICES
 const u8 gSpeedchoiceTextYes[]    = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}YES");
@@ -94,6 +94,7 @@ const u8 gSpeedchoiceTextOff[]    = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}OFF");
 const u8 gSpeedchoiceTextNerf[]   = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}PURGE");
 const u8 gSpeedchoiceTextKeep[]   = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}KEEP");
 const u8 gSpeedchoiceTextHell[]   = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}HELL");
+const u8 gSpeedchoiceTextWhy[]   = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}WHY");
 
 const u8 gSpeedchoiceTextSemi[]   = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}SEMI");
 const u8 gSpeedchoiceTextFull[]   = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}FULL");
@@ -142,7 +143,7 @@ const u8 gSpeedchoiceTooltipPreset[] = _("Sets of predetermined options\nthat he
 const u8 gSpeedchoiceTooltipEXP[] = _("Modifies the experience system\nto the desired input.\pCan be Gen 5, or\nno exp at all.");
 const u8 gSpeedchoiceTooltipPlotless[] = _("SEMI: Stops villain team events\nafter Mt. Chimney.\pFULL: Skips all the villain team\nevents. Also allows Dive to be used\pwithout Gym 7's badge.");
 const u8 gSpeedchoiceTooltipInstantText[] = _("Self-explanatory.\nHold A or B to mash.");
-const u8 gSpeedchoiceTooltipSpinners[] = _("PURGE: Makes spinners on a static\nspinning pattern at a fixed rate.\pHELL: Rapidly spins\nevery spinner every frame.\pAlso fixes bag manip.");
+const u8 gSpeedchoiceTooltipSpinners[] = _("PURGE: Makes spinners on a static\nspinning pattern at a fixed rate.\pHELL: Rapidly spins\nevery spinner every frame.\pWHY: Same as HELL but 4 frames\ninstead of 16.\pHELL and WHY also fix bag\nmanip.");
 const u8 gSpeedchoiceTooltipMaxVision[] = _("SANE: Will extend trainer vision\nto 8, but prevent trainers from\pwalking through walls or solid\nobjects.\pHELL: No collision or\nelevation detection.");
 const u8 gSpeedchoiceTooltipNerfRoxanne[] = _("Nerfs Gym Leader Roxanne.\nRemoves both of her Potions.");
 const u8 gSpeedchoiceTooltipSuperBike[] = _("While riding the bicycle, you\ncan switch between bikes with\pthe R button while you are\nstanding still.");
@@ -289,10 +290,10 @@ const struct OptionChoiceConfig OptionChoiceConfigOnOff[MAX_CHOICES] =
 
 const struct OptionChoiceConfig OptionChoiceConfigNerfKeep[MAX_CHOICES] = 
 {
-    { 120, (u8 *)&gSpeedchoiceTextNerf },
-    { 150, (u8 *)&gSpeedchoiceTextKeep },
-    { 180, (u8 *)&gSpeedchoiceTextHell },
-    { -1, NULL },
+    { 85, (u8 *)&gSpeedchoiceTextNerf },
+    { 120, (u8 *)&gSpeedchoiceTextKeep },
+    { 150, (u8 *)&gSpeedchoiceTextHell },
+    { 180, (u8 *)&gSpeedchoiceTextWhy },
     { -1, NULL },
     { -1, NULL }
 };
@@ -365,7 +366,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
     { 3,         NORMAL, gSpeedchoiceOptionEXP,            OptionChoiceConfigKeepNone, gSpeedchoiceTooltipEXP,            TRUE  },
     { 3,         NORMAL, gSpeedchoiceOptionPlotless,       OptionChoiceConfigSemiFull, gSpeedchoiceTooltipPlotless,       TRUE },
     { 2,         NORMAL, gSpeedchoiceOptionInstantText,    OptionChoiceConfigOnOff,    gSpeedchoiceTooltipInstantText,    TRUE },
-    { 3,         NORMAL, gSpeedchoiceOptionSpinners,       OptionChoiceConfigNerfKeep, gSpeedchoiceTooltipSpinners,       TRUE },
+    { 4,         NORMAL, gSpeedchoiceOptionSpinners,       OptionChoiceConfigNerfKeep, gSpeedchoiceTooltipSpinners,       TRUE },
     { 3,         NORMAL, gSpeedchoiceOptionMaxVision,      OptionChoiceConfigSaneHell, gSpeedchoiceTooltipMaxVision,      TRUE },
     { 2,         NORMAL, gSpeedchoiceOptionNerfRoxanne,    OptionChoiceConfigYesNo,    gSpeedchoiceTooltipNerfRoxanne,    TRUE },
     { 2,         NORMAL, gSpeedchoiceOptionSuperBike,      OptionChoiceConfigOnOff,    gSpeedchoiceTooltipSuperBike,      TRUE },
@@ -1068,7 +1069,7 @@ static void DrawHeaderWindow(void)
 {
     FillWindowPixelBuffer(WIN_TEXT_OPTION, 0x11);
     AddTextPrinterParameterized(WIN_TEXT_OPTION, 1, gSpeedchoiceTextHeader, 4, 1, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(WIN_TEXT_OPTION, 1, gSpeedchoiceCurrentVersion, 182, 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(WIN_TEXT_OPTION, 1, gSpeedchoiceCurrentVersion, 172, 1, TEXT_SPEED_FF, NULL);
     CopyWindowToVram(WIN_TEXT_OPTION, 3);
 }
 

@@ -1221,7 +1221,7 @@ static u8 InitEventObjectStateFromTemplate(struct EventObjectTemplate *template,
     eventObject->triggerGroundEffectsOnMove = TRUE;
     eventObject->graphicsId = template->graphicsId;
     
-    if(CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE && gPlayerAvatar.eventObjectId != eventObjectId && (template->trainerType == 1 || template->trainerType == 3))
+    if((CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE || CheckSpeedchoiceOption(SPINNERS, SPIN_WHY) == TRUE) && gPlayerAvatar.eventObjectId != eventObjectId && (template->trainerType == 1 || template->trainerType == 3))
         eventObject->movementType = 1;
     else
         eventObject->movementType = template->movementType;
@@ -1242,7 +1242,7 @@ static u8 InitEventObjectStateFromTemplate(struct EventObjectTemplate *template,
     eventObject->range.as_nybbles.x = template->movementRangeX;
     eventObject->range.as_nybbles.y = template->movementRangeY;
 
-	if(CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE && gPlayerAvatar.eventObjectId != eventObjectId && (template->trainerType == 1 || template->trainerType == 3))
+	if((CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE || CheckSpeedchoiceOption(SPINNERS, SPIN_WHY) == TRUE) && gPlayerAvatar.eventObjectId != eventObjectId && (template->trainerType == 1 || template->trainerType == 3))
         eventObject->trainerType = 1;
     else
         eventObject->trainerType = template->trainerType;
@@ -1670,7 +1670,7 @@ static void MakeObjectTemplateFromEventObjectGraphicsInfoWithCallbackIndex(u16 g
 
 static void MakeObjectTemplateFromEventObjectTemplate(struct EventObjectTemplate *eventObjectTemplate, struct SpriteTemplate *spriteTemplate, const struct SubspriteTable **subspriteTables)
 {
-    if(CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE && (eventObjectTemplate->trainerType == 3 || eventObjectTemplate->trainerType == 1))
+    if((CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE || CheckSpeedchoiceOption(SPINNERS, SPIN_WHY) == TRUE) && (eventObjectTemplate->trainerType == 3 || eventObjectTemplate->trainerType == 1))
         MakeObjectTemplateFromEventObjectGraphicsInfoWithCallbackIndex(eventObjectTemplate->graphicsId, 1, spriteTemplate, subspriteTables);
     else
         MakeObjectTemplateFromEventObjectGraphicsInfoWithCallbackIndex(eventObjectTemplate->graphicsId, eventObjectTemplate->movementType, spriteTemplate, subspriteTables);
@@ -2998,7 +2998,7 @@ u8 TryGetTrainerEncounterDirection(struct EventObject *eventObject, u8 movementT
     s16 dx, dy;
     s16 absdx, absdy;
 
-    if (!EventObjectIsTrainerAndCloseToPlayer(eventObject))
+    if (!EventObjectIsTrainerAndCloseToPlayer(eventObject) || CheckSpeedchoiceOption(SPINNERS, SPIN_KEEP) == FALSE)
     {
         return 0;
     }
@@ -3080,7 +3080,7 @@ bool8 MovementType_LookAround_Step4(struct EventObject *eventObject, struct Spri
     {
         u8 newDirections[4];
         memcpy(newDirections, gStandardDirections, sizeof newDirections);
-        if(CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE)
+        if((CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE || CheckSpeedchoiceOption(SPINNERS, SPIN_WHY) == TRUE))
             direction = newDirections[Random() % 4];
         else if(CheckSpeedchoiceOption(SPINNERS, SPIN_NERF) == TRUE)
             direction = GetNextDirection(eventObject, sprite);
@@ -3138,7 +3138,7 @@ bool8 MovementType_WanderUpAndDown_Step4(struct EventObject *eventObject, struct
     {
         u8 newDirections[4];
         memcpy(newDirections, gStandardDirections, sizeof newDirections);
-        if(CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE)
+        if((CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE || CheckSpeedchoiceOption(SPINNERS, SPIN_WHY) == TRUE))
             direction = newDirections[Random() % 4];
         else if(CheckSpeedchoiceOption(SPINNERS, SPIN_NERF) == TRUE)
             direction = GetNextDirection(eventObject, sprite);
@@ -3421,7 +3421,7 @@ bool8 MovementType_FaceDownAndUp_Step4(struct EventObject *eventObject, struct S
     {
         u8 newDirections[4];
         memcpy(newDirections, gStandardDirections, sizeof newDirections);
-        if(CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE)
+        if((CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE || CheckSpeedchoiceOption(SPINNERS, SPIN_WHY) == TRUE))
             direction = newDirections[Random() % 4];
         else if(CheckSpeedchoiceOption(SPINNERS, SPIN_NERF) == TRUE)
             direction = GetNextDirection(eventObject, sprite);
@@ -3480,7 +3480,7 @@ bool8 MovementType_FaceLeftAndRight_Step4(struct EventObject *eventObject, struc
     {
         u8 newDirections[4];
         memcpy(newDirections, gStandardDirections, sizeof newDirections);
-        if(CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE)
+        if((CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE || CheckSpeedchoiceOption(SPINNERS, SPIN_WHY) == TRUE))
             direction = newDirections[Random() % 4];
         else if(CheckSpeedchoiceOption(SPINNERS, SPIN_NERF) == TRUE)
             direction = GetNextDirection(eventObject, sprite);
@@ -3539,7 +3539,7 @@ bool8 MovementType_FaceUpAndLeft_Step4(struct EventObject *eventObject, struct S
     {
         u8 newDirections[4];
         memcpy(newDirections, gStandardDirections, sizeof newDirections);
-        if(CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE)
+        if((CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE || CheckSpeedchoiceOption(SPINNERS, SPIN_WHY) == TRUE))
             direction = newDirections[Random() % 4];
         else if(CheckSpeedchoiceOption(SPINNERS, SPIN_NERF) == TRUE)
             direction = GetNextDirection(eventObject, sprite);
@@ -3598,7 +3598,7 @@ bool8 MovementType_FaceUpAndRight_Step4(struct EventObject *eventObject, struct 
     {
         u8 newDirections[4];
         memcpy(newDirections, gStandardDirections, sizeof newDirections);
-        if(CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE)
+        if((CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE || CheckSpeedchoiceOption(SPINNERS, SPIN_WHY) == TRUE))
             direction = newDirections[Random() % 4];
         else if(CheckSpeedchoiceOption(SPINNERS, SPIN_NERF) == TRUE)
             direction = GetNextDirection(eventObject, sprite);
@@ -3657,7 +3657,7 @@ bool8 MovementType_FaceDownAndLeft_Step4(struct EventObject *eventObject, struct
     {
         u8 newDirections[4];
         memcpy(newDirections, gStandardDirections, sizeof newDirections);
-        if(CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE)
+        if((CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE || CheckSpeedchoiceOption(SPINNERS, SPIN_WHY) == TRUE))
             direction = newDirections[Random() % 4];
         else if(CheckSpeedchoiceOption(SPINNERS, SPIN_NERF) == TRUE)
             direction = GetNextDirection(eventObject, sprite);
@@ -3716,7 +3716,7 @@ bool8 MovementType_FaceDownAndRight_Step4(struct EventObject *eventObject, struc
     {
         u8 newDirections[4];
         memcpy(newDirections, gStandardDirections, sizeof newDirections);
-        if(CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE)
+        if((CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE || CheckSpeedchoiceOption(SPINNERS, SPIN_WHY) == TRUE))
             direction = newDirections[Random() % 4];
         else if(CheckSpeedchoiceOption(SPINNERS, SPIN_NERF) == TRUE)
             direction = GetNextDirection(eventObject, sprite);
@@ -3775,7 +3775,7 @@ bool8 MovementType_FaceDownUpAndLeft_Step4(struct EventObject *eventObject, stru
     {
         u8 newDirections[4];
         memcpy(newDirections, gStandardDirections, sizeof newDirections);
-        if(CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE)
+        if((CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE || CheckSpeedchoiceOption(SPINNERS, SPIN_WHY) == TRUE))
             direction = newDirections[Random() % 4];
         else if(CheckSpeedchoiceOption(SPINNERS, SPIN_NERF) == TRUE)
             direction = GetNextDirection(eventObject, sprite);
@@ -3834,7 +3834,7 @@ bool8 MovementType_FaceDownUpAndRight_Step4(struct EventObject *eventObject, str
     {
         u8 newDirections[4];
         memcpy(newDirections, gStandardDirections, sizeof newDirections);
-        if(CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE)
+        if((CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE || CheckSpeedchoiceOption(SPINNERS, SPIN_WHY) == TRUE))
             direction = newDirections[Random() % 4];
         else if(CheckSpeedchoiceOption(SPINNERS, SPIN_NERF) == TRUE)
             direction = GetNextDirection(eventObject, sprite);
@@ -3893,7 +3893,7 @@ bool8 MovementType_FaceUpLeftAndRight_Step4(struct EventObject *eventObject, str
     {
         u8 newDirections[4];
         memcpy(newDirections, gStandardDirections, sizeof newDirections);
-        if(CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE)
+        if((CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE || CheckSpeedchoiceOption(SPINNERS, SPIN_WHY) == TRUE))
             direction = newDirections[Random() % 4];
         else if(CheckSpeedchoiceOption(SPINNERS, SPIN_NERF) == TRUE)
             direction = GetNextDirection(eventObject, sprite);
@@ -8861,15 +8861,16 @@ void TryRestoringSpinnerTimerBackup(struct Sprite *sprite)
     u8 i;
 
     // if the first entry is backed up, the whole array is. sort of a hack so I dont need to decompile submenu calls.
-    if(gMapObjectTimerBackup[0].backedUp == TRUE && CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE) // only fix bag manip if HELL is enabled.
+    if(gMapObjectTimerBackup[0].backedUp == TRUE && (CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE || CheckSpeedchoiceOption(SPINNERS, SPIN_WHY) == TRUE)) // only fix bag manip if HELL is enabled.
     {
         for(i = 0; i < MAX_SPRITES; i++)
         {
             // dont adjust the player's timer for safety.
-            if(gPlayerAvatar.eventObjectId != gSprites[i].data[0])
+            if(gMapObjectTimerBackup[i].backedUp == TRUE && gSprites[gPlayerAvatar.spriteId].data[0] != gMapObjectTimerBackup[i].spriteId)
                 gSprites[i].data[3] = gMapObjectTimerBackup[i].timer;
 
             gMapObjectTimerBackup[i].timer = 0;
+            gMapObjectTimerBackup[i].spriteId = 0;
             gMapObjectTimerBackup[i].backedUp = FALSE; // since the player's info is also backed up, dont forget to unassumingly clear the backup status.
         }
     }
@@ -8879,6 +8880,10 @@ static void SetMovementDelay(struct Sprite *sprite, s16 timer)
 {
     TryRestoringSpinnerTimerBackup(sprite);
     if(CheckSpeedchoiceOption(SPINNERS, SPIN_HELL) == TRUE && (gEventObjects[sprite->data[0]].trainerType == 1 || gEventObjects[sprite->data[0]].trainerType == 3))
+    {
+        sprite->data[3] = (Random() % 16) * 2 + 2;
+    }
+    else if(CheckSpeedchoiceOption(SPINNERS, SPIN_WHY) == TRUE && (gEventObjects[sprite->data[0]].trainerType == 1 || gEventObjects[sprite->data[0]].trainerType == 3))
     {
         sprite->data[3] = (Random() % 4) * 2 + 2;
     }

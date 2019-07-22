@@ -60,6 +60,7 @@
     .set SPIN_NERF, 0
     .set SPIN_KEEP, 1
     .set SPIN_HELL, 2
+    .set SPIN_WHY, 3
 
     @ MAX VISION
     .set MAX_OFF, 0

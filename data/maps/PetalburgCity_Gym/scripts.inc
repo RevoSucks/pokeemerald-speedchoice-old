@@ -114,6 +114,8 @@ PetalburgCity_Gym_EventScript_2049A4:: @ 82049A4
     setflag FLAG_HIDE_MAGMA_HIDEOUT_4F_GROUDON_1
     setflag FLAG_HIDE_MAGMA_HIDEOUT_4F_GROUDON_2
     setflag FLAG_HIDE_JAGGED_PASS_MAGMA_GUARD
+    @ make old man disappear for sootopolis
+    setflag FLAG_HIDE_CAVE_OF_ORIGIN_B1F_WALLACE @ also hides the expert as a hack
 EndOfWallyTutorial::
 	releaseall
 	end

@@ -1074,6 +1074,8 @@ void Bike_HandleBumpySlopeJump(void)
 
 bool32 IsRunningDisallowed(u8 metatile)
 {
+    if (CheckSpeedchoiceOption(RUN_EVERYWHERE, RUN_ON) == TRUE)
+        return FALSE;
     if (!(gMapHeader.flags & 4) || IsRunningDisallowedByMetatile(metatile) == TRUE)
         return TRUE;
     else

@@ -85,7 +85,8 @@ enum
 {
     SPIN_NERF,
     SPIN_KEEP,
-    SPIN_HELL
+    SPIN_HELL,
+    SPIN_WHY
 };
 
 // MAX VISION
@@ -195,6 +196,7 @@ struct SpeedchoiceConfigStruct
 struct MapObjectTimerBackup
 {
     bool8 backedUp;
+    s16 spriteId;
     s16 timer;
 };
 

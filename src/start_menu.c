@@ -248,6 +248,7 @@ void DoMapObjectTimerBackup(void)
     for(i = 0; i < MAX_SPRITES; i++)
     {
         gMapObjectTimerBackup[i].backedUp = TRUE;
+        gMapObjectTimerBackup[i].spriteId = gSprites[i].data[0];
         gMapObjectTimerBackup[i].timer = gSprites[i].data[3];
     }
 }
