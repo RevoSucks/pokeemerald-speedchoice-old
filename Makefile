@@ -23,6 +23,7 @@ OBJ_DIR := build/emerald
 ELF = $(ROM:.gba=.elf)
 MAP = $(ROM:.gba=.map)
 INI = $(ROM:.gba=.ini)
+PATCH := $(ROM:.gba=.xdelta)
 
 C_SUBDIR = src
 ASM_SUBDIR = asm
@@ -59,6 +60,7 @@ FIX := tools/gbafix/gbafix$(EXE)
 MAPJSON := tools/mapjson/mapjson$(EXE)
 JSONPROC := tools/jsonproc/jsonproc$(EXE)
 INIGEN := tools/inigen/inigen$(EXE)
+XDELTA := xdelta3
 
 # Clear the default suffixes
 .SUFFIXES:
@@ -70,7 +72,7 @@ INIGEN := tools/inigen/inigen$(EXE)
 # Secondary expansion is required for dependency variables in object rules.
 .SECONDEXPANSION:
 
-.PHONY: rom clean compare tidy
+.PHONY: rom clean compare tidy ini release
 
 C_SRCS := $(wildcard $(C_SUBDIR)/*.c $(C_SUBDIR)/*/*.c $(C_SUBDIR)/*/*/*.c)
 C_OBJS := $(patsubst $(C_SUBDIR)/%.c,$(C_BUILDDIR)/%.o,$(C_SRCS))
@@ -99,6 +101,8 @@ $(shell mkdir -p $(SUBDIRS))
 rom: $(ROM)
 
 ini: $(INI)
+
+release: $(INI) $(PATCH)
 
 # For contributors to make sure a change didn't affect the contents of the ROM.
 # compare: $(ROM)
@@ -211,3 +215,6 @@ $(ROM): $(ELF)
 $(INI): $(ROM)
 	$(INIGEN) $(ELF) $@ --name "Emerald Speedchoice (U)" --code $(GAME_CODE)
 	echo "MD5Hash="$(shell md5sum $< | cut -d' ' -f1) >> $@
+
+$(PATCH): $(ROM)
+	$(XDELTA) -e -s baserom.gba $< $@
