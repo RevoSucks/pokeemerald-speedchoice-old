@@ -240,6 +240,9 @@ static u8 CheckTrainer(u8 eventObjectId)
     else
         scriptPtr = GetEventObjectScriptPointerByEventObjectId(eventObjectId);
 
+    if (*scriptPtr != 0x5c)
+        return 0;
+
     if (InBattlePyramid())
     {
         if (GetBattlePyramidTrainerFlag(eventObjectId))

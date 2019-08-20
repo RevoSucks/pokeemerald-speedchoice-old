@@ -1246,7 +1246,7 @@ static u8 InitEventObjectStateFromTemplate(struct EventObjectTemplate *template,
         eventObject->trainerType = 1;
     else
         eventObject->trainerType = template->trainerType;
-    if(CheckSpeedchoiceOption(MAXVISION, MAX_OFF) == FALSE && gPlayerAvatar.eventObjectId != eventObjectId && (template->trainerType == 1 || template->trainerType == 3))
+    if(CheckSpeedchoiceOption(MAXVISION, MAX_OFF) == FALSE && gPlayerAvatar.eventObjectId != eventObjectId && (template->trainerType == 1 || template->trainerType == 3) && (template->trainerRange_berryTreeId != 0 || *template->script == 0x5C /*trainerbattle*/))
         eventObject->trainerRange_berryTreeId = MAX_VISION_RANGE;
     else
         eventObject->trainerRange_berryTreeId = template->trainerRange_berryTreeId;

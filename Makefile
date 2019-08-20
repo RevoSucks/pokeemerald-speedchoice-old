@@ -72,7 +72,7 @@ XDELTA := xdelta3
 # Secondary expansion is required for dependency variables in object rules.
 .SECONDEXPANSION:
 
-.PHONY: rom clean compare tidy ini release
+.PHONY: rom clean compare tidy ini release patch
 
 C_SRCS := $(wildcard $(C_SUBDIR)/*.c $(C_SUBDIR)/*/*.c $(C_SUBDIR)/*/*/*.c)
 C_OBJS := $(patsubst $(C_SUBDIR)/%.c,$(C_BUILDDIR)/%.o,$(C_SRCS))
@@ -100,9 +100,11 @@ $(shell mkdir -p $(SUBDIRS))
 
 rom: $(ROM)
 
+release: ini patch
+
 ini: $(INI)
 
-release: $(INI) $(PATCH)
+patch: $(PATCH)
 
 # For contributors to make sure a change didn't affect the contents of the ROM.
 # compare: $(ROM)
@@ -217,4 +219,4 @@ $(INI): $(ROM)
 	echo "MD5Hash="$(shell md5sum $< | cut -d' ' -f1) >> $@
 
 $(PATCH): $(ROM)
-	$(XDELTA) -e -s baserom.gba $< $@
+	$(XDELTA) -f -e -s baserom.gba $< $@
