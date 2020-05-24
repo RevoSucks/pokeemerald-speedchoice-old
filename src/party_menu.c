@@ -3706,9 +3706,14 @@ static void sub_81B33B4(struct Pokemon *mons, u8 slotId, u8 b)
 static void CreateActionList(struct Pokemon *mons, u8 slotId)
 {
     u8 i, j;
-
+    bool8 summaryFirst;
+    
     gUnknown_0203CEC4->listSize = 0;
-    AppendToList(gUnknown_0203CEC4->actions, &gUnknown_0203CEC4->listSize, MENU_SUMMARY);
+    summaryFirst = CheckSpeedchoiceOption(NICE_PARTY_MENU, NICE_PARTY_MENU_OFF);
+    if(summaryFirst == TRUE)
+    {
+        AppendToList(gUnknown_0203CEC4->actions, &gUnknown_0203CEC4->listSize, MENU_SUMMARY);
+    }
     for (i = 0; i < MAX_MON_MOVES; i++)
     {
         for (j = 0; sFieldMoves[j] != FIELD_MOVE_TERMINATOR; j++)
@@ -3719,6 +3724,10 @@ static void CreateActionList(struct Pokemon *mons, u8 slotId)
                 break;
             }
         }
+    }
+    if(summaryFirst == FALSE)
+    {
+        AppendToList(gUnknown_0203CEC4->actions, &gUnknown_0203CEC4->listSize, MENU_SUMMARY);
     }
 
     if (!InBattlePike())
