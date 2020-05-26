@@ -6372,6 +6372,16 @@ MauvilleCity_Text_2C6E05: @ 82C6E05
 	.string "This move can be learned only\n"
 	.string "once. Is that okay?$"
 
+SlateportCity_PokemonFanClub_Text_SPEEDCHOICE_FALSE_SWIPE: @ SPEEDCHOICE
+	.string "Want me to teach you FALSE SWIPE?$"
+
+SlateportCity_PokemonFanClub_Text_SPEEDCHOICE_FALSE_SWIPE2: @ SPEEDCHOICE
+	.string "All right, which POKéMON wants to\n"
+	.string "learn how to FALSE SWIPE?$"
+
+SlateportCity_PokemonFanClub_Text_SPEEDCHOICE_FALSE_SWIPE3: @ SPEECHOICE
+	.string "Time for some easy catching.$"
+
 SlateportCity_PokemonFanClub_Text_2C6E37: @ 82C6E37
 	.string "Heh! My POKéMON totally rules!\n"
 	.string "It's cooler than any POKéMON!\p"
@@ -6609,6 +6619,8 @@ PacifidlogTown_PokemonCenter_1F_Text_2C7E7A: @ 82C7E7A
 SlateportCity_PokemonFanClub_EventScript_2C7F16:: @ 82C7F16
 	lock
 	faceplayer
+	checkspeedchoice EASY_FALSE_SWIPE, EASY_FALSE_SWIPE_TUTOR
+	goto_if TRUE, SpeedchoiceSlateportEasyFalseSwipe
 	goto_if_set FLAG_MOVE_TUTOR_TAUGHT_SWAGGER, SlateportCity_PokemonFanClub_EventScript_2C7F74
 gMoveTutorText_20::
 	msgbox SlateportCity_PokemonFanClub_Text_2C6E37, MSGBOX_YESNO
@@ -6626,6 +6638,20 @@ gMoveTutorText_21::
 	setflag FLAG_MOVE_TUTOR_TAUGHT_SWAGGER
 	goto SlateportCity_PokemonFanClub_EventScript_2C7F74
 	end
+
+SpeedchoiceSlateportEasyFalseSwipe:: @ SPEEDCHOICE
+	msgbox SlateportCity_PokemonFanClub_Text_SPEEDCHOICE_FALSE_SWIPE, MSGBOX_YESNO
+	compare VAR_RESULT, 0
+	goto_if_eq SlateportCity_PokemonFanClub_EventScript_2C7F6A
+	msgbox SlateportCity_PokemonFanClub_Text_SPEEDCHOICE_FALSE_SWIPE2, MSGBOX_DEFAULT
+	setvar VAR_0x8005, 69 @ just a dummy value
+	call EventScript_ShowPartyMenu
+	compare VAR_RESULT, 0
+	goto_if_eq SlateportCity_PokemonFanClub_EventScript_2C7F6A
+	msgbox SlateportCity_PokemonFanClub_Text_SPEEDCHOICE_FALSE_SWIPE3, MSGBOX_DEFAULT
+	release
+	end
+
 
 SlateportCity_PokemonFanClub_EventScript_2C7F6A:: @ 82C7F6A
 	msgbox SlateportCity_PokemonFanClub_Text_2C6F33, MSGBOX_DEFAULT

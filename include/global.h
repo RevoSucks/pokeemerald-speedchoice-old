@@ -448,6 +448,7 @@ struct SpeedchoiceSaveOptions
     u8 goodEarlyWilds:2;
     u8 earlysurf:1;
     u8 nicePartyMenu:1;
+    u8 easyFalseSwipe:2;
 };
 
 // The struct has to be split in two because neither chunk of block 1 and 2 has enough room left for the full struct.

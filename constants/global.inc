@@ -38,6 +38,7 @@
 	.set GOOD_EARLY_WILDS, 13
 	.set EARLYSURF, 14
 	.set NICE_PARTY_MENU, 15
+	.set EASY_FALSE_SWIPE, 16
 
     @ -------------
     @ option enums
@@ -108,4 +109,8 @@
     @ NICE_PARTY_MENU
     .set NICE_PARTY_MENU_ON, 0
     .set NICE_PARTY_MENU_OFF, 1
-    
+
+    @ EASY_FALSE_SWIPE
+    .set EASY_FALSE_SWIPE_OFF, 0
+    .set EASY_FALSE_SWIPE_TUTOR, 1
+    .set EASY_FALSE_SWIPE_HM05, 2

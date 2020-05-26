@@ -3123,11 +3123,15 @@ static u8 CanMonLearnTMTutor(struct Pokemon *mon, u16 item, u8 tutor)
 
 static u16 GetTutorMove(u8 tutor)
 {
+    if(tutor == 69) // SPEEDCHOICE easy false swipe
+      return MOVE_FALSE_SWIPE;
     return gTutorMoves[tutor];
 }
 
 static bool8 CanLearnTutorMove(u16 species, u8 tutor)
 {
+    if(tutor == 69) // SPEEDCHOICE easy false swipe
+        return TRUE;
     if (sTutorLearnsets[species] & (1 << tutor))
         return TRUE;
     else
@@ -5729,6 +5733,9 @@ void dp05_pp_up(u8 taskId, TaskFunc task)
 u16 ItemIdToBattleMoveId(u16 item)
 {
     u16 tmNumber = item - ITEM_TM01_FOCUS_PUNCH;
+    if(item == ITEM_HM05_FLASH && CheckSpeedchoiceOption(EASY_FALSE_SWIPE, EASY_FALSE_SWIPE_HM05) == TRUE)
+      return MOVE_FALSE_SWIPE; // SPEEDCHOICE
+    
     return gTMHMMoves[tmNumber];
 }
 
