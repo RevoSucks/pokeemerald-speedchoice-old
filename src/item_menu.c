@@ -51,6 +51,7 @@
 #include "battle_pike.h"
 #include "constants/rgb.h"
 #include "done_button.h"
+#include "speedchoice.h"
 
 enum ItemMenuActions
 {
@@ -270,7 +271,10 @@ const u8 gUnknown_0861402C[] = {0, 3, 1, 4};
 const u8 gUnknown_08614030[] = {0, 2, 14, 4};
 const u8 gUnknown_08614034[] = {3, 14, 1, 4};
 const u8 gUnknown_08614038[] = {0, 3, 14, 4};
-const u8 gUnknown_0861403C[] = {9, 14, 0, 3, 1, 4};
+const u8 gUnknown_0861403C[] = {9, 14, 0, 3, 1, 4}; // berry menu order
+
+const u8 gSpeedchoiceBerryMenu[] = {0, 14, 9, 3, 1, 4}; // SPEEDCHOICE Nice Menu berry menu order, swaps CHECK TAG and USE
+
 const u8 gUnknown_08614042[] = {5, 4};
 const u8 gUnknown_08614044[] = {3, 4};
 const u8 gUnknown_08614046 = 4;
@@ -1541,7 +1545,9 @@ void sub_81AC644(u8 unused)
                         gBagMenu->unk828 = 4;
                         break;
                     case BERRIES_POCKET:
-                        gBagMenu->unk820 = gUnknown_0861403C;
+                        gBagMenu->unk820 = CheckSpeedchoiceOption(NICE_MENU_ORDER, NICE_MENU_ORDER_ON) == TRUE 
+                                           ? gSpeedchoiceBerryMenu
+                                           : gUnknown_0861403C;
                         gBagMenu->unk828 = 6;
                         break;
                 }
