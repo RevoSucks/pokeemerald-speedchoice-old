@@ -228,8 +228,8 @@ static const u8 gPresetBingo[CURRENT_OPTIONS_NUM] = {
     RUN_ON,      // RUN_EVERYWHERE
     MEME_BIG,    // MEME_ISLAND
     MARTS_ON,    // BETTER_MARTS
-    GOOD_STATIC, // GOOD_EARLY_WILDS
-    SURF_ON,      // EARLYSURF
+    GOOD_OFF,    // GOOD_EARLY_WILDS
+    SURF_ON,     // EARLYSURF
     NICE_PARTY_MENU_ON, // NICE_PARTY_MENU
     EASY_FALSE_SWIPE_TUTOR, // EASY_FALSE_SWIPE
     FAST_CATCH_OFF
@@ -936,6 +936,7 @@ static void SaveSpeedchoiceOptions(u8 taskId)
     gSaveBlock2Ptr->speedchoiceConfig.earlysurf = gLocalSpeedchoiceConfig.optionConfig[EARLYSURF];
     gSaveBlock2Ptr->speedchoiceConfig.nicePartyMenu = gLocalSpeedchoiceConfig.optionConfig[NICE_PARTY_MENU];
     gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe = gLocalSpeedchoiceConfig.optionConfig[EASY_FALSE_SWIPE];
+    gSaveBlock2Ptr->speedchoiceConfig.fastCatch = gLocalSpeedchoiceConfig.optionConfig[FAST_CATCH];
 }
 
 extern const struct BgTemplate sMainMenuBgTemplates[];
