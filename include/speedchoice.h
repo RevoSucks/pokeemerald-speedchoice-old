@@ -2,11 +2,11 @@
 #define _GUARD_SPEEDCHOICE_H
 
 // global speedchoice config
-#define CURRENT_OPTIONS_NUM 15 // be sure to count preset too
+#define CURRENT_OPTIONS_NUM 17 // be sure to count preset too
 #define MAX_CHOICES 6
 #define OPTIONS_PER_PAGE 5
 #define ALLOPTIONS_PER_PAGE OPTIONS_PER_PAGE + 2 // page + start game
-#define MAX_PAGES 3
+#define MAX_PAGES 4
 
 #define MENUOPTIONCOORDS(i) (5 + (2 * i))
 
@@ -42,6 +42,8 @@ enum
     BETTER_MARTS,
     GOOD_EARLY_WILDS,
     EARLYSURF,
+    NICE_PARTY_MENU,
+    EASY_FALSE_SWIPE,
 
     // STATIC OPTIONS
     PAGE,
@@ -159,6 +161,21 @@ enum
 {
     SURF_ON,
     SURF_OFF
+};
+
+// PARTY MENU
+enum
+{
+  NICE_PARTY_MENU_ON,
+  NICE_PARTY_MENU_OFF
+};
+
+// EASY FALSE SWIPE
+enum
+{
+  EASY_FALSE_SWIPE_OFF,
+  EASY_FALSE_SWIPE_TUTOR,
+  EASY_FALSE_SWIPE_HM05
 };
 
 // option types
