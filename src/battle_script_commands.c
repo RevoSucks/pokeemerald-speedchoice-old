@@ -3501,7 +3501,7 @@ static void atk23_getexp(void)
                         if (holdEffect == HOLD_EFFECT_LUCKY_EGG)
                             gBattleMoveDamage = (gBattleMoveDamage * 150) / 100; // x 1.5
                     }
-                    else if(CheckSpeedchoiceOption(EXPMATH, EXP_NONE) == TRUE) // normal handling
+                    else if(CheckSpeedchoiceOption(EXPMATH, EXP_KEEP) == TRUE) // normal handling
                     {
                         if (holdEffect == HOLD_EFFECT_EXP_SHARE)
                             gBattleMoveDamage += gExpShareExp;
