@@ -3713,7 +3713,7 @@ static void CreateActionList(struct Pokemon *mons, u8 slotId)
     bool8 summaryFirst;
     
     gUnknown_0203CEC4->listSize = 0;
-    summaryFirst = CheckSpeedchoiceOption(NICE_PARTY_MENU, NICE_PARTY_MENU_OFF);
+    summaryFirst = CheckSpeedchoiceOption(NICE_MENU_ORDER, NICE_MENU_ORDER_OFF);
     if(summaryFirst == TRUE)
     {
         AppendToList(gUnknown_0203CEC4->actions, &gUnknown_0203CEC4->listSize, MENU_SUMMARY);

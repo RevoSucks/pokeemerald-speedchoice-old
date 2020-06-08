@@ -131,7 +131,7 @@ const u8 gSpeedchoiceOptionGoodEarlyWilds[] = _("{COLOR GREEN}{SHADOW LIGHT_GREE
 const u8 gSpeedchoiceOptionEarlySurf[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}EARLY SURF");
 
 // PAGE 4
-const u8 gSpeedchoiceOptionNicePartyMenu[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}NICE PARTY MENU");
+const u8 gSpeedchoiceOptionNiceMenuOrder[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}NICE MENU ORDER");
 const u8 gSpeedchoiceOptionEasyFalseSwipe[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}EASY FALSE SWIPE");
 const u8 gSpeedchoiceOptionFastCatch[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}FAST CATCH");
 
@@ -162,8 +162,8 @@ const u8 gSpeedchoiceTooltipMemeIsland[] = _("Mirage Island always appears.");
 const u8 gSpeedchoiceTooltipBetterMarts[] = _("Improves the item selections\nof many Pokemon marts.\pAdds repels to Oldale Mart.\pAdds repels and super repels to\nMauville Mart.\pAdds X Specials to Rustboro\nMart.");
 const u8 gSpeedchoiceTooltipGoodEarlyWilds[] = _("SAME: Depending on the\nrandomizer check value, wild\pencounters in the grass for\npokemon below lv 10 will have\ptheir final evolution.\pRAND: If they have a branching\nevolution, it will be randomly\pgenerated instead of being static.");
 const u8 gSpeedchoiceTooltipEarlySurf[] = _("Switches the locations of\nHM04 and HM03.\pUse of Surf requirement only needs\nWattson's Gym Badge.\pIn addition, Steven post-Fortree\nwill not spawn until after GYM 5.");
-const u8 gSpeedchoiceTooltipNicePartyMenu[] = _("Switches the location of the summary\nand field moves.\pON: Fields moves are first.\nOFF: Summary is first.");
-const u8 gSpeedchoiceTooltipEasyFalseSwipe[] = _("Makes FALSE SWIPE guaranteed.\nOFF: Vanilla game behavior\pTUTOR: The tutor in Slateport\nwill teach FALSE SWIPE.\pHM05: Replaces HM05 FLASH with\n HM05 FALSE SWIPE.");
+const u8 gSpeedchoiceTooltipNiceMenuOrder[] = _("Swaps the location of SUMMARY and\nfield moves in party menu.\palso swaps CHECK TAG and USE\nin the berry bag.\pON: Fields moves and berry USE are first.\nOFF: SUMMARY and CHECK TAG are first.");
+const u8 gSpeedchoiceTooltipEasyFalseSwipe[] = _("Makes FALSE SWIPE guaranteed\nOFF: Vanilla game behavior\pTUTOR: The tutor in Slateport teaches\nFALSE SWIPE.\pHM05: Replaces HM05 FLASH with\nHM05 FALSE SWIPE.");
 const u8 gSpeedchoiceTooltipFastCatch[] = _("All Pokeballs are guaranteed to catch.");
 
 // START GAME
@@ -209,7 +209,7 @@ static const u8 gPresetVanilla[CURRENT_OPTIONS_NUM] = {
     MARTS_OFF,   // BETTER_MARTS
     GOOD_OFF,    // GOOD_EARLY_WILDS
     SURF_OFF,     // EARLYSURF
-    NICE_PARTY_MENU_OFF, // NICE_PARTY_MENU
+    NICE_MENU_ORDER_OFF, // NICE_MENU_ORDER
     EASY_FALSE_SWIPE_OFF, // EASY_FALSE_SWIPE
     FAST_CATCH_OFF
 };
@@ -230,7 +230,7 @@ static const u8 gPresetBingo[CURRENT_OPTIONS_NUM] = {
     MARTS_ON,    // BETTER_MARTS
     GOOD_OFF,    // GOOD_EARLY_WILDS
     SURF_ON,     // EARLYSURF
-    NICE_PARTY_MENU_ON, // NICE_PARTY_MENU
+    NICE_MENU_ORDER_ON, // NICE_MENU_ORDER
     EASY_FALSE_SWIPE_TUTOR, // EASY_FALSE_SWIPE
     FAST_CATCH_OFF
 };
@@ -251,7 +251,7 @@ static const u8 gPresetCEA[CURRENT_OPTIONS_NUM] = {
     MARTS_ON,    // BETTER_MARTS
     GOOD_OFF,    // GOOD_EARLY_WILDS
     SURF_ON,      // EARLYSURF
-    NICE_PARTY_MENU_ON, // NICE_PARTY_MENU
+    NICE_MENU_ORDER_ON, // NICE_MENU_ORDER
     EASY_FALSE_SWIPE_TUTOR, // EASY_FALSE_SWIPE
     FAST_CATCH_ON
 };
@@ -272,7 +272,7 @@ static const u8 gPresetRace[CURRENT_OPTIONS_NUM] = {
     MARTS_ON,    // BETTER_MARTS
     GOOD_STATIC, // GOOD_EARLY_WILDS
     SURF_ON,      // EARLYSURF
-    NICE_PARTY_MENU_ON, // NICE_PARTY_MENU
+    NICE_MENU_ORDER_ON, // NICE_MENU_ORDER
     EASY_FALSE_SWIPE_TUTOR, // EASY_FALSE_SWIPE
     FAST_CATCH_OFF
 };
@@ -410,8 +410,8 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
     { 2,         NORMAL, gSpeedchoiceOptionBetterMarts,    OptionChoiceConfigOnOff,    gSpeedchoiceTooltipBetterMarts,    TRUE },
     { 3,         NORMAL, gSpeedchoiceOptionGoodEarlyWilds, OptionChoiceConfigOffRand,  gSpeedchoiceTooltipGoodEarlyWilds, TRUE },
     { 2,         NORMAL, gSpeedchoiceOptionEarlySurf,      OptionChoiceConfigOnOff,    gSpeedchoiceTooltipEarlySurf,      TRUE },
-    { 2,         NORMAL, gSpeedchoiceOptionNicePartyMenu,  OptionChoiceConfigOnOff,    gSpeedchoiceTooltipNicePartyMenu,  TRUE },
-    { 3,         NORMAL, gSpeedchoiceOptionEasyFalseSwipe, OptionChoiceConfigOffTutorHM,    gSpeedchoiceTooltipEasyFalseSwipe,  TRUE },
+    { 2,         NORMAL, gSpeedchoiceOptionNiceMenuOrder,  OptionChoiceConfigOnOff,    gSpeedchoiceTooltipNiceMenuOrder,  TRUE },
+    { 3,         NORMAL, gSpeedchoiceOptionEasyFalseSwipe, OptionChoiceConfigOffTutorHM, gSpeedchoiceTooltipEasyFalseSwipe, TRUE },
     { 2,         NORMAL, gSpeedchoiceOptionFastCatch,      OptionChoiceConfigOnOff,    gSpeedchoiceTooltipFastCatch,  TRUE },
     { MAX_PAGES, NORMAL, gSpeedchoiceOptionPage,           OptionChoiceConfigPage,     NULL,                              TRUE }
 };
@@ -449,7 +449,7 @@ void SetOptionChoicesAndConfigFromPreset(const u8 *preset)
     gSaveBlock2Ptr->speedchoiceConfig.betterMarts = preset[BETTER_MARTS];
     gSaveBlock2Ptr->speedchoiceConfig.goodEarlyWilds = preset[GOOD_EARLY_WILDS];
     gSaveBlock2Ptr->speedchoiceConfig.earlysurf = preset[EARLYSURF];
-    gSaveBlock2Ptr->speedchoiceConfig.nicePartyMenu = preset[NICE_PARTY_MENU];
+    gSaveBlock2Ptr->speedchoiceConfig.niceMenuOrder = preset[NICE_MENU_ORDER];
     gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe = preset[EASY_FALSE_SWIPE];
     gSaveBlock2Ptr->speedchoiceConfig.fastCatch = preset[FAST_CATCH];
 }
@@ -486,8 +486,8 @@ bool8 CheckSpeedchoiceOption(u8 option, u8 selection)
             return gSaveBlock2Ptr->speedchoiceConfig.goodEarlyWilds == selection;
         case EARLYSURF:
             return gSaveBlock2Ptr->speedchoiceConfig.earlysurf == selection;
-        case NICE_PARTY_MENU:
-            return gSaveBlock2Ptr->speedchoiceConfig.nicePartyMenu == selection;
+        case NICE_MENU_ORDER:
+            return gSaveBlock2Ptr->speedchoiceConfig.niceMenuOrder == selection;
         case EASY_FALSE_SWIPE:
             return gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe == selection;
         case FAST_CATCH:
@@ -934,7 +934,7 @@ static void SaveSpeedchoiceOptions(u8 taskId)
     gSaveBlock2Ptr->speedchoiceConfig.betterMarts = gLocalSpeedchoiceConfig.optionConfig[BETTER_MARTS];
     gSaveBlock2Ptr->speedchoiceConfig.goodEarlyWilds = gLocalSpeedchoiceConfig.optionConfig[GOOD_EARLY_WILDS];
     gSaveBlock2Ptr->speedchoiceConfig.earlysurf = gLocalSpeedchoiceConfig.optionConfig[EARLYSURF];
-    gSaveBlock2Ptr->speedchoiceConfig.nicePartyMenu = gLocalSpeedchoiceConfig.optionConfig[NICE_PARTY_MENU];
+    gSaveBlock2Ptr->speedchoiceConfig.niceMenuOrder = gLocalSpeedchoiceConfig.optionConfig[NICE_MENU_ORDER];
     gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe = gLocalSpeedchoiceConfig.optionConfig[EASY_FALSE_SWIPE];
     gSaveBlock2Ptr->speedchoiceConfig.fastCatch = gLocalSpeedchoiceConfig.optionConfig[FAST_CATCH];
 }
