@@ -10330,7 +10330,7 @@ static void atkEF_handleballthrow(void)
             }
         }
 
-        if (odds > 254) // mon caught
+        if (CheckSpeedchoiceOption(FAST_CATCH, FAST_CATCH_ON) || odds > 254) // mon caught
         {
             BtlController_EmitBallThrowAnim(0, BALL_3_SHAKES_SUCCESS);
             MarkBattlerForControllerExec(gActiveBattler);

@@ -2,7 +2,7 @@
 #define _GUARD_SPEEDCHOICE_H
 
 // global speedchoice config
-#define CURRENT_OPTIONS_NUM 17 // be sure to count preset too
+#define CURRENT_OPTIONS_NUM 18 // be sure to count preset too
 #define MAX_CHOICES 6
 #define OPTIONS_PER_PAGE 5
 #define ALLOPTIONS_PER_PAGE OPTIONS_PER_PAGE + 2 // page + start game
@@ -44,6 +44,7 @@ enum
     EARLYSURF,
     NICE_PARTY_MENU,
     EASY_FALSE_SWIPE,
+    FAST_CATCH,
 
     // STATIC OPTIONS
     PAGE,
@@ -176,6 +177,13 @@ enum
   EASY_FALSE_SWIPE_OFF,
   EASY_FALSE_SWIPE_TUTOR,
   EASY_FALSE_SWIPE_HM05
+};
+
+// FAST CATCH
+enum
+{
+    FAST_CATCH_ON,
+    FAST_CATCH_OFF
 };
 
 // option types
