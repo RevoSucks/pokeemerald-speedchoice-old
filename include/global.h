@@ -446,7 +446,7 @@ struct SpeedchoiceSaveOptions
     u8 betterMarts:1;
     u8 goodEarlyWilds:2;
     u8 earlysurf:1;
-    u8 nicePartyMenu:1;
+    u8 niceMenuOrder:1;
     u8 easyFalseSwipe:2;
     u8 fastCatch:1;
 };
