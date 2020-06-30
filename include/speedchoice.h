@@ -2,7 +2,7 @@
 #define _GUARD_SPEEDCHOICE_H
 
 // global speedchoice config
-#define CURRENT_OPTIONS_NUM 18 // be sure to count preset too
+#define CURRENT_OPTIONS_NUM 19 // be sure to count preset too
 #define MAX_CHOICES 6
 #define OPTIONS_PER_PAGE 5
 #define ALLOPTIONS_PER_PAGE OPTIONS_PER_PAGE + 2 // page + start game
@@ -45,6 +45,7 @@ enum
     NICE_MENU_ORDER,
     EASY_FALSE_SWIPE,
     FAST_CATCH,
+    ROCK_SMASH_ENCOUNTERS,
 
     // STATIC OPTIONS
     PAGE,
@@ -167,16 +168,16 @@ enum
 // PARTY MENU
 enum
 {
-  NICE_MENU_ORDER_ON,
-  NICE_MENU_ORDER_OFF
+    NICE_MENU_ORDER_ON,
+    NICE_MENU_ORDER_OFF
 };
 
 // EASY FALSE SWIPE
 enum
 {
-  EASY_FALSE_SWIPE_OFF,
-  EASY_FALSE_SWIPE_TUTOR,
-  EASY_FALSE_SWIPE_HM05
+    EASY_FALSE_SWIPE_OFF,
+    EASY_FALSE_SWIPE_TUTOR,
+    EASY_FALSE_SWIPE_HM05
 };
 
 // FAST CATCH
@@ -184,6 +185,13 @@ enum
 {
     FAST_CATCH_ON,
     FAST_CATCH_OFF
+};
+
+// ROCK SMASH ENCOUNTERS
+enum
+{
+    ROCK_SMASH_ENCOUNTERS_NORMAL,
+    ROCK_SMASH_ENCOUNTERS_ALWAYS
 };
 
 // option types

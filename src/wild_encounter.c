@@ -825,8 +825,20 @@ void RockSmashWildEncounter(void)
         {
             gSpecialVar_Result = FALSE;
         }
-        else if (DoWildEncounterRateTest(180, 1) == TRUE
-         && TryGenerateWildMon(wildPokemonInfo, 2, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
+        else if(CheckSpeedchoiceOption(ROCK_SMASH_ENCOUNTERS, ROCK_SMASH_ENCOUNTERS_NORMAL) == TRUE) // normal encounters
+        {
+            if (DoWildEncounterRateTest(wildPokemonInfo->encounterRate, 1) == TRUE
+                && TryGenerateWildMon(wildPokemonInfo, 2, WILD_CHECK_REPEL | WILD_CHECK_KEEN_EYE) == TRUE)
+            {
+                BattleSetup_StartWildBattle();
+                gSpecialVar_Result = TRUE;
+            }
+            else 
+            {
+                gSpecialVar_Result = FALSE;
+            }
+        }
+        else if (TryGenerateWildMon(wildPokemonInfo, 2, 0) == TRUE) // just get us an encounter
         {
             BattleSetup_StartWildBattle();
             gSpecialVar_Result = TRUE;

@@ -39,6 +39,9 @@
 	.set EARLYSURF, 14
 	.set NICE_MENU_ORDER, 15
 	.set EASY_FALSE_SWIPE, 16
+	.set FAST_CATCH, 17
+	.set ROCK_SMASH_ENCOUNTERS, 18
+
 
     @ -------------
     @ option enums
@@ -114,3 +117,11 @@
     .set EASY_FALSE_SWIPE_OFF, 0
     .set EASY_FALSE_SWIPE_TUTOR, 1
     .set EASY_FALSE_SWIPE_HM05, 2
+
+    @ FAST_CATCH
+    .set FAST_CATCH_ON, 0
+    .set FAST_CATCH_OFF, 1
+
+    @ ROCK_SMASH_ENCOUNTERS
+    .set ROCK_SMASH_ENCOUNTERS_NORMAL, 0
+    .set ROCK_SMASH_ENCOUNTERS_ALWAYS, 1
