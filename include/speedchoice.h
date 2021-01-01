@@ -2,7 +2,7 @@
 #define _GUARD_SPEEDCHOICE_H
 
 // global speedchoice config
-#define CURRENT_OPTIONS_NUM 18 // be sure to count preset too
+#define CURRENT_OPTIONS_NUM 19 // be sure to count preset too
 #define MAX_CHOICES 6
 #define OPTIONS_PER_PAGE 5
 #define ALLOPTIONS_PER_PAGE OPTIONS_PER_PAGE + 2 // page + start game
@@ -45,6 +45,7 @@ enum
     NICE_MENU_ORDER,
     EASY_FALSE_SWIPE,
     FAST_CATCH,
+	EARLY_BIKE,
 
     // STATIC OPTIONS
     PAGE,
@@ -184,6 +185,13 @@ enum
 {
     FAST_CATCH_ON,
     FAST_CATCH_OFF
+};
+
+// EARLY BIKE
+enum
+{
+    EARLY_BIKE_YES,
+    EARLY_BIKE_NO
 };
 
 // option types

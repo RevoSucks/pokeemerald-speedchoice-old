@@ -46,6 +46,8 @@
 #include "union_room_chat.h"
 #include "constants/items.h"
 #include "done_button.h"
+#include "speedchoice.h"
+#include "constants/flags.h"
 
 extern void ResetPokeJumpResults(void);
 
@@ -227,6 +229,10 @@ void NewGameInitData(void)
     ResetContestLinkResults();
     // ADD DONE BUTTON
     AddBagItem(ITEM_DONE_BUTTON, 1);
+	if(CheckSpeedchoiceOption(EARLY_BIKE, EARLY_BIKE_YES) == TRUE) {
+        AddBagItem(ITEM_MACH_BIKE, 1);
+        FlagSet(FLAG_RECEIVED_BIKE); // put the flag here for making sure you got the bicycle
+    }
 }
 
 static void ResetMiniGamesResults(void)
