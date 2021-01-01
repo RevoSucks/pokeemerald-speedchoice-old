@@ -450,6 +450,7 @@ struct SpeedchoiceSaveOptions
     u8 easyFalseSwipe:2;
     u8 fastCatch:1;
 	u8 earlyBike:1;
+	u8 fastEggHatch:1;
 };
 
 // The struct has to be split in two because neither chunk of block 1 and 2 has enough room left for the full struct.

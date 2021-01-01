@@ -135,6 +135,7 @@ const u8 gSpeedchoiceOptionNiceMenuOrder[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN
 const u8 gSpeedchoiceOptionEasyFalseSwipe[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}EASY FALSE SWIPE");
 const u8 gSpeedchoiceOptionFastCatch[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}FAST CATCH");
 const u8 gSpeedchoiceOptionEarlyBike[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}EARLY BIKE");
+const u8 gSpeedchoiceOptionFastEggHatch[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}FAST EGG HATCH");
 
 // CONSTANT OPTIONS
 const u8 gSpeedchoiceOptionPage[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}PAGE");
@@ -167,6 +168,7 @@ const u8 gSpeedchoiceTooltipNiceMenuOrder[] = _("Swaps the location of SUMMARY a
 const u8 gSpeedchoiceTooltipEasyFalseSwipe[] = _("Makes FALSE SWIPE guaranteed\nOFF: Vanilla game behavior\pTUTOR: The tutor in Slateport teaches\nFALSE SWIPE.\pHM05: Replaces HM05 FLASH with\nHM05 FALSE SWIPE.");
 const u8 gSpeedchoiceTooltipFastCatch[] = _("All Pokeballs are guaranteed to catch.");
 const u8 gSpeedchoiceTooltipEarlyBike[] = _("Start game with Bicycle.");
+const u8 gSpeedchoiceTooltipFastEggHatch[] = _("Makes eggs hatch quickly");
 
 // START GAME
 const u8 gSpeedchoiceStartGameText[] = _("CV: {STR_VAR_1}\nStart the game?");
@@ -214,7 +216,8 @@ static const u8 gPresetVanilla[CURRENT_OPTIONS_NUM] = {
     NICE_MENU_ORDER_OFF, // NICE_MENU_ORDER
     EASY_FALSE_SWIPE_OFF, // EASY_FALSE_SWIPE
     FAST_CATCH_OFF,
-	EARLY_BIKE_NO
+	EARLY_BIKE_NO,
+	FAST_EGG_HATCH_NO
 };
 
 static const u8 gPresetBingo[CURRENT_OPTIONS_NUM] = {
@@ -236,7 +239,8 @@ static const u8 gPresetBingo[CURRENT_OPTIONS_NUM] = {
     NICE_MENU_ORDER_ON, // NICE_MENU_ORDER
     EASY_FALSE_SWIPE_TUTOR, // EASY_FALSE_SWIPE
     FAST_CATCH_OFF,
-	EARLY_BIKE_YES
+	EARLY_BIKE_YES,
+	FAST_EGG_HATCH_YES
 };
 
 static const u8 gPresetCEA[CURRENT_OPTIONS_NUM] = {
@@ -258,7 +262,8 @@ static const u8 gPresetCEA[CURRENT_OPTIONS_NUM] = {
     NICE_MENU_ORDER_ON, // NICE_MENU_ORDER
     EASY_FALSE_SWIPE_TUTOR, // EASY_FALSE_SWIPE
     FAST_CATCH_ON,
-	EARLY_BIKE_YES
+	EARLY_BIKE_YES,
+	FAST_EGG_HATCH_YES
 };
 
 static const u8 gPresetRace[CURRENT_OPTIONS_NUM] = {
@@ -280,7 +285,8 @@ static const u8 gPresetRace[CURRENT_OPTIONS_NUM] = {
     NICE_MENU_ORDER_ON, // NICE_MENU_ORDER
     EASY_FALSE_SWIPE_TUTOR, // EASY_FALSE_SWIPE
     FAST_CATCH_OFF,
-	EARLY_BIKE_YES
+	EARLY_BIKE_YES,
+	FAST_EGG_HATCH_YES
 };
 
 const u8 *GetPresetPtr(int presetID) {
@@ -420,6 +426,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
     { 3,         NORMAL, gSpeedchoiceOptionEasyFalseSwipe, OptionChoiceConfigOffTutorHM, gSpeedchoiceTooltipEasyFalseSwipe, TRUE },
     { 2,         NORMAL, gSpeedchoiceOptionFastCatch,      OptionChoiceConfigOnOff,    gSpeedchoiceTooltipFastCatch,  TRUE },
 	{ 2,         NORMAL, gSpeedchoiceOptionEarlyBike,      OptionChoiceConfigYesNo,    gSpeedchoiceTooltipEarlyBike,  TRUE },
+	{ 2,         NORMAL, gSpeedchoiceOptionFastEggHatch,   OptionChoiceConfigOnOff,    gSpeedchoiceTooltipFastEggHatch,  TRUE },
     { MAX_PAGES, NORMAL, gSpeedchoiceOptionPage,           OptionChoiceConfigPage,     NULL,                              TRUE }
 };
 
@@ -460,6 +467,7 @@ void SetOptionChoicesAndConfigFromPreset(const u8 *preset)
     gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe = preset[EASY_FALSE_SWIPE];
     gSaveBlock2Ptr->speedchoiceConfig.fastCatch = preset[FAST_CATCH];
 	gSaveBlock2Ptr->speedchoiceConfig.earlyBike = preset[EARLY_BIKE];
+	gSaveBlock2Ptr->speedchoiceConfig.fastEggHatch = preset[FAST_EGG_HATCH];
 }
 
 bool8 CheckSpeedchoiceOption(u8 option, u8 selection)
@@ -502,6 +510,8 @@ bool8 CheckSpeedchoiceOption(u8 option, u8 selection)
             return gSaveBlock2Ptr->speedchoiceConfig.fastCatch == selection;
 		case EARLY_BIKE:
             return gSaveBlock2Ptr->speedchoiceConfig.earlyBike == selection;
+		case FAST_EGG_HATCH:
+            return gSaveBlock2Ptr->speedchoiceConfig.fastEggHatch == selection;
         default:
             return FALSE;
     }
@@ -948,6 +958,7 @@ static void SaveSpeedchoiceOptions(u8 taskId)
     gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe = gLocalSpeedchoiceConfig.optionConfig[EASY_FALSE_SWIPE];
     gSaveBlock2Ptr->speedchoiceConfig.fastCatch = gLocalSpeedchoiceConfig.optionConfig[FAST_CATCH];
 	gSaveBlock2Ptr->speedchoiceConfig.earlyBike = gLocalSpeedchoiceConfig.optionConfig[EARLY_BIKE];
+	gSaveBlock2Ptr->speedchoiceConfig.fastEggHatch = gLocalSpeedchoiceConfig.optionConfig[FAST_EGG_HATCH];
 }
 
 extern const struct BgTemplate sMainMenuBgTemplates[];
