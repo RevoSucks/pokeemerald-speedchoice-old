@@ -36,6 +36,8 @@
 #include "data.h"
 #include "battle.h" // to get rid of later
 #include "constants/rgb.h"
+#include "speedchoice.h"
+#include "constants/species.h"
 
 struct EggHatchData
 {
@@ -868,8 +870,16 @@ static void EggHatchPrintMessage(u8 windowId, u8* string, u8 x, u8 y, u8 speed)
 u8 GetEggStepsToSubtract(void)
 {
     u8 count, i;
+	u16 species;
     for (count = CalculatePlayerPartyCount(), i = 0; i < count; i++)
     {
+		if(CheckSpeedchoiceOption(FAST_EGG_HATCH, FAST_EGG_HATCH_YES) == TRUE) {
+			SetMonData(&gPlayerParty[i], MON_DATA_FRIENDSHIP, &gBaseStats[species].eggCycles);
+			if (GetMonData(&gPlayerParty[i], MON_DATA_FRIENDSHIP))
+			return gBaseStats[species].eggCycles;
+    }
+	else
+	{
         if (!GetMonData(&gPlayerParty[i], MON_DATA_SANITY_IS_EGG))
         {
             u8 ability = GetMonAbility(&gPlayerParty[i]);
@@ -877,6 +887,7 @@ u8 GetEggStepsToSubtract(void)
                 return 2;
         }
     }
+	}
     return 1;
 }
 
