@@ -82,7 +82,7 @@ const u8 gSystemText_TerminatorS[] = _("{COLOR RED}$");
 
 // HEADER
 const u8 gSpeedchoiceTextHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}SPEEDCHOICE MENU");
-const u8 gSpeedchoiceCurrentVersion[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}v1.1.5");
+const u8 gSpeedchoiceCurrentVersion[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}v1.1.6");
 
 // OPTION CHOICES
 const u8 gSpeedchoiceTextYes[]    = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}YES");
@@ -171,8 +171,8 @@ const u8 gSpeedchoiceTooltipNiceMenuOrder[] = _("Swaps the location of SUMMARY a
 const u8 gSpeedchoiceTooltipEasyFalseSwipe[] = _("Makes FALSE SWIPE guaranteed\nOFF: Vanilla game behavior\pTUTOR: The tutor in Slateport teaches\nFALSE SWIPE.\pHM05: Replaces HM05 FLASH with\nHM05 FALSE SWIPE.");
 const u8 gSpeedchoiceTooltipFastCatch[] = _("All Pokeballs are guaranteed to catch.");
 const u8 gSpeedchoiceTooltipEarlyBike[] = _("Start game with Bicycle.");
-const u8 gSpeedchoiceTooltipFastEggHatch[] = _("Makes eggs hatch quickly");
-const u8 gSpeedchoiceTooltipGen7XItems[] = _("Stat boost +2 instead of +1");
+const u8 gSpeedchoiceTooltipFastEggHatch[] = _("Makes eggs hatch quickly.");
+const u8 gSpeedchoiceTooltipGen7XItems[] = _("Stat boost +2 instead of +1.");
 
 // START GAME
 const u8 gSpeedchoiceStartGameText[] = _("CV: {STR_VAR_1}\nStart the game?");
