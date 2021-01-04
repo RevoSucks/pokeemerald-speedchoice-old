@@ -46,6 +46,7 @@
 #include "constants/songs.h"
 #include "constants/species.h"
 #include "constants/trainers.h"
+#include "speedchoice.h"
 
 struct SpeciesItem
 {
@@ -4704,7 +4705,8 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
             if ((itemEffect[cmdIndex] & ITEM0_X_ATTACK)
              && gBattleMons[gActiveBattler].statStages[STAT_ATK] < 12)
             {
-                gBattleMons[gActiveBattler].statStages[STAT_ATK] += itemEffect[cmdIndex] & ITEM0_X_ATTACK;
+				int toAdd = (CheckSpeedchoiceOption(GEN_7_X_ITEMS, GEN_7_X_ITEMS_ON) == TRUE) ? 2 : itemEffect[cmdIndex] & ITEM0_X_ATTACK;
+                gBattleMons[gActiveBattler].statStages[STAT_ATK] += toAdd;
                 if (gBattleMons[gActiveBattler].statStages[STAT_ATK] > 12)
                     gBattleMons[gActiveBattler].statStages[STAT_ATK] = 12;
                 retVal = FALSE;
@@ -4715,7 +4717,8 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
             if ((itemEffect[cmdIndex] & ITEM1_X_DEFEND)
              && gBattleMons[gActiveBattler].statStages[STAT_DEF] < 12)
             {
-                gBattleMons[gActiveBattler].statStages[STAT_DEF] += (itemEffect[cmdIndex] & ITEM1_X_DEFEND) >> 4;
+				int toAdd = (CheckSpeedchoiceOption(GEN_7_X_ITEMS, GEN_7_X_ITEMS_ON) == TRUE) ? 2 : (itemEffect[cmdIndex] & ITEM1_X_DEFEND) >> 4;
+                gBattleMons[gActiveBattler].statStages[STAT_DEF] += toAdd;
                 if (gBattleMons[gActiveBattler].statStages[STAT_DEF] > 12)
                     gBattleMons[gActiveBattler].statStages[STAT_DEF] = 12;
                 retVal = FALSE;
@@ -4723,7 +4726,8 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
             if ((itemEffect[cmdIndex] & ITEM1_X_SPEED)
              && gBattleMons[gActiveBattler].statStages[STAT_SPEED] < 12)
             {
-                gBattleMons[gActiveBattler].statStages[STAT_SPEED] += itemEffect[cmdIndex] & ITEM1_X_SPEED;
+				int toAdd = (CheckSpeedchoiceOption(GEN_7_X_ITEMS, GEN_7_X_ITEMS_ON) == TRUE) ? 2 : itemEffect[cmdIndex] & ITEM1_X_SPEED;
+                gBattleMons[gActiveBattler].statStages[STAT_SPEED] += toAdd;
                 if (gBattleMons[gActiveBattler].statStages[STAT_SPEED] > 12)
                     gBattleMons[gActiveBattler].statStages[STAT_SPEED] = 12;
                 retVal = FALSE;
@@ -4734,7 +4738,8 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
             if ((itemEffect[cmdIndex] & ITEM2_X_ACCURACY)
              && gBattleMons[gActiveBattler].statStages[STAT_ACC] < 12)
             {
-                gBattleMons[gActiveBattler].statStages[STAT_ACC] += (itemEffect[cmdIndex] & ITEM2_X_ACCURACY) >> 4;
+				int toAdd = (CheckSpeedchoiceOption(GEN_7_X_ITEMS, GEN_7_X_ITEMS_ON) == TRUE) ? 2 : (itemEffect[cmdIndex] & ITEM2_X_ACCURACY) >> 4;
+                gBattleMons[gActiveBattler].statStages[STAT_ACC] += toAdd;
                 if (gBattleMons[gActiveBattler].statStages[STAT_ACC] > 12)
                     gBattleMons[gActiveBattler].statStages[STAT_ACC] = 12;
                 retVal = FALSE;
@@ -4742,7 +4747,8 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
             if ((itemEffect[cmdIndex] & ITEM2_X_SPATK)
              && gBattleMons[gActiveBattler].statStages[STAT_SPATK] < 12)
             {
-                gBattleMons[gActiveBattler].statStages[STAT_SPATK] += itemEffect[cmdIndex] & ITEM2_X_SPATK;
+				int toAdd = (CheckSpeedchoiceOption(GEN_7_X_ITEMS, GEN_7_X_ITEMS_ON) == TRUE) ? 2 : itemEffect[cmdIndex] & ITEM2_X_SPATK;
+                gBattleMons[gActiveBattler].statStages[STAT_SPATK] += toAdd;
                 if (gBattleMons[gActiveBattler].statStages[STAT_SPATK] > 12)
                     gBattleMons[gActiveBattler].statStages[STAT_SPATK] = 12;
                 retVal = FALSE;

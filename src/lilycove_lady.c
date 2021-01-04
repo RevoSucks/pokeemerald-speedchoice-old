@@ -126,7 +126,22 @@ static const u16 sUnknown_0860B1E4[] = {
 };
 
 static const u16 sUnknown_0860B204[] = {
-        0x007b, 0x007f, 0x0081, 0x0023, 0x0023, 0x0023, 0x00a5, 0x00a7, 0x00a6, 0x000b, 0x012f, 0x006b, 0x006d, 0x0044, 0x0044, 0x000c
+        ITEM_RARE_CANDY,
+        ITEM_RARE_CANDY,
+        ITEM_RARE_CANDY,
+        ITEM_RARE_CANDY,
+        ITEM_RARE_CANDY,
+        ITEM_RARE_CANDY,
+        ITEM_RARE_CANDY,
+        ITEM_RARE_CANDY,
+        ITEM_RARE_CANDY,
+        ITEM_RARE_CANDY,
+        ITEM_RARE_CANDY,
+        ITEM_RARE_CANDY,
+        ITEM_RARE_CANDY,
+        ITEM_RARE_CANDY,
+        ITEM_RARE_CANDY,
+        ITEM_RARE_CANDY
 };
 
 extern const u8 gUnknown_085EEB83[];
@@ -254,23 +269,23 @@ void sub_818D9C0(void)
 
 void SetLilycoveLady(void)
 {
-    u16 id;
+    //u16 id;
 
-    id = ((gSaveBlock2Ptr->playerTrainerId[1] << 8) | gSaveBlock2Ptr->playerTrainerId[0]);
-    id %= 6;
-    id >>= 1;
-    switch (id)
-    {
-        case LILYCOVE_LADY_QUIZ:
+    //id = ((gSaveBlock2Ptr->playerTrainerId[1] << 8) | gSaveBlock2Ptr->playerTrainerId[0]);
+    //id %= 6;
+    //id >>= 1;
+    //switch (id)
+    //{
+       // case LILYCOVE_LADY_QUIZ:
             SetLilycoveQuizLady();
-            break;
-        case LILYCOVE_LADY_FAVOUR:
-            SetLilycoveFavourLady();
-            break;
-        case LILYCOVE_LADY_CONTEST:
-            SetLilycoveContestLady();
-            break;
-    }
+           // break;
+        //case LILYCOVE_LADY_FAVOUR:
+            //SetLilycoveFavourLady();
+           // break;
+       // case LILYCOVE_LADY_CONTEST:
+		//SetLilycoveContestLady();
+           // break;
+   // }
 }
 
 void sub_818DA78(void)
