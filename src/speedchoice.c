@@ -82,7 +82,7 @@ const u8 gSystemText_TerminatorS[] = _("{COLOR RED}$");
 
 // HEADER
 const u8 gSpeedchoiceTextHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}SPEEDCHOICE MENU");
-const u8 gSpeedchoiceCurrentVersion[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}v1.1.4");
+const u8 gSpeedchoiceCurrentVersion[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}v1.1.6");
 
 // OPTION CHOICES
 const u8 gSpeedchoiceTextYes[]    = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}YES");
@@ -138,6 +138,11 @@ const u8 gSpeedchoiceOptionNiceMenuOrder[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN
 const u8 gSpeedchoiceOptionEasyFalseSwipe[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}EASY FALSE SWIPE");
 const u8 gSpeedchoiceOptionFastCatch[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}FAST CATCH");
 const u8 gSpeedchoiceOptionRockSmashEncounters[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}ROCK SMASH ENC.");
+const u8 gSpeedchoiceOptionEarlyBike[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}EARLY BIKE");
+const u8 gSpeedchoiceOptionFastEggHatch[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}FAST EGG HATCH");
+
+// PAGE 5
+const u8 gSpeedchoiceOptionGen7XItems[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}GEN 7 X ITEMS");
 
 // CONSTANT OPTIONS
 const u8 gSpeedchoiceOptionPage[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}PAGE");
@@ -170,6 +175,9 @@ const u8 gSpeedchoiceTooltipNiceMenuOrder[] = _("Swaps the location of SUMMARY a
 const u8 gSpeedchoiceTooltipEasyFalseSwipe[] = _("Makes FALSE SWIPE guaranteed\nOFF: Vanilla game behavior\pTUTOR: The tutor in Slateport teaches\nFALSE SWIPE.\pHM05: Replaces HM05 FLASH with\nHM05 FALSE SWIPE.");
 const u8 gSpeedchoiceTooltipFastCatch[] = _("All Pokeballs are guaranteed to catch.");
 const u8 gSpeedchoiceTooltipRockSmashEncounters[] = _("NORMAL: Vanilla rock smash encounter\nrates.\pALWAYS: Rock smash encounters are\nguaranteed where they exist.");
+const u8 gSpeedchoiceTooltipEarlyBike[] = _("Start game with Bicycle.");
+const u8 gSpeedchoiceTooltipFastEggHatch[] = _("Makes eggs hatch quickly.");
+const u8 gSpeedchoiceTooltipGen7XItems[] = _("Stat boost +2 instead of +1.");
 
 // START GAME
 const u8 gSpeedchoiceStartGameText[] = _("CV: {STR_VAR_1}\nStart the game?");
@@ -217,7 +225,10 @@ static const u8 gPresetVanilla[CURRENT_OPTIONS_NUM] = {
     NICE_MENU_ORDER_OFF, // NICE_MENU_ORDER
     EASY_FALSE_SWIPE_OFF, // EASY_FALSE_SWIPE
     FAST_CATCH_OFF, // FAST_CATCH
-    ROCK_SMASH_ENCOUNTERS_NORMAL // ROCK_SMASH_ENCOUNTERS
+    ROCK_SMASH_ENCOUNTERS_NORMAL, // ROCK_SMASH_ENCOUNTERS
+    EARLY_BIKE_NO,
+    FAST_EGG_HATCH_NO,
+    GEN_7_X_ITEMS_OFF
 };
 
 static const u8 gPresetBingo[CURRENT_OPTIONS_NUM] = {
@@ -239,7 +250,10 @@ static const u8 gPresetBingo[CURRENT_OPTIONS_NUM] = {
     NICE_MENU_ORDER_ON, // NICE_MENU_ORDER
     EASY_FALSE_SWIPE_TUTOR, // EASY_FALSE_SWIPE
     FAST_CATCH_OFF, // FAST_CATCH
-    ROCK_SMASH_ENCOUNTERS_NORMAL // ROCK_SMASH_ENCOUNTERS
+    ROCK_SMASH_ENCOUNTERS_NORMAL, // ROCK_SMASH_ENCOUNTERS
+    EARLY_BIKE_YES,
+    FAST_EGG_HATCH_YES,
+    GEN_7_X_ITEMS_ON
 };
 
 static const u8 gPresetCEA[CURRENT_OPTIONS_NUM] = {
@@ -261,7 +275,10 @@ static const u8 gPresetCEA[CURRENT_OPTIONS_NUM] = {
     NICE_MENU_ORDER_ON, // NICE_MENU_ORDER
     EASY_FALSE_SWIPE_TUTOR, // EASY_FALSE_SWIPE
     FAST_CATCH_ON, // FAST_CATCH
-    ROCK_SMASH_ENCOUNTERS_ALWAYS // ROCK_SMASH_ENCOUNTERS
+    ROCK_SMASH_ENCOUNTERS_ALWAYS, // ROCK_SMASH_ENCOUNTERS
+    EARLY_BIKE_YES,
+    FAST_EGG_HATCH_YES,
+    GEN_7_X_ITEMS_ON
 };
 
 static const u8 gPresetRace[CURRENT_OPTIONS_NUM] = {
@@ -283,7 +300,10 @@ static const u8 gPresetRace[CURRENT_OPTIONS_NUM] = {
     NICE_MENU_ORDER_ON, // NICE_MENU_ORDER
     EASY_FALSE_SWIPE_TUTOR, // EASY_FALSE_SWIPE
     FAST_CATCH_OFF, // FAST_CATCH
-    ROCK_SMASH_ENCOUNTERS_NORMAL // ROCK_SMASH_ENCOUNTERS
+    ROCK_SMASH_ENCOUNTERS_NORMAL, // ROCK_SMASH_ENCOUNTERS
+    EARLY_BIKE_YES,
+    FAST_EGG_HATCH_YES,
+    GEN_7_X_ITEMS_ON
 };
 
 const u8 *GetPresetPtr(int presetID) {
@@ -433,6 +453,9 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
     { 3,         NORMAL, gSpeedchoiceOptionEasyFalseSwipe, OptionChoiceConfigOffTutorHM, gSpeedchoiceTooltipEasyFalseSwipe, TRUE },
     { 2,         NORMAL, gSpeedchoiceOptionFastCatch,      OptionChoiceConfigOnOff,    gSpeedchoiceTooltipFastCatch,  TRUE },
     { 2,         NORMAL, gSpeedchoiceOptionRockSmashEncounters, OptionChoiceConfigNormalAlways, gSpeedchoiceTooltipRockSmashEncounters, TRUE },
+	{ 2,         NORMAL, gSpeedchoiceOptionEarlyBike,      OptionChoiceConfigYesNo,    gSpeedchoiceTooltipEarlyBike,  TRUE },
+	{ 2,         NORMAL, gSpeedchoiceOptionFastEggHatch,   OptionChoiceConfigYesNo,    gSpeedchoiceTooltipFastEggHatch,  TRUE },
+	{ 2,         NORMAL, gSpeedchoiceOptionGen7XItems,     OptionChoiceConfigOnOff,    gSpeedchoiceTooltipGen7XItems,  TRUE },
     { MAX_PAGES, NORMAL, gSpeedchoiceOptionPage,           OptionChoiceConfigPage,     NULL,                              TRUE }
 };
 
@@ -473,6 +496,9 @@ void SetOptionChoicesAndConfigFromPreset(const u8 *preset)
     gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe = preset[EASY_FALSE_SWIPE];
     gSaveBlock2Ptr->speedchoiceConfig.fastCatch = preset[FAST_CATCH];
     gSaveBlock2Ptr->speedchoiceConfig.rockSmashEncounters = preset[ROCK_SMASH_ENCOUNTERS];
+    gSaveBlock2Ptr->speedchoiceConfig.earlyBike = preset[EARLY_BIKE];
+    gSaveBlock2Ptr->speedchoiceConfig.fastEggHatch = preset[FAST_EGG_HATCH];
+    gSaveBlock2Ptr->speedchoiceConfig.gen7XItems = preset[GEN_7_X_ITEMS];
 }
 
 bool8 CheckSpeedchoiceOption(u8 option, u8 selection)
@@ -515,6 +541,12 @@ bool8 CheckSpeedchoiceOption(u8 option, u8 selection)
             return gSaveBlock2Ptr->speedchoiceConfig.fastCatch == selection;
         case ROCK_SMASH_ENCOUNTERS:
             return gSaveBlock2Ptr->speedchoiceConfig.rockSmashEncounters == selection;
+        case EARLY_BIKE:
+            return gSaveBlock2Ptr->speedchoiceConfig.earlyBike == selection;
+        case FAST_EGG_HATCH:
+            return gSaveBlock2Ptr->speedchoiceConfig.fastEggHatch == selection;
+        case GEN_7_X_ITEMS:
+            return gSaveBlock2Ptr->speedchoiceConfig.gen7XItems == selection;
         default:
             return FALSE;
     }
@@ -961,6 +993,9 @@ static void SaveSpeedchoiceOptions(u8 taskId)
     gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe = gLocalSpeedchoiceConfig.optionConfig[EASY_FALSE_SWIPE];
     gSaveBlock2Ptr->speedchoiceConfig.fastCatch = gLocalSpeedchoiceConfig.optionConfig[FAST_CATCH];
     gSaveBlock2Ptr->speedchoiceConfig.rockSmashEncounters = gLocalSpeedchoiceConfig.optionConfig[ROCK_SMASH_ENCOUNTERS];
+    gSaveBlock2Ptr->speedchoiceConfig.earlyBike = gLocalSpeedchoiceConfig.optionConfig[EARLY_BIKE];
+    gSaveBlock2Ptr->speedchoiceConfig.fastEggHatch = gLocalSpeedchoiceConfig.optionConfig[FAST_EGG_HATCH];
+    gSaveBlock2Ptr->speedchoiceConfig.gen7XItems = gLocalSpeedchoiceConfig.optionConfig[GEN_7_X_ITEMS];
 }
 
 extern const struct BgTemplate sMainMenuBgTemplates[];

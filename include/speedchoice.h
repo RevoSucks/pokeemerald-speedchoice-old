@@ -2,11 +2,11 @@
 #define _GUARD_SPEEDCHOICE_H
 
 // global speedchoice config
-#define CURRENT_OPTIONS_NUM 19 // be sure to count preset too
+#define CURRENT_OPTIONS_NUM 22 // be sure to count preset too
 #define MAX_CHOICES 6
 #define OPTIONS_PER_PAGE 5
 #define ALLOPTIONS_PER_PAGE OPTIONS_PER_PAGE + 2 // page + start game
-#define MAX_PAGES 4
+#define MAX_PAGES 5
 
 #define MENUOPTIONCOORDS(i) (5 + (2 * i))
 
@@ -46,6 +46,9 @@ enum
     EASY_FALSE_SWIPE,
     FAST_CATCH,
     ROCK_SMASH_ENCOUNTERS,
+    EARLY_BIKE,
+    FAST_EGG_HATCH,
+    GEN_7_X_ITEMS,
 
     // STATIC OPTIONS
     PAGE,
@@ -192,6 +195,27 @@ enum
 {
     ROCK_SMASH_ENCOUNTERS_NORMAL,
     ROCK_SMASH_ENCOUNTERS_ALWAYS
+};
+
+// EARLY BIKE
+enum
+{
+    EARLY_BIKE_YES,
+    EARLY_BIKE_NO
+};
+
+//FAST EGG HATCHING
+enum
+{
+    FAST_EGG_HATCH_YES,
+    FAST_EGG_HATCH_NO
+};
+
+//GEN 7 X ITEMS
+enum
+{
+    GEN_7_X_ITEMS_ON,
+    GEN_7_X_ITEMS_OFF
 };
 
 // option types
